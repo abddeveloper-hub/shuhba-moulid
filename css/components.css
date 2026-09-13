@@ -329,14 +329,88 @@
   overflow: hidden;
 }
 
-.gallery-card-date {
-  font-size: 0.775rem;
-  color: var(--text-muted);
+.gallery-card-footer {
   margin-top: auto;
   padding-top: 0.85rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.gallery-card-date {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
   gap: 0.4rem;
+}
+
+.gallery-card-download-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.gallery-card-download-btn:hover {
+  background: var(--emerald-primary);
+  color: #ffffff;
+  border-color: var(--emerald-primary);
+  transform: scale(1.08);
+}
+
+.gallery-media-pill {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: rgba(17, 24, 39, 0.85);
+  color: #ffffff;
+  font-size: 0.725rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.gallery-media-pill.video-badge {
+  background: rgba(220, 38, 38, 0.9);
+}
+
+.gallery-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(5, 150, 105, 0.92);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  transition: all var(--transition-fast);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gallery-card:hover .gallery-play-overlay {
+  transform: translate(-50%, -50%) scale(1.15);
+  background: var(--gold-primary);
 }
 
 /* ==========================================================================
@@ -1550,3 +1624,164 @@
   70% { transform: scale(0.9); }
   100% { transform: scale(1); }
 }
+
+@keyframes pulseBadge {
+  0%, 100% { transform: scale(1); box-shadow: 0 1px 4px rgba(217, 119, 6, 0.4); }
+  50% { transform: scale(1.18); box-shadow: 0 2px 8px rgba(217, 119, 6, 0.6); }
+}
+
+/* ==========================================================================
+   FIXED BOTTOM OPTIONS BAR
+   Persistent, thumb-friendly portal navigation with glassmorphism
+   ========================================================================== */
+body {
+  padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+}
+
+.fixed-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid rgba(229, 231, 235, 0.85);
+  box-shadow: 0 -4px 20px -2px rgba(0, 0, 0, 0.05), 0 -1px 3px 0 rgba(0, 0, 0, 0.03);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+.bottom-nav-container {
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.bottom-nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0.5rem 0.45rem;
+  gap: 0.2rem;
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 80px;
+  padding: 0.35rem 0.25rem 0.4rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  position: relative;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  transition: all 0.22s ease;
+}
+
+.bottom-nav-icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.2s ease;
+}
+
+.bottom-nav-label {
+  margin-top: 0.15rem;
+  transition: color 0.2s ease, font-weight 0.2s ease;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.bottom-nav-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, var(--gold-primary), #f59e0b);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 0.55rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(217, 119, 6, 0.4);
+  animation: pulseBadge 2.4s infinite;
+}
+
+/* Hover State */
+.bottom-nav-link:hover {
+  color: var(--emerald-primary);
+}
+
+.bottom-nav-link:hover .bottom-nav-icon-wrap {
+  background: rgba(5, 150, 105, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Active State */
+.bottom-nav-link.active {
+  color: var(--emerald-primary);
+  font-weight: 700;
+}
+
+.bottom-nav-link.active .bottom-nav-icon-wrap {
+  background: linear-gradient(135deg, rgba(236, 253, 245, 0.95), rgba(209, 250, 229, 0.8));
+  color: var(--emerald-primary);
+  box-shadow: 0 2px 8px -1px rgba(5, 150, 105, 0.25);
+  transform: translateY(-2px);
+}
+
+.bottom-nav-link.active .bottom-nav-icon {
+  stroke: var(--emerald-primary);
+  stroke-width: 2.3;
+  transform: scale(1.08);
+}
+
+.bottom-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--emerald-primary), var(--gold-primary));
+  border-radius: var(--radius-full);
+  box-shadow: 0 1px 4px var(--emerald-glow);
+}
+
+/* Active Press / Tap Feedback */
+.bottom-nav-link:active {
+  transform: scale(0.93);
+}
+

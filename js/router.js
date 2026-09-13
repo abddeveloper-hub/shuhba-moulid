@@ -5,7 +5,7 @@
 
 class Router {
   constructor() {
-    this.routes = ['home', 'gallery', 'news', 'magazine', 'quiz', 'admin'];
+    this.routes = ['home', 'gallery', 'news', 'magazine', 'quiz'];
     this.currentRoute = 'home';
     this.init();
   }
@@ -28,6 +28,12 @@ class Router {
   }
 
   handleHashChange() {
+    // Redirect #admin hash directly to dedicated admin.html page
+    if (window.location.hash === '#admin') {
+      window.location.href = 'admin.html';
+      return;
+    }
+
     const targetRoute = this.getRouteFromHash();
     this.currentRoute = targetRoute;
 
@@ -43,13 +49,15 @@ class Router {
       }
     });
 
-    // Update active nav links (Desktop and Mobile)
-    document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+    // Update active nav links (Desktop, Mobile Drawer, and Fixed Bottom Bar)
+    document.querySelectorAll('.nav-link, .mobile-nav-link, .bottom-nav-link').forEach(link => {
       const href = link.getAttribute('href');
       if (href === `#${targetRoute}`) {
         link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
       } else {
         link.classList.remove('active');
+        link.removeAttribute('aria-current');
       }
     });
 
@@ -90,11 +98,6 @@ class Router {
       case 'quiz':
         if (window.quiz && typeof window.quiz.renderScoreboard === 'function') {
           window.quiz.renderScoreboard();
-        }
-        break;
-      case 'admin':
-        if (window.admin && typeof window.admin.render === 'function') {
-          window.admin.render();
         }
         break;
     }

@@ -24,6 +24,8 @@ const server = http.createServer((req, res) => {
   let safePath = req.url.split('?')[0].split('#')[0];
   if (safePath === '/' || safePath === '') {
     safePath = '/index.html';
+  } else if (safePath === '/admin' || safePath === '/admin/') {
+    safePath = '/admin.html';
   }
 
   const filePath = path.join(PUBLIC_DIR, safePath);

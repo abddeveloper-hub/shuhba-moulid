@@ -149,15 +149,46 @@
   }
 }
 
+/* Extra-small mobile screens (< 480px) */
+@media (max-width: 480px) {
+  .bottom-nav-link {
+    padding: 0.3rem 0.15rem;
+  }
+
+  .bottom-nav-label {
+    font-size: 0.65rem;
+  }
+
+  .bottom-nav-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .bottom-nav-icon-wrap {
+    width: 32px;
+    height: 25px;
+  }
+
+  .bottom-nav-badge {
+    width: 12px;
+    height: 12px;
+    font-size: 0.5rem;
+    top: -2px;
+    right: -2px;
+  }
+}
+
 /* Print Styles (Optimized for Student Academic Paper Export) */
 @media print {
   body {
     background: #ffffff !important;
     color: #000000 !important;
+    padding-bottom: 0 !important;
   }
 
   .navbar, .footer, .btn, .controls-bar, #toast-container,
-  .reader-toolbar, .lightbox-modal, .mobile-nav-drawer, .mobile-drawer-backdrop {
+  .reader-toolbar, .lightbox-modal, .mobile-nav-drawer, .mobile-drawer-backdrop,
+  .fixed-bottom-bar {
     display: none !important;
   }
 

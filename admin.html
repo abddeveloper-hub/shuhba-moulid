@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mawlid Portal Admin | Control Center</title>
+  <meta name="description" content="Secure administrative control center for managing Mawlid Celebration Portal content, gallery photos, news updates, student papers, and quiz questions.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☪️</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Bespoke Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    body {
+      padding-bottom: 2rem;
+    }
+    .admin-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       ADMIN HEADER
+       ========================================================================== -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" id="nav-brand-link">
+        <div class="brand-icon-wrap">
+          <!-- Crescent & Star SVG -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.85 0 3.58-.5 5.08-1.38-4.24-1.07-7.38-4.9-7.38-9.47 0-4.57 3.14-8.4 7.38-9.47C15.58 2.5 13.85 2 12 2zm6.5 6l1.24 2.52 2.76.4-2 1.95.47 2.75L18.5 14.32l-2.47 1.3.47-2.75-2-1.95 2.76-.4L18.5 8z"/>
+          </svg>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-title">Mawlid Portal</span>
+          <span class="brand-subtitle" style="color: var(--gold-primary);">Admin Console</span>
+        </div>
+      </a>
+
+      <!-- Action Buttons -->
+      <div class="admin-header-actions">
+        <!-- Return to Public Portal -->
+        <a href="index.html" class="btn btn-sm btn-secondary" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back to Portal
+        </a>
+
+        <!-- Audio Effects Mute/Unmute -->
+        <button class="btn-icon" id="audio-toggle-btn" aria-label="Toggle sound effects">
+          <span id="audio-toggle-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN ADMIN CONTAINER
+       ========================================================================== -->
+  <main>
+    <div class="page-header-section">
+      <div class="container">
+        <span class="page-badge">Control Center</span>
+        <h1 class="page-title">Mawlid Portal Administration</h1>
+        <p class="page-description">
+          Manage photo gallery items, create and edit news announcements, review student papers, add quiz questions, and monitor leaderboard data.
+        </p>
+      </div>
+    </div>
+
+    <div class="container content-section">
+
+      <!-- Locked PIN Authentication Screen -->
+      <div class="admin-auth-panel" id="admin-auth-panel">
+        <div class="admin-lock-icon">🔒</div>
+        <h2>Admin PIN Required</h2>
+        <p style="font-size: 0.9rem; margin-top: 0.35rem;">Enter the 4-digit administrator PIN to unlock portal controls.</p>
+
+        <form id="admin-pin-form">
+          <div class="pin-inputs-row">
+            <input type="password" maxlength="1" class="pin-digit-input" id="pin-1" required autocomplete="off">
+            <input type="password" maxlength="1" class="pin-digit-input" id="pin-2" required autocomplete="off">
+            <input type="password" maxlength="1" class="pin-digit-input" id="pin-3" required autocomplete="off">
+            <input type="password" maxlength="1" class="pin-digit-input" id="pin-4" required autocomplete="off">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Unlock Dashboard
+          </button>
+        </form>
+      </div>
+
+      <!-- Unlocked Admin Workspace -->
+      <div class="admin-card" id="admin-main-panel" style="display: none;">
+        <!-- Top Tabs Bar -->
+        <div class="admin-tabs-bar">
+          <button class="admin-tab-btn active" data-tab="overview">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Overview &amp; Stats
+          </button>
+          <button class="admin-tab-btn" data-tab="gallery">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Gallery Manager
+          </button>
+          <button class="admin-tab-btn" data-tab="news">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg>
+            News Manager
+          </button>
+          <button class="admin-tab-btn" data-tab="magazine">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Magazine Papers
+          </button>
+          <button class="admin-tab-btn" data-tab="quiz">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Quiz &amp; Scores
+          </button>
+
+          <div style="margin-left: auto; padding-bottom: 0.5rem;">
+            <button class="btn btn-sm btn-secondary" id="admin-logout-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Lock Panel
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 1: OVERVIEW & STATS -->
+        <div class="admin-tab-content active" id="admin-pane-overview">
+          <h3 style="margin-bottom: 1.5rem;">Portal Content Snapshot</h3>
+
+          <div class="stats-grid" style="margin-bottom: 3rem;">
+            <div class="stat-item">
+              <div class="stat-icon">📷</div>
+              <div>
+                <div class="stat-num" id="admin-stat-gallery">0</div>
+                <div class="stat-label">Gallery Photos</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon gold">📰</div>
+              <div>
+                <div class="stat-num" id="admin-stat-news">0</div>
+                <div class="stat-label">Published News</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">📚</div>
+              <div>
+                <div class="stat-num" id="admin-stat-magazine">0</div>
+                <div class="stat-label">Student Papers</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon gold">❓</div>
+              <div>
+                <div class="stat-num" id="admin-stat-quiz">0</div>
+                <div class="stat-label">Quiz Questions</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">🏅</div>
+              <div>
+                <div class="stat-num" id="admin-stat-leaderboard">0</div>
+                <div class="stat-label">Leaderboard Records</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Portal Data Backup & Restore -->
+          <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">Data Persistence, Backup &amp; Synchronization</h4>
+            <p style="font-size: 0.925rem; margin-bottom: 1.5rem;">
+              All modifications (photos, articles, papers, and questions) are stored locally. Export the complete database as a portable JSON snapshot or import previous backups.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button class="btn btn-primary btn-sm" id="admin-export-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export Portal Data (JSON)
+              </button>
+
+              <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Import Data JSON
+                <input type="file" id="admin-import-file" accept=".json" style="display: none;">
+              </label>
+
+              <button class="btn btn-danger btn-sm" id="admin-reset-defaults-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                Reset to Factory Seed Data
+              </button>
+            </div>
+          </div>
+
+          <!-- Change PIN Form -->
+          <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.75rem; max-width: 480px;">
+            <h4 style="margin-bottom: 0.35rem;">Change Admin Security PIN</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Update the 4-digit code required to access this panel.</p>
+            <form id="admin-change-pin-form">
+              <div class="form-group">
+                <label class="form-label" for="new-admin-pin">New 4-Digit PIN:</label>
+                <input type="password" id="new-admin-pin" class="form-input" maxlength="4" placeholder="e.g. 2024" required pattern="\d{4}">
+              </div>
+              <button type="submit" class="btn btn-sm btn-primary">Update Security PIN</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- TAB 2: GALLERY MANAGER -->
+        <div class="admin-tab-content" id="admin-pane-gallery">
+          <h3 style="margin-bottom: 1.5rem;">Add New Photo or Video to Gallery</h3>
+
+          <!-- Quick Preset Buttons -->
+          <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <span style="font-size: 0.825rem; font-weight: 700; color: var(--text-muted);">Quick Presets:</span>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="window.setGalleryPreset('https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=1200&q=80', 'Auditorium Calligraphy Banner', 'Exhibitions', 'photo')">Exhibition (Photo)</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="window.setGalleryPreset('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80', 'Youth Nasheed Vocal Troupe', 'Stage Programs', 'photo')">Nasheed (Photo)</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="window.setGalleryPreset('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80', 'Mawlid Choral Performance', 'Stage Programs', 'video', 'https://www.w3schools.com/html/mov_bbb.mp4')">Recitation (Video)</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="window.setGalleryPreset('https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=1200&q=80', 'Academic Seerah Trophy Honor', 'Awards', 'photo')">Awards Gala</button>
+          </div>
+
+          <form id="admin-add-gallery-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+            
+            <!-- Media Type Selector -->
+            <div style="margin-bottom: 1.25rem;">
+              <label class="form-label" style="margin-bottom: 0.5rem;">Select Media Type *</label>
+              <div style="display: inline-flex; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.25rem; gap: 0.25rem;">
+                <label style="cursor: pointer; padding: 0.45rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; user-select: none;" id="label-media-photo">
+                  <input type="radio" name="admin-media-type" value="photo" checked style="accent-color: var(--emerald-primary);">
+                  <span>📷 Photo</span>
+                </label>
+                <label style="cursor: pointer; padding: 0.45rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; user-select: none;" id="label-media-video">
+                  <input type="radio" name="admin-media-type" value="video" style="accent-color: var(--emerald-primary);">
+                  <span>🎥 Video</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="add-gal-title">Media Title *</label>
+                <input type="text" id="add-gal-title" class="form-input" placeholder="e.g. Annual Calligraphy Exhibition Opening" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-gal-category">Category *</label>
+                <select id="add-gal-category" class="form-select">
+                  <option value="Stage Programs">Stage Programs</option>
+                  <option value="Exhibitions">Exhibitions</option>
+                  <option value="Awards">Awards</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- PHOTO SECTION -->
+            <div id="admin-gal-photo-section">
+              <div class="form-group">
+                <label class="form-label">Photo Source *</label>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                  <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; padding: 0.75rem 1rem; border: 2px dashed var(--emerald-primary); border-radius: var(--radius-md); background: rgba(5, 150, 105, 0.04); transition: all var(--transition-fast);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--emerald-primary); flex-shrink: 0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <div>
+                      <span style="font-weight: 700; color: var(--emerald-dark); font-size: 0.9rem;">Choose Photo from Computer / Phone</span>
+                      <span style="display: block; font-size: 0.775rem; color: var(--text-muted);">Supports JPG, PNG, WEBP (auto-compressed)</span>
+                    </div>
+                    <input type="file" id="add-gal-file" accept="image/*" style="display: none;">
+                  </label>
+
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Or paste image link</span>
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                  </div>
+
+                  <input type="text" id="add-gal-url" class="form-input" placeholder="Paste image link or Google Drive link (https://drive.google.com/...)">
+                  <div style="font-size: 0.775rem; color: var(--text-muted); margin-top: 0.35rem;">
+                    💡 <strong>Google Drive supported:</strong> Paste any Google Drive photo link (make sure file sharing is set to <em>"Anyone with the link can view"</em>).
+                  </div>
+                </div>
+
+                <!-- Live Photo Preview Box -->
+                <div id="gal-img-preview-box" style="display: none; margin-top: 1rem; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: #ffffff; text-align: center;">
+                  <span style="display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Photo Preview</span>
+                  <img id="gal-img-preview" src="" alt="Preview" style="max-height: 220px; max-width: 100%; border-radius: var(--radius-md); object-fit: contain; box-shadow: var(--shadow-sm);">
+                  <div style="margin-top: 0.5rem;">
+                    <button type="button" class="btn btn-sm btn-secondary" id="gal-remove-img-btn" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">Remove Image</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- VIDEO SECTION -->
+            <div id="admin-gal-video-section" style="display: none;">
+              <div class="form-group">
+                <label class="form-label">Video Source *</label>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                  <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; padding: 0.75rem 1rem; border: 2px dashed #dc2626; border-radius: var(--radius-md); background: rgba(220, 38, 38, 0.04); transition: all var(--transition-fast);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #dc2626; flex-shrink: 0;"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    <div>
+                      <span style="font-weight: 700; color: #991b1b; font-size: 0.9rem;">Choose Video File from Computer / Phone</span>
+                      <span style="display: block; font-size: 0.775rem; color: var(--text-muted);">Supports MP4, WebM (under 25MB recommended)</span>
+                    </div>
+                    <input type="file" id="add-gal-video-file" accept="video/mp4,video/webm" style="display: none;">
+                  </label>
+
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Or paste Video Link / Google Drive / YouTube / Vimeo</span>
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                  </div>
+
+                  <input type="text" id="add-gal-video-url" class="form-input" placeholder="Paste YouTube, Vimeo, Google Drive (https://drive.google.com/...) or direct MP4 link">
+                  <div style="font-size: 0.775rem; color: var(--text-muted); margin-top: 0.35rem;">
+                    💡 <strong>Google Drive supported:</strong> Paste any Google Drive video share link (make sure file sharing is set to <em>"Anyone with the link can view"</em>).
+                  </div>
+                </div>
+
+                <!-- Video Thumbnail / Cover -->
+                <div style="margin-top: 1rem;">
+                  <label class="form-label" for="add-gal-video-thumb">Custom Video Cover / Thumbnail (Optional)</label>
+                  <input type="text" id="add-gal-video-thumb" class="form-input" placeholder="Optional thumbnail image URL (auto-fetched for YouTube)">
+                </div>
+
+                <!-- Live Video Preview Box -->
+                <div id="gal-video-preview-box" style="display: none; margin-top: 1rem; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: #ffffff; text-align: center;">
+                  <span style="display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase;">Video Preview</span>
+                  <div id="gal-video-preview-player" style="max-height: 240px; display: flex; justify-content: center;"></div>
+                  <div style="margin-top: 0.5rem;">
+                    <button type="button" class="btn btn-sm btn-secondary" id="gal-remove-video-btn" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">Remove Video</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-gal-caption">Caption &amp; Description</label>
+              <input type="text" id="add-gal-caption" class="form-input" placeholder="Brief description of the program, participants, and date...">
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="gal-submit-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Publish to Gallery
+            </button>
+          </form>
+
+          <h4 style="margin-bottom: 1rem;">Manage Existing Gallery Photos</h4>
+          <div class="admin-items-list" id="admin-gallery-items-list">
+            <!-- Populated by admin.js -->
+          </div>
+        </div>
+
+        <!-- TAB 3: NEWS MANAGER -->
+        <div class="admin-tab-content" id="admin-pane-news">
+          <h3 style="margin-bottom: 1.5rem;">Create News Post or Press Release</h3>
+
+          <form id="admin-add-news-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="add-news-title">Story Headline *</label>
+                <input type="text" id="add-news-title" class="form-input" placeholder="e.g. Mawlid Keynote Speakers Announced" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-news-category">Category</label>
+                <input type="text" id="add-news-category" class="form-input" placeholder="e.g. Schedule / Event Recap / Charity">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-news-url">Thumbnail Image URL</label>
+              <input type="url" id="add-news-url" class="form-input" placeholder="https://images.unsplash.com/photo-...">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-news-excerpt">Summary Excerpt</label>
+              <input type="text" id="add-news-excerpt" class="form-input" placeholder="Short 1-2 sentence preview for the card...">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-news-body">Full Article Body *</label>
+              <textarea id="add-news-body" class="form-textarea" placeholder="Full article content (separate paragraphs with blank lines)..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Publish News Announcement
+            </button>
+          </form>
+
+          <h4 style="margin-bottom: 1rem;">Existing News Stories</h4>
+          <div class="admin-items-list" id="admin-news-items-list">
+            <!-- Populated by admin.js -->
+          </div>
+        </div>
+
+        <!-- TAB 4: MAGAZINE PAPERS -->
+        <div class="admin-tab-content" id="admin-pane-magazine">
+          <h3 style="margin-bottom: 1.5rem;">Submit New Student Academic Paper</h3>
+
+          <form id="admin-add-magazine-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="add-mag-title">Paper Title *</label>
+                <input type="text" id="add-mag-title" class="form-input" placeholder="e.g. Ethical Commerce in the Prophetic Marketplace" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-mag-author">Student Author Name *</label>
+                <input type="text" id="add-mag-author" class="form-input" placeholder="e.g. Tariq Al-Hashimi" required>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="add-mag-grade">Grade / Class / Affiliation</label>
+                <input type="text" id="add-mag-grade" class="form-input" placeholder="e.g. Grade 12, Senior Islamic Studies">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-mag-category">Topic Category</label>
+                <input type="text" id="add-mag-category" class="form-input" placeholder="e.g. Ethics & Ecology / Seerah & Diplomacy">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-mag-abstract">Abstract Summary</label>
+              <textarea id="add-mag-abstract" class="form-textarea" style="min-height: 80px;" placeholder="Brief academic overview of the thesis and core findings..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-mag-body">Complete Paper Body (HTML / Markdown supported) *</label>
+              <textarea id="add-mag-body" class="form-textarea" style="min-height: 200px;" placeholder="Full essay text with subheadings (&lt;h4&gt;), citations, and quotes..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Publish Paper to Magazine
+            </button>
+          </form>
+
+          <h4 style="margin-bottom: 1rem;">Submitted Student Papers</h4>
+          <div class="admin-items-list" id="admin-magazine-items-list">
+            <!-- Populated by admin.js -->
+          </div>
+        </div>
+
+        <!-- TAB 5: QUIZ & SCORES -->
+        <div class="admin-tab-content" id="admin-pane-quiz">
+          <h3 style="margin-bottom: 1.5rem;">Add Question to Seerah Quiz Bank</h3>
+
+          <form id="admin-add-quiz-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+            <div class="form-group">
+              <label class="form-label" for="add-quiz-question">Question Text *</label>
+              <input type="text" id="add-quiz-question" class="form-input" placeholder="e.g. What was the name of the Prophet's mother?" required>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label" for="add-quiz-opt0">Option A *</label>
+                <input type="text" id="add-quiz-opt0" class="form-input" placeholder="Choice A" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-quiz-opt1">Option B *</label>
+                <input type="text" id="add-quiz-opt1" class="form-input" placeholder="Choice B" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-quiz-opt2">Option C *</label>
+                <input type="text" id="add-quiz-opt2" class="form-input" placeholder="Choice C" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="add-quiz-opt3">Option D *</label>
+                <input type="text" id="add-quiz-opt3" class="form-input" placeholder="Choice D" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-quiz-correct">Select Correct Option *</label>
+              <select id="add-quiz-correct" class="form-select">
+                <option value="0">Option A</option>
+                <option value="1">Option B</option>
+                <option value="2">Option C</option>
+                <option value="3">Option D</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="add-quiz-explanation">Historical Explanation &amp; Educational Note</label>
+              <textarea id="add-quiz-explanation" class="form-textarea" style="min-height: 80px;" placeholder="Explain why this option is correct to deepen participant learning..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Question to Bank
+            </button>
+          </form>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+            <h4>Active Seerah Quiz Question Bank</h4>
+            <button class="btn btn-sm btn-danger" id="admin-clear-leaderboard-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              Clear / Reset Scoreboard
+            </button>
+          </div>
+
+          <div class="admin-items-list" id="admin-quiz-items-list">
+            <!-- Populated by admin.js -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="footer" style="margin-top: 4rem; padding-top: 2rem;">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>&copy; 1446 AH Mawlid Celebration Portal - Administrator Workspace.</div>
+        <div>
+          <a href="index.html" style="color: var(--emerald-primary); font-weight: 600;">← Return to Main Portal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Core Scripts -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.admin) {
+        window.admin.render();
+      }
+    });
+  </script>
+</body>
+</html>

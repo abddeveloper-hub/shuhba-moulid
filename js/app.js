@@ -10,6 +10,7 @@ class AppController {
     this.initScrollEffects();
     this.initCountdown();
     this.initQuickHomeActions();
+    this.initBottomNav();
   }
 
   // Toast Notification System
@@ -121,6 +122,7 @@ class AppController {
 
   // Countdown to Mawlid un-Nabi
   initCountdown() {
+    if (!document.getElementById('countdown-days')) return;
     // Target date set in future for continuous demonstration
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() + 18);
@@ -179,54 +181,74 @@ class AppController {
     // Featured News Snippet
     const newsList = window.dataStore.getNews();
     const homeNewsContainer = document.getElementById('home-featured-news');
-    if (homeNewsContainer && newsList.length > 0) {
-      const featured = newsList.slice(0, 2);
-      homeNewsContainer.innerHTML = featured.map(item => `
-        <article class="news-card">
-          <div class="news-thumb-wrap" style="height: 180px;">
-            <img src="${item.imageUrl}" alt="${item.title}" class="news-thumb" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=600&q=80'">
-            <span class="news-date-badge">${item.date}</span>
-          </div>
-          <div class="news-body">
-            <h3 class="news-title" style="font-size: 1.15rem;">${item.title}</h3>
-            <p class="news-excerpt" style="font-size: 0.885rem;">${item.excerpt}</p>
-            <div class="news-card-footer">
-              <span class="news-read-time">${item.readTime || '3 min'}</span>
-              <a href="#news" class="btn btn-sm btn-outline-emerald" onclick="setTimeout(() => window.news.openStoryModal('${item.id}'), 100)">
-                Read Story &rarr;
-              </a>
+    if (homeNewsContainer) {
+      if (newsList.length > 0) {
+        const featured = newsList.slice(0, 2);
+        homeNewsContainer.innerHTML = featured.map(item => `
+          <article class="news-card">
+            <div class="news-thumb-wrap" style="height: 180px;">
+              <img src="${item.imageUrl}" alt="${item.title}" class="news-thumb" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=600&q=80'">
+              <span class="news-date-badge">${item.date}</span>
             </div>
+            <div class="news-body">
+              <h3 class="news-title" style="font-size: 1.15rem;">${item.title}</h3>
+              <p class="news-excerpt" style="font-size: 0.885rem;">${item.excerpt}</p>
+              <div class="news-card-footer">
+                <span class="news-read-time">${item.readTime || '3 min'}</span>
+                <a href="#news" class="btn btn-sm btn-outline-emerald" onclick="setTimeout(() => window.news.openStoryModal('${item.id}'), 100)">
+                  Read Story &rarr;
+                </a>
+              </div>
+            </div>
+          </article>
+        `).join('');
+      } else {
+        homeNewsContainer.innerHTML = `
+          <div style="grid-column: 1 / -1; padding: 2.5rem 1.5rem; text-align: center; background: #ffffff; border: 1px dashed var(--border-soft); border-radius: 1rem;">
+            <p style="font-size: 1.75rem; margin-bottom: 0.5rem;">📰</p>
+            <h4 style="font-family: var(--font-heading); color: var(--text-heading); margin-bottom: 0.35rem; font-size: 1.1rem;">No News Stories Published Yet</h4>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Dispatches and event updates will appear here once published by the administrators.</p>
           </div>
-        </article>
-      `).join('');
+        `;
+      }
     }
 
     // Featured Paper Spotlight
     const papers = window.dataStore.getMagazine();
     const homePaperContainer = document.getElementById('home-featured-paper');
-    if (homePaperContainer && papers.length > 0) {
-      const topPaper = papers[0];
-      const initials = topPaper.author.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-      homePaperContainer.innerHTML = `
-        <div class="magazine-card" style="margin-bottom: 0;">
-          <span class="magazine-category-tag">${topPaper.category}</span>
-          <h3 class="magazine-title">${topPaper.title}</h3>
-          <div class="magazine-author-bar">
-            <div class="author-avatar">${initials}</div>
-            <div class="author-details">
-              <span class="author-name">${topPaper.author}</span>
-              <span class="author-grade">${topPaper.grade}</span>
+    if (homePaperContainer) {
+      if (papers.length > 0) {
+        const topPaper = papers[0];
+        const initials = topPaper.author.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        homePaperContainer.innerHTML = `
+          <div class="magazine-card" style="margin-bottom: 0;">
+            <span class="magazine-category-tag">${topPaper.category}</span>
+            <h3 class="magazine-title">${topPaper.title}</h3>
+            <div class="magazine-author-bar">
+              <div class="author-avatar">${initials}</div>
+              <div class="author-details">
+                <span class="author-name">${topPaper.author}</span>
+                <span class="author-grade">${topPaper.grade}</span>
+              </div>
+            </div>
+            <p class="magazine-abstract">${topPaper.abstract}</p>
+            <div class="magazine-footer">
+              <span style="font-size: 0.85rem; color: var(--emerald-primary); font-weight: 700;">★ Editor's Pick</span>
+              <a href="#magazine" class="btn btn-sm btn-primary" onclick="setTimeout(() => window.magazine.openReaderModal('${topPaper.id}'), 100)">
+                Read Paper &rarr;
+              </a>
             </div>
           </div>
-          <p class="magazine-abstract">${topPaper.abstract}</p>
-          <div class="magazine-footer">
-            <span style="font-size: 0.85rem; color: var(--emerald-primary); font-weight: 700;">★ Editor's Pick</span>
-            <a href="#magazine" class="btn btn-sm btn-primary" onclick="setTimeout(() => window.magazine.openReaderModal('${topPaper.id}'), 100)">
-              Read Paper &rarr;
-            </a>
+        `;
+      } else {
+        homePaperContainer.innerHTML = `
+          <div style="padding: 2.5rem 1.5rem; text-align: center; background: #ffffff; border: 1px dashed var(--border-soft); border-radius: 1rem;">
+            <p style="font-size: 1.75rem; margin-bottom: 0.5rem;">📝</p>
+            <h4 style="font-family: var(--font-heading); color: var(--text-heading); margin-bottom: 0.35rem; font-size: 1.1rem;">No Student Papers Published Yet</h4>
+            <p style="color: var(--text-muted); font-size: 0.875rem;">Essays and research articles will be spotlighted here once published by the administrators.</p>
           </div>
-        </div>
-      `;
+        `;
+      }
     }
   }
 
@@ -242,6 +264,16 @@ class AppController {
       if (window.soundFx) window.soundFx.playClick();
       this.showToast('Preset photo loaded into form.', 'info');
     };
+  }
+
+  // Fixed Bottom Bar Interaction & Audio Feedback
+  initBottomNav() {
+    const bottomLinks = document.querySelectorAll('.bottom-nav-link');
+    bottomLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.soundFx) window.soundFx.playClick();
+      });
+    });
   }
 }
 

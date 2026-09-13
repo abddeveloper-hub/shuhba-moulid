@@ -83,27 +83,311 @@ class AdminManager {
     this.initCrudForms();
   }
 
+  compressImageFile(file, maxDimension = 1200, quality = 0.82) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
   initCrudForms() {
-    // Gallery Add Form
+    // Gallery Add Form & Media Type Switching
     const galForm = document.getElementById('admin-add-gallery-form');
+    const photoSection = document.getElementById('admin-gal-photo-section');
+    const videoSection = document.getElementById('admin-gal-video-section');
+    const mediaTypeRadios = document.querySelectorAll('input[name="admin-media-type"]');
+
+    // Photo Inputs
+    const galFileInput = document.getElementById('add-gal-file');
+    const galUrlInput = document.getElementById('add-gal-url');
+    const galPreviewBox = document.getElementById('gal-img-preview-box');
+    const galPreviewImg = document.getElementById('gal-img-preview');
+    const galRemoveImgBtn = document.getElementById('gal-remove-img-btn');
+
+    // Video Inputs
+    const galVideoFileInput = document.getElementById('add-gal-video-file');
+    const galVideoUrlInput = document.getElementById('add-gal-video-url');
+    const galVideoThumbInput = document.getElementById('add-gal-video-thumb');
+    const galVideoPreviewBox = document.getElementById('gal-video-preview-box');
+    const galVideoPreviewPlayer = document.getElementById('gal-video-preview-player');
+    const galRemoveVideoBtn = document.getElementById('gal-remove-video-btn');
+
+    // Media Type Toggle Handler
+    mediaTypeRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const type = e.target.value;
+        if (type === 'video') {
+          if (photoSection) photoSection.style.display = 'none';
+          if (videoSection) videoSection.style.display = 'block';
+        } else {
+          if (photoSection) photoSection.style.display = 'block';
+          if (videoSection) videoSection.style.display = 'none';
+        }
+        if (window.soundFx) window.soundFx.playClick();
+      });
+    });
+
+    const showGalPreview = (src) => {
+      if (galPreviewBox && galPreviewImg) {
+        galPreviewImg.src = src;
+        galPreviewBox.style.display = 'block';
+      }
+    };
+
+    const hideGalPreview = () => {
+      if (galPreviewBox && galPreviewImg) {
+        galPreviewImg.src = '';
+        galPreviewBox.style.display = 'none';
+      }
+      if (galFileInput) galFileInput.value = '';
+      if (galUrlInput) galUrlInput.value = '';
+    };
+
+    if (galRemoveImgBtn) {
+      galRemoveImgBtn.addEventListener('click', hideGalPreview);
+    }
+
+    if (galUrlInput) {
+      galUrlInput.addEventListener('input', (e) => {
+        let val = e.target.value.trim();
+        if (val) {
+          if (window.dataStore && window.dataStore.convertGoogleDriveUrl) {
+            val = window.dataStore.convertGoogleDriveUrl(val, false);
+          }
+          showGalPreview(val);
+        } else {
+          hideGalPreview();
+        }
+      });
+    }
+
+    if (galFileInput) {
+      galFileInput.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        try {
+          const compressedDataUrl = await this.compressImageFile(file);
+          if (galUrlInput) galUrlInput.value = compressedDataUrl;
+          showGalPreview(compressedDataUrl);
+          if (window.app) window.app.showToast('Photo loaded and optimized successfully.', 'success');
+        } catch (err) {
+          console.error('Error reading image file:', err);
+          if (window.app) window.app.showToast('Failed to process image file.', 'error');
+        }
+      });
+    }
+
+    // Video Preview & File Handling (Supports Google Drive, YouTube, Vimeo, MP4)
+    const showVideoPreview = (url) => {
+      if (!galVideoPreviewBox || !galVideoPreviewPlayer) return;
+      if (!url) {
+        hideVideoPreview();
+        return;
+      }
+
+      // Check Google Drive Video
+      const gDriveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+                         url.match(/drive\.google\.com\/.*[?&]id=([a-zA-Z0-9_-]+)/) ||
+                         url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (gDriveMatch) {
+        const fileId = gDriveMatch[1];
+        galVideoPreviewPlayer.innerHTML = `
+          <iframe src="https://drive.google.com/file/d/${fileId}/preview" style="width: 100%; height: 200px; border: none; border-radius: 6px;" allowfullscreen></iframe>
+        `;
+        if (galVideoThumbInput && !galVideoThumbInput.value) {
+          galVideoThumbInput.value = `https://lh3.googleusercontent.com/d/${fileId}`;
+        }
+        galVideoPreviewBox.style.display = 'block';
+        return;
+      }
+
+      // Check YouTube or Vimeo
+      const ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+      if (ytMatch) {
+        galVideoPreviewPlayer.innerHTML = `
+          <iframe src="https://www.youtube.com/embed/${ytMatch[1]}" style="width: 100%; height: 200px; border: none; border-radius: 6px;" allowfullscreen></iframe>
+        `;
+        if (galVideoThumbInput && !galVideoThumbInput.value) {
+          galVideoThumbInput.value = `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+        }
+      } else {
+        galVideoPreviewPlayer.innerHTML = `
+          <video controls playsinline style="max-height: 200px; width: 100%; border-radius: 6px; background: #000;" src="${url}">
+            Your browser does not support HTML5 video.
+          </video>
+        `;
+      }
+      galVideoPreviewBox.style.display = 'block';
+    };
+
+    const hideVideoPreview = () => {
+      if (galVideoPreviewBox && galVideoPreviewPlayer) {
+        galVideoPreviewPlayer.innerHTML = '';
+        galVideoPreviewBox.style.display = 'none';
+      }
+      if (galVideoFileInput) galVideoFileInput.value = '';
+      if (galVideoUrlInput) galVideoUrlInput.value = '';
+      if (galVideoThumbInput) galVideoThumbInput.value = '';
+    };
+
+    if (galRemoveVideoBtn) {
+      galRemoveVideoBtn.addEventListener('click', hideVideoPreview);
+    }
+
+    if (galVideoUrlInput) {
+      galVideoUrlInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        if (val) {
+          showVideoPreview(val);
+        } else {
+          hideVideoPreview();
+        }
+      });
+    }
+
+    if (galVideoFileInput) {
+      galVideoFileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        if (window.app) window.app.showToast('Reading video file from device...', 'info');
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          const videoDataUrl = evt.target.result;
+          if (galVideoUrlInput) galVideoUrlInput.value = videoDataUrl;
+          showVideoPreview(videoDataUrl);
+          if (window.app) window.app.showToast('Video file loaded successfully.', 'success');
+        };
+        reader.onerror = () => {
+          if (window.app) window.app.showToast('Failed to read video file.', 'error');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Global preset helper for gallery (supports both photo & video)
+    window.setGalleryPreset = (url, title, cat, mediaType = 'photo', videoUrl = '') => {
+      const titleInput = document.getElementById('add-gal-title');
+      const catInput = document.getElementById('add-gal-category');
+      const photoRadio = document.querySelector('input[name="admin-media-type"][value="photo"]');
+      const videoRadio = document.querySelector('input[name="admin-media-type"][value="video"]');
+
+      if (titleInput) titleInput.value = title;
+      if (catInput) catInput.value = cat;
+
+      if (mediaType === 'video') {
+        if (videoRadio) {
+          videoRadio.checked = true;
+          videoRadio.dispatchEvent(new Event('change'));
+        }
+        if (galVideoUrlInput) {
+          galVideoUrlInput.value = videoUrl;
+          showVideoPreview(videoUrl);
+        }
+        if (galVideoThumbInput) galVideoThumbInput.value = url;
+      } else {
+        if (photoRadio) {
+          photoRadio.checked = true;
+          photoRadio.dispatchEvent(new Event('change'));
+        }
+        if (galUrlInput) {
+          galUrlInput.value = url;
+          showGalPreview(url);
+        }
+      }
+
+      if (window.soundFx) window.soundFx.playClick();
+      if (window.app) window.app.showToast('Preset media loaded into form.', 'info');
+    };
+
     if (galForm) {
       galForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const selectedType = document.querySelector('input[name="admin-media-type"]:checked')?.value || 'photo';
         const title = document.getElementById('add-gal-title').value.trim();
         const category = document.getElementById('add-gal-category').value;
-        const imageUrl = document.getElementById('add-gal-url').value.trim();
         const caption = document.getElementById('add-gal-caption').value.trim();
 
-        if (!title || !imageUrl) {
-          window.app.showToast('Please provide an image title and valid image URL.', 'warning');
-          return;
+        if (selectedType === 'video') {
+          const videoUrl = galVideoUrlInput ? galVideoUrlInput.value.trim() : '';
+          let thumbUrl = galVideoThumbInput ? galVideoThumbInput.value.trim() : '';
+
+          if (!title || !videoUrl) {
+            window.app.showToast('Please provide a video title and choose a video file or enter a video URL.', 'warning');
+            return;
+          }
+
+          // Auto-detect YouTube thumbnail
+          if (!thumbUrl) {
+            const ytMatch = videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+            if (ytMatch) {
+              thumbUrl = `https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`;
+            } else {
+              thumbUrl = 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=800&q=80';
+            }
+          }
+
+          window.dataStore.addGalleryItem({
+            title,
+            category,
+            mediaType: 'video',
+            videoUrl,
+            imageUrl: thumbUrl,
+            caption
+          });
+
+          window.app.showToast('Video published successfully to Gallery!', 'success');
+          galForm.reset();
+          hideVideoPreview();
+        } else {
+          const imageUrl = galUrlInput ? galUrlInput.value.trim() : '';
+          if (!title || !imageUrl) {
+            window.app.showToast('Please provide an image title and either choose a photo file or enter a photo URL.', 'warning');
+            return;
+          }
+
+          window.dataStore.addGalleryItem({
+            title,
+            category,
+            mediaType: 'photo',
+            imageUrl,
+            caption
+          });
+
+          window.app.showToast('Photo published successfully to Gallery!', 'success');
+          galForm.reset();
+          hideGalPreview();
         }
 
-        window.dataStore.addGalleryItem({ title, category, imageUrl, caption });
-        window.app.showToast('Photo successfully added to Gallery!', 'success');
-        galForm.reset();
         this.renderGalleryList();
         this.renderOverviewStats();
+        if (window.gallery) window.gallery.render();
       });
     }
 
@@ -232,7 +516,7 @@ class AdminManager {
       this.render();
     } else {
       if (window.soundFx) window.soundFx.playError();
-      window.app.showToast('Invalid Admin PIN. (Default is 1446)', 'error');
+      window.app.showToast('Invalid Admin PIN. Please try again.', 'error');
       // Clear inputs
       ['pin-1', 'pin-2', 'pin-3', 'pin-4'].forEach(id => {
         const el = document.getElementById(id);
@@ -311,34 +595,47 @@ class AdminManager {
 
     const items = window.dataStore.getGallery();
     if (items.length === 0) {
-      container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No gallery photos present.</p>`;
+      container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No gallery photos or videos present.</p>`;
       return;
     }
 
-    container.innerHTML = items.map(item => `
-      <div class="admin-item-row">
-        <div class="admin-item-info">
-          <img src="${item.imageUrl}" alt="${item.title}" class="admin-item-thumb" onerror="this.src='https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=200&q=80'">
-          <div class="admin-item-texts">
-            <h4>${item.title}</h4>
-            <p>${item.category} • ${item.date}</p>
+    container.innerHTML = items.map(item => {
+      const isVideo = item.mediaType === 'video' || !!item.videoUrl;
+      const mediaBadge = isVideo
+        ? `<span style="background: #dc2626; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">🎥 Video</span>`
+        : `<span style="background: var(--emerald-primary); color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">📷 Photo</span>`;
+
+      return `
+        <div class="admin-item-row">
+          <div class="admin-item-info">
+            <div style="position: relative; flex-shrink: 0;">
+              <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=200&q=80'}" alt="${item.title}" class="admin-item-thumb" onerror="this.src='https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=200&q=80'">
+              ${isVideo ? '<span style="position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.8); color: #fff; font-size: 0.6rem; padding: 1px 4px; border-radius: 3px;">▶</span>' : ''}
+            </div>
+            <div class="admin-item-texts">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+                <h4>${item.title}</h4>
+                ${mediaBadge}
+              </div>
+              <p>${item.category} • ${item.date}${isVideo && item.videoUrl ? ' • <em>Video Link Attached</em>' : ''}</p>
+            </div>
+          </div>
+          <div class="admin-item-actions">
+            <button class="btn btn-sm btn-danger" onclick="window.admin.deleteGalleryItem('${item.id}')">
+              Delete
+            </button>
           </div>
         </div>
-        <div class="admin-item-actions">
-          <button class="btn btn-sm btn-danger" onclick="window.admin.deleteGalleryItem('${item.id}')">
-            Delete
-          </button>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   deleteGalleryItem(id) {
-    if (confirm('Are you sure you want to delete this photo from the gallery?')) {
+    if (confirm('Are you sure you want to delete this media item from the gallery?')) {
       window.dataStore.deleteGalleryItem(id);
       this.renderGalleryList();
       this.renderOverviewStats();
-      window.app.showToast('Photo deleted.', 'info');
+      window.app.showToast('Item deleted from gallery.', 'info');
       if (window.gallery) window.gallery.render();
     }
   }
