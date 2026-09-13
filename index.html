@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mawlid Celebration Portal - Annual event platform commemorating the Prophet's Birthday with student academic papers, interactive Seerah quiz, photo gallery, and news updates.">
+  <meta name="keywords" content="Mawlid, Mawlid Celebration, Prophet Muhammad, Seerah Quiz, Islamic Magazine, Calligraphy Exhibition, Rabi al-Awwal">
+  <meta name="author" content="Mawlid Celebration Portal">
+  <meta name="theme-color" content="#ffffff">
+  <title>Mawlid Celebration Portal | Commemorating the Messenger of Mercy</title>
+
+  <!-- Favicon SVG Data URI -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23059669'><path d='M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z'/></svg>">
+
+  <!-- Bespoke Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       STICKY NAVIGATION BAR
+       ========================================================================== -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="brand-logo" id="nav-brand-link">
+        <div class="brand-icon-wrap">
+          <!-- Crescent & Star SVG -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.85 0 3.58-.5 5.08-1.38-4.24-1.07-7.38-4.9-7.38-9.47 0-4.57 3.14-8.4 7.38-9.47C15.58 2.5 13.85 2 12 2zm6.5 6l1.24 2.52 2.76.4-2 1.95.47 2.75L18.5 14.32l-2.47 1.3.47-2.75-2-1.95 2.76-.4L18.5 8z"/>
+          </svg>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-title">Mawlid Portal</span>
+          <span class="brand-subtitle">Celebration 1446</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="#home" class="nav-link active" id="nav-home">Home</a></li>
+          <li class="nav-item"><a href="#gallery" class="nav-link" id="nav-gallery">Gallery</a></li>
+          <li class="nav-item"><a href="#news" class="nav-link" id="nav-news">News</a></li>
+          <li class="nav-item"><a href="#magazine" class="nav-link" id="nav-magazine">Magazine</a></li>
+          <li class="nav-item"><a href="#quiz" class="nav-link" id="nav-quiz">Quiz & Scoreboard</a></li>
+          <li class="nav-item">
+            <a href="#admin" class="nav-link nav-admin-link" id="nav-admin">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Admin
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <!-- Audio Effects Mute/Unmute -->
+        <button class="btn-icon" id="audio-toggle-btn" aria-label="Toggle sound effects">
+          <span id="audio-toggle-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </span>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="btn-icon hamburger-btn" id="hamburger-btn" aria-label="Open mobile menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop"></div>
+  <aside class="mobile-nav-drawer" id="mobile-nav-drawer" aria-label="Mobile Navigation Drawer">
+    <div class="mobile-drawer-header">
+      <div class="brand-text-block">
+        <span class="brand-title">Mawlid Portal</span>
+        <span class="brand-subtitle">Celebration 1446</span>
+      </div>
+      <button class="btn-icon" id="mobile-drawer-close" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <ul class="mobile-drawer-links">
+      <li><a href="#home" class="mobile-nav-link active">Home</a></li>
+      <li><a href="#gallery" class="mobile-nav-link">Gallery</a></li>
+      <li><a href="#news" class="mobile-nav-link">News & Press</a></li>
+      <li><a href="#magazine" class="mobile-nav-link">Student Magazine</a></li>
+      <li><a href="#quiz" class="mobile-nav-link">Interactive Quiz</a></li>
+      <li><a href="#admin" class="mobile-nav-link">Admin Dashboard</a></li>
+    </ul>
+  </aside>
+
+  <!-- ==========================================================================
+       MAIN VIEW CONTAINER (SPA ROUTED)
+       ========================================================================== -->
+  <main>
+
+    <!-- VIEW 1: HOME PAGE -->
+    <section id="view-home" class="app-view active">
+      <!-- Hero Banner -->
+      <section class="hero-section">
+        <div class="hero-pattern-bg"></div>
+        <div class="container hero-content">
+          <div class="hero-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Annual Mawlid Celebration 1446 AH
+          </div>
+
+          <div class="hero-arabic-title">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</div>
+
+          <h1 class="hero-title">
+            Celebrating the Messenger of Mercy &amp; <span>Timeless Wisdom</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Welcome to the official Mawlid Celebration Portal. Explore scholarly student papers, examine historical calligraphy exhibitions, read the latest news updates, and test your knowledge in our interactive Seerah quiz.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#quiz" class="btn btn-lg btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Take the Seerah Quiz
+            </a>
+            <a href="#magazine" class="btn btn-lg btn-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              Read Student Papers
+            </a>
+            <a href="#gallery" class="btn btn-lg btn-outline-emerald">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              View Photo Grid
+            </a>
+          </div>
+
+          <!-- Countdown Timer Box -->
+          <div class="countdown-box">
+            <div class="countdown-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Countdown to Grand Mawlid Night
+            </div>
+            <div class="countdown-grid">
+              <div class="countdown-card">
+                <span class="countdown-num" id="countdown-days">18</span>
+                <span class="countdown-label">Days</span>
+              </div>
+              <div class="countdown-card">
+                <span class="countdown-num" id="countdown-hours">09</span>
+                <span class="countdown-label">Hours</span>
+              </div>
+              <div class="countdown-card">
+                <span class="countdown-num" id="countdown-mins">45</span>
+                <span class="countdown-label">Minutes</span>
+              </div>
+              <div class="countdown-card">
+                <span class="countdown-num" id="countdown-secs">20</span>
+                <span class="countdown-label">Seconds</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Strip -->
+      <section class="stats-strip">
+        <div class="container">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-icon">📷</div>
+              <div>
+                <div class="stat-num" id="home-stat-photos">8</div>
+                <div class="stat-label">Gallery Artifacts &amp; Photos</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon gold">📰</div>
+              <div>
+                <div class="stat-num" id="home-stat-news">4</div>
+                <div class="stat-label">News Updates &amp; Dispatches</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">📝</div>
+              <div>
+                <div class="stat-num" id="home-stat-papers">4</div>
+                <div class="stat-label">Published Student Papers</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon gold">🏆</div>
+              <div>
+                <div class="stat-num" id="home-stat-quiz">8</div>
+                <div class="stat-label">Active Seerah Quiz Bank</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Highlights Section -->
+      <section class="highlights-section">
+        <div class="container">
+          <!-- Featured News & Spotlight Paper -->
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Latest Event Dispatches</h2>
+              <p>Timely updates, schedule adjustments, and press releases from the event committee.</p>
+            </div>
+            <a href="#news" class="view-all-link">Browse all news stories &rarr;</a>
+          </div>
+
+          <div class="news-grid" id="home-featured-news" style="margin-bottom: 4rem;">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Wisdom of the Day Card -->
+          <div class="wisdom-card">
+            <div class="wisdom-body">
+              <p class="wisdom-text">
+                "The most complete of believers in faith are those with the best character, and the best of you are those who are best to their families and communities."
+              </p>
+              <div class="wisdom-author">— Prophet Muhammad (Peace Be Upon Him)</div>
+            </div>
+          </div>
+
+          <!-- Spotlight Student Research Paper -->
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2>Spotlight Academic Paper</h2>
+              <p>Top research contribution from this year's student scholarship journal.</p>
+            </div>
+            <a href="#magazine" class="view-all-link">Read all student articles &rarr;</a>
+          </div>
+
+          <div id="home-featured-paper">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Schedule of Keynote Sessions -->
+          <div style="margin-top: 5rem;">
+            <div class="section-title-wrap" style="text-align: center; margin-bottom: 2.5rem;">
+              <span class="page-badge">Program Schedule</span>
+              <h2>Mawlid Week Timetable</h2>
+              <p>Key assemblies, stage recitations, exhibitions, and award ceremonies.</p>
+            </div>
+
+            <div class="timeline-grid">
+              <div class="timeline-card">
+                <div class="timeline-time">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  09:00 AM • Main Auditorium
+                </div>
+                <h3 class="timeline-title">Opening Assembly &amp; Qasidah</h3>
+                <p class="timeline-desc">Recitation of Surat Al-Fath followed by choral vocal renditions in praise of the Messenger.</p>
+              </div>
+
+              <div class="timeline-card">
+                <div class="timeline-time">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  11:30 AM • Hall B Exhibition Center
+                </div>
+                <h3 class="timeline-title">Prophetic Artifacts &amp; Calligraphy</h3>
+                <p class="timeline-desc">Guided tour of student illuminated manuscripts and historical geometric patterns.</p>
+              </div>
+
+              <div class="timeline-card">
+                <div class="timeline-time">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  02:30 PM • Digital Media Lab
+                </div>
+                <h3 class="timeline-title">Inter-School Seerah Quiz Finals</h3>
+                <p class="timeline-desc">Live quiz bowl pitting top student scholars on historical facts and moral teachings.</p>
+              </div>
+
+              <div class="timeline-card">
+                <div class="timeline-time">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  05:00 PM • Grand Courtyard
+                </div>
+                <h3 class="timeline-title">Awards Gala &amp; Community Feast</h3>
+                <p class="timeline-desc">Distribution of academic trophies followed by a traditional celebratory banquet dinner.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VIEW 2: GALLERY PAGE (/gallery) -->
+    <section id="view-gallery" class="app-view">
+      <div class="page-header-section">
+        <div class="container">
+          <span class="page-badge">Photo Gallery</span>
+          <h1 class="page-title">Mawlid Event Celebrations &amp; Exhibits</h1>
+          <p class="page-description">
+            Explore stage programs, student manuscript exhibitions, choral nasheed recitations, and award ceremonies. Click on any photo to open the interactive lightbox.
+          </p>
+        </div>
+      </div>
+
+      <div class="container content-section">
+        <!-- Controls Bar: Category Filters & Search -->
+        <div class="controls-bar">
+          <div class="filter-group" id="gallery-filter-group">
+            <button class="filter-btn active" data-filter="All">
+              All <span class="badge-count" id="gal-count-all">0</span>
+            </button>
+            <button class="filter-btn" data-filter="Stage Programs">
+              Stage Programs <span class="badge-count" id="gal-count-stage-programs">0</span>
+            </button>
+            <button class="filter-btn" data-filter="Exhibitions">
+              Exhibitions <span class="badge-count" id="gal-count-exhibitions">0</span>
+            </button>
+            <button class="filter-btn" data-filter="Awards">
+              Awards <span class="badge-count" id="gal-count-awards">0</span>
+            </button>
+          </div>
+
+          <div class="search-input-wrap">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="gallery-search-input" placeholder="Search gallery by title or caption...">
+          </div>
+        </div>
+
+        <!-- Responsive Photo Grid -->
+        <div class="gallery-grid" id="gallery-grid">
+          <!-- Populated by js/gallery.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: NEWS PAGE (/news) -->
+    <section id="view-news" class="app-view">
+      <div class="page-header-section">
+        <div class="container">
+          <span class="page-badge">News &amp; Bulletins</span>
+          <h1 class="page-title">Event News &amp; Press Releases</h1>
+          <p class="page-description">
+            Stay up to date with official announcements, keynote speaker highlights, charity relief drives, and event recaps.
+          </p>
+        </div>
+      </div>
+
+      <div class="container content-section">
+        <!-- Search and Filter Bar -->
+        <div class="controls-bar">
+          <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-secondary);">
+            Official Press Releases &amp; Community Notices
+          </div>
+          <div class="search-input-wrap">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="news-search-input" placeholder="Search news stories and updates...">
+          </div>
+        </div>
+
+        <!-- News Feed Grid -->
+        <div class="news-grid" id="news-grid">
+          <!-- Populated by js/news.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: MAGAZINE PAGE (/magazine) -->
+    <section id="view-magazine" class="app-view">
+      <div class="page-header-section">
+        <div class="container">
+          <span class="page-badge">Academic Magazine</span>
+          <h1 class="page-title">Student Seerah Research Journal</h1>
+          <p class="page-description">
+            Showcasing student-written scholarly papers, philosophical reflections, and research essays examining the life, diplomacy, ecology, and ethics of Prophet Muhammad (PBUH).
+          </p>
+        </div>
+      </div>
+
+      <div class="container content-section">
+        <!-- Category & Search Bar -->
+        <div class="controls-bar">
+          <div class="filter-group" id="magazine-filter-group">
+            <button class="filter-btn active" data-filter="All">All Topics</button>
+            <button class="filter-btn" data-filter="Ethics & Ecology">Ethics &amp; Ecology</button>
+            <button class="filter-btn" data-filter="Seerah & Diplomacy">Seerah &amp; Diplomacy</button>
+            <button class="filter-btn" data-filter="Historical Context">Historical Context</button>
+            <button class="filter-btn" data-filter="Youth Reflections">Youth Reflections</button>
+          </div>
+
+          <div class="search-input-wrap">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input" id="magazine-search-input" placeholder="Search papers by author, title, or topic...">
+          </div>
+        </div>
+
+        <!-- Student Papers Grid -->
+        <div class="magazine-grid" id="magazine-grid">
+          <!-- Populated by js/magazine.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 5: INTERACTIVE QUIZ & SCOREBOARD (/quiz) -->
+    <section id="view-quiz" class="app-view">
+      <div class="page-header-section">
+        <div class="container">
+          <span class="page-badge">Interactive Challenge</span>
+          <h1 class="page-title">Prophetic Seerah Quiz &amp; Leaderboard</h1>
+          <p class="page-description">
+            Test your knowledge of the life, noble virtues, historical covenants, and moral teachings of Prophet Muhammad (PBUH). Earn an official Certificate of Participation upon completion!
+          </p>
+        </div>
+      </div>
+
+      <div class="container content-section">
+        <div class="quiz-wrapper">
+
+          <!-- State 1: Welcome & Name Entry Screen -->
+          <div class="quiz-card" id="quiz-welcome-screen">
+            <div class="quiz-welcome-screen">
+              <div class="quiz-icon-hero">📖</div>
+              <h2>Mawlid Seerah Challenge 1446</h2>
+              <p style="margin-top: 0.5rem;">Answer questions spanning Mecca, Medina, the Revelation, and ethical leadership.</p>
+
+              <ul class="quiz-rules-list">
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Step-by-step multiple choice questions with instant explanations.</span>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Timer tracks elapsed seconds for the competitive Leaderboard.</span>
+                </li>
+                <li>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Generates a personalized, high-resolution downloadable Certificate of Participation!</span>
+                </li>
+              </ul>
+
+              <div class="quiz-name-input-group">
+                <label for="quiz-participant-name">Enter Your Full Name (For Certificate &amp; Leaderboard):</label>
+                <input type="text" id="quiz-participant-name" class="quiz-input" placeholder="e.g. Maryam Siddiqui" required>
+              </div>
+
+              <button class="btn btn-lg btn-primary btn-full" id="quiz-start-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Begin Quiz Challenge
+              </button>
+            </div>
+          </div>
+
+          <!-- State 2: Active Question Screen -->
+          <div class="quiz-card" id="quiz-active-screen" style="display: none;">
+            <div class="quiz-active-header">
+              <span class="quiz-progress-text" id="quiz-progress-text">Question 1 of 8</span>
+              <span class="quiz-timer-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Time: <span id="quiz-timer-display">0:00</span>
+              </span>
+            </div>
+
+            <div class="quiz-progress-bar-container">
+              <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+            </div>
+
+            <div class="quiz-question-box">
+              <h3 class="quiz-question-text" id="quiz-question-text">Question text goes here...</h3>
+            </div>
+
+            <div class="quiz-options-list" id="quiz-options-list">
+              <!-- Dynamically populated option buttons -->
+            </div>
+
+            <div class="quiz-explanation-box" id="quiz-explanation-box">
+              <div class="quiz-explanation-title">Historical Insight &amp; Seerah Context</div>
+              <p class="quiz-explanation-body" id="quiz-explanation-body"></p>
+            </div>
+
+            <div style="text-align: right;">
+              <button class="btn btn-primary" id="quiz-next-btn" style="display: none;">
+                Next Question &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- State 3: Quiz Completion & Certificate Screen -->
+          <div class="quiz-card" id="quiz-summary-screen" style="display: none;">
+            <div class="quiz-summary-card">
+              <div class="quiz-trophy-hero">🏆</div>
+              <h2>Mawlid Quiz Completed!</h2>
+              <p>Mabrook to <strong id="summary-participant-name" style="color: var(--emerald-primary);">Participant</strong> on successfully finishing the challenge.</p>
+
+              <div class="quiz-score-badge">
+                <span class="quiz-score-num" id="summary-score-num">100%</span>
+                <span class="quiz-score-label">Final Accuracy Score</span>
+              </div>
+
+              <div class="quiz-stat-grid">
+                <div class="quiz-stat-box">
+                  <div class="quiz-stat-val" id="summary-correct-count">8 / 8</div>
+                  <div class="quiz-stat-title">Correct Answers</div>
+                </div>
+                <div class="quiz-stat-box">
+                  <div class="quiz-stat-val" id="summary-time-taken">1m 12s</div>
+                  <div class="quiz-stat-title">Time Taken</div>
+                </div>
+                <div class="quiz-stat-box">
+                  <div class="quiz-stat-val" style="color: var(--gold-primary);">Verified</div>
+                  <div class="quiz-stat-title">Leaderboard Status</div>
+                </div>
+              </div>
+
+              <!-- Certificate Preview Canvas Container -->
+              <h3 style="margin-top: 2rem; margin-bottom: 0.5rem;">Your Official Certificate of Recognition</h3>
+              <p style="font-size: 0.885rem; color: var(--text-muted); margin-bottom: 1rem;">
+                Rendered live with your name, score, and official Mawlid 1446 signature seal.
+              </p>
+
+              <div class="certificate-preview-box">
+                <canvas id="certificate-canvas"></canvas>
+              </div>
+
+              <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <button class="btn btn-gold" id="download-cert-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Download Certificate (PNG)
+                </button>
+                <button class="btn btn-secondary" id="quiz-restart-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                  Retake Quiz
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Live Scoreboard / Leaderboard -->
+          <div class="scoreboard-section">
+            <div class="scoreboard-card">
+              <div class="section-header-row" style="margin-bottom: 1rem;">
+                <div>
+                  <h2>Mawlid Quiz Hall of Fame</h2>
+                  <p>Top participants ranked by score and response speed.</p>
+                </div>
+                <div class="search-input-wrap" style="max-width: 260px;">
+                  <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" class="search-input" id="leaderboard-search-input" placeholder="Search student name...">
+                </div>
+              </div>
+
+              <div class="scoreboard-table-wrap">
+                <table class="scoreboard-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 70px;">Rank</th>
+                      <th>Student Participant</th>
+                      <th style="width: 120px;">Score</th>
+                      <th style="width: 130px;">Time Taken</th>
+                      <th style="width: 140px;">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="scoreboard-table-body">
+                    <!-- Populated by js/quiz.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 6: ADMIN DASHBOARD (/admin) -->
+    <section id="view-admin" class="app-view">
+      <div class="page-header-section">
+        <div class="container">
+          <span class="page-badge">Control Center</span>
+          <h1 class="page-title">Mawlid Portal Administration</h1>
+          <p class="page-description">
+            Manage photo gallery items, create and edit news announcements, review student papers, add quiz questions, and monitor leaderboard data.
+          </p>
+        </div>
+      </div>
+
+      <div class="container content-section">
+
+        <!-- Locked PIN Authentication Screen -->
+        <div class="admin-auth-panel" id="admin-auth-panel">
+          <div class="admin-lock-icon">🔒</div>
+          <h2>Admin PIN Required</h2>
+          <p style="font-size: 0.9rem; margin-top: 0.35rem;">Enter the 4-digit administrator PIN to unlock portal controls.</p>
+          <p style="font-size: 0.8rem; color: var(--emerald-primary); font-weight: 600; margin-top: 0.5rem;">(Default Security PIN: 1446)</p>
+
+          <form id="admin-pin-form">
+            <div class="pin-inputs-row">
+              <input type="password" maxlength="1" class="pin-digit-input" id="pin-1" required autocomplete="off">
+              <input type="password" maxlength="1" class="pin-digit-input" id="pin-2" required autocomplete="off">
+              <input type="password" maxlength="1" class="pin-digit-input" id="pin-3" required autocomplete="off">
+              <input type="password" maxlength="1" class="pin-digit-input" id="pin-4" required autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Unlock Dashboard
+            </button>
+          </form>
+        </div>
+
+        <!-- Unlocked Admin Workspace -->
+        <div class="admin-card" id="admin-main-panel" style="display: none;">
+          <!-- Top Tabs Bar -->
+          <div class="admin-tabs-bar">
+            <button class="admin-tab-btn active" data-tab="overview">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              Overview &amp; Stats
+            </button>
+            <button class="admin-tab-btn" data-tab="gallery">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Gallery Manager
+            </button>
+            <button class="admin-tab-btn" data-tab="news">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg>
+              News Manager
+            </button>
+            <button class="admin-tab-btn" data-tab="magazine">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Magazine Papers
+            </button>
+            <button class="admin-tab-btn" data-tab="quiz">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Quiz &amp; Scores
+            </button>
+
+            <div style="margin-left: auto; padding-bottom: 0.5rem;">
+              <button class="btn btn-sm btn-secondary" id="admin-logout-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Lock Panel
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 1: OVERVIEW & STATS -->
+          <div class="admin-tab-content active" id="admin-pane-overview">
+            <h3 style="margin-bottom: 1.5rem;">Portal Content Snapshot</h3>
+
+            <div class="stats-grid" style="margin-bottom: 3rem;">
+              <div class="stat-item">
+                <div class="stat-icon">📷</div>
+                <div>
+                  <div class="stat-num" id="admin-stat-gallery">0</div>
+                  <div class="stat-label">Gallery Photos</div>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon gold">📰</div>
+                <div>
+                  <div class="stat-num" id="admin-stat-news">0</div>
+                  <div class="stat-label">Published News</div>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon">📚</div>
+                <div>
+                  <div class="stat-num" id="admin-stat-magazine">0</div>
+                  <div class="stat-label">Student Papers</div>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon gold">❓</div>
+                <div>
+                  <div class="stat-num" id="admin-stat-quiz">0</div>
+                  <div class="stat-label">Quiz Questions</div>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon">🏅</div>
+                <div>
+                  <div class="stat-num" id="admin-stat-leaderboard">0</div>
+                  <div class="stat-label">Leaderboard Records</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Portal Data Backup & Restore -->
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2.5rem;">
+              <h4 style="margin-bottom: 0.5rem;">Data Persistence, Backup &amp; Synchronization</h4>
+              <p style="font-size: 0.925rem; margin-bottom: 1.5rem;">
+                All modifications (photos, articles, papers, and questions) are stored locally. Export the complete database as a portable JSON snapshot or import previous backups.
+              </p>
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn btn-primary btn-sm" id="admin-export-btn">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export Portal Data (JSON)
+                </button>
+
+                <label class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Import Data JSON
+                  <input type="file" id="admin-import-file" accept=".json" style="display: none;">
+                </label>
+
+                <button class="btn btn-danger btn-sm" id="admin-reset-defaults-btn">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  Reset to Factory Seed Data
+                </button>
+              </div>
+            </div>
+
+            <!-- Change PIN Form -->
+            <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.75rem; max-width: 480px;">
+              <h4 style="margin-bottom: 0.35rem;">Change Admin Security PIN</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Update the 4-digit code required to access this panel.</p>
+              <form id="admin-change-pin-form">
+                <div class="form-group">
+                  <label class="form-label" for="new-admin-pin">New 4-Digit PIN:</label>
+                  <input type="password" id="new-admin-pin" class="form-input" maxlength="4" placeholder="e.g. 2024" required pattern="\d{4}">
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary">Update Security PIN</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- TAB 2: GALLERY MANAGER -->
+          <div class="admin-tab-content" id="admin-pane-gallery">
+            <h3 style="margin-bottom: 1.5rem;">Add New Photo to Gallery</h3>
+
+            <!-- Quick Preset Buttons -->
+            <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span style="font-size: 0.825rem; font-weight: 700; color: var(--text-muted);">Quick Presets:</span>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="window.setGalleryPreset('https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=1200&q=80', 'Auditorium Calligraphy Banner', 'Exhibitions')">Exhibition Hall</button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="window.setGalleryPreset('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80', 'Youth Nasheed Vocal Troupe', 'Stage Programs')">Nasheed Stage</button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="window.setGalleryPreset('https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?auto=format&fit=crop&w=1200&q=80', 'Academic Seerah Trophy Honor', 'Awards')">Awards Gala</button>
+            </div>
+
+            <form id="admin-add-gallery-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="add-gal-title">Photo Title *</label>
+                  <input type="text" id="add-gal-title" class="form-input" placeholder="e.g. Annual Calligraphy Exhibition Opening" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="add-gal-category">Category *</label>
+                  <select id="add-gal-category" class="form-select">
+                    <option value="Stage Programs">Stage Programs</option>
+                    <option value="Exhibitions">Exhibitions</option>
+                    <option value="Awards">Awards</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-gal-url">Image URL *</label>
+                <input type="url" id="add-gal-url" class="form-input" placeholder="https://images.unsplash.com/..." required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-gal-caption">Caption &amp; Description</label>
+                <input type="text" id="add-gal-caption" class="form-input" placeholder="Brief description of the program, participants, and date...">
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Publish Photo to Gallery
+              </button>
+            </form>
+
+            <h4 style="margin-bottom: 1rem;">Manage Existing Gallery Photos</h4>
+            <div class="admin-items-list" id="admin-gallery-items-list">
+              <!-- Populated by admin.js -->
+            </div>
+          </div>
+
+          <!-- TAB 3: NEWS MANAGER -->
+          <div class="admin-tab-content" id="admin-pane-news">
+            <h3 style="margin-bottom: 1.5rem;">Create News Post or Press Release</h3>
+
+            <form id="admin-add-news-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="add-news-title">Story Headline *</label>
+                  <input type="text" id="add-news-title" class="form-input" placeholder="e.g. Mawlid Keynote Speakers Announced" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="add-news-category">Category</label>
+                  <input type="text" id="add-news-category" class="form-input" placeholder="e.g. Schedule / Event Recap / Charity">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-news-url">Thumbnail Image URL</label>
+                <input type="url" id="add-news-url" class="form-input" placeholder="https://images.unsplash.com/photo-...">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-news-excerpt">Summary Excerpt</label>
+                <input type="text" id="add-news-excerpt" class="form-input" placeholder="Short 1-2 sentence preview for the card...">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-news-body">Full Article Body *</label>
+                <textarea id="add-news-body" class="form-textarea" placeholder="Full article content (separate paragraphs with blank lines)..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Publish News Announcement
+              </button>
+            </form>
+
+            <h4 style="margin-bottom: 1rem;">Existing News Stories</h4>
+            <div class="admin-items-list" id="admin-news-items-list">
+              <!-- Populated by admin.js -->
+            </div>
+          </div>
+
+          <!-- TAB 4: MAGAZINE PAPERS -->
+          <div class="admin-tab-content" id="admin-pane-magazine">
+            <h3 style="margin-bottom: 1.5rem;">Submit New Student Academic Paper</h3>
+
+            <form id="admin-add-magazine-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="add-mag-title">Paper Title *</label>
+                  <input type="text" id="add-mag-title" class="form-input" placeholder="e.g. Ethical Commerce in the Prophetic Marketplace" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="add-mag-author">Student Author Name *</label>
+                  <input type="text" id="add-mag-author" class="form-input" placeholder="e.g. Tariq Al-Hashimi" required>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="add-mag-grade">Grade / Class / Affiliation</label>
+                  <input type="text" id="add-mag-grade" class="form-input" placeholder="e.g. Grade 12, Senior Islamic Studies">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="add-mag-category">Topic Category</label>
+                  <input type="text" id="add-mag-category" class="form-input" placeholder="e.g. Ethics & Ecology / Seerah & Diplomacy">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-mag-abstract">Abstract Summary</label>
+                <textarea id="add-mag-abstract" class="form-textarea" style="min-height: 80px;" placeholder="Brief academic overview of the thesis and core findings..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-mag-body">Complete Paper Body (HTML / Markdown supported) *</label>
+                <textarea id="add-mag-body" class="form-textarea" style="min-height: 200px;" placeholder="Full essay text with subheadings (&lt;h4&gt;), citations, and quotes..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Publish Paper to Magazine
+              </button>
+            </form>
+
+            <h4 style="margin-bottom: 1rem;">Submitted Student Papers</h4>
+            <div class="admin-items-list" id="admin-magazine-items-list">
+              <!-- Populated by admin.js -->
+            </div>
+          </div>
+
+          <!-- TAB 5: QUIZ & SCORES -->
+          <div class="admin-tab-content" id="admin-pane-quiz">
+            <h3 style="margin-bottom: 1.5rem;">Add Question to Seerah Quiz Bank</h3>
+
+            <form id="admin-add-quiz-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+              <div class="form-group">
+                <label class="form-label" for="add-quiz-question">Question Text *</label>
+                <input type="text" id="add-quiz-question" class="form-input" placeholder="e.g. What was the name of the Prophet's mother?" required>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label" for="add-quiz-opt0">Option A *</label>
+                  <input type="text" id="add-quiz-opt0" class="form-input" placeholder="Choice A" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="add-quiz-opt1">Option B *</label>
+                  <input type="text" id="add-quiz-opt1" class="form-input" placeholder="Choice B" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="add-quiz-opt2">Option C *</label>
+                  <input type="text" id="add-quiz-opt2" class="form-input" placeholder="Choice C" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="add-quiz-opt3">Option D *</label>
+                  <input type="text" id="add-quiz-opt3" class="form-input" placeholder="Choice D" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-quiz-correct">Select Correct Option *</label>
+                <select id="add-quiz-correct" class="form-select">
+                  <option value="0">Option A</option>
+                  <option value="1">Option B</option>
+                  <option value="2">Option C</option>
+                  <option value="3">Option D</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="add-quiz-explanation">Historical Explanation &amp; Educational Note</label>
+                <textarea id="add-quiz-explanation" class="form-textarea" style="min-height: 80px;" placeholder="Explain why this option is correct to deepen participant learning..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Question to Bank
+              </button>
+            </form>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+              <h4>Active Seerah Quiz Question Bank</h4>
+              <button class="btn btn-sm btn-danger" id="admin-clear-leaderboard-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                Clear / Reset Scoreboard
+              </button>
+            </div>
+
+            <div class="admin-items-list" id="admin-quiz-items-list">
+              <!-- Populated by admin.js -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- 1. LIGHTBOX MODAL (Fullsize Photo Viewer) -->
+  <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Photo Lightbox">
+    <div class="lightbox-container">
+      <div class="lightbox-header">
+        <span class="lightbox-counter" id="lightbox-counter">Image 1 of 8</span>
+        <button class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close Lightbox">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="lightbox-image-stage">
+        <button class="lightbox-nav-btn lightbox-prev" id="lightbox-prev-btn" aria-label="Previous image">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <img src="" alt="" id="lightbox-img" class="lightbox-full-img">
+        <button class="lightbox-nav-btn lightbox-next" id="lightbox-next-btn" aria-label="Next image">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <div class="lightbox-caption-area">
+        <div class="lightbox-caption-text">
+          <h3 id="lightbox-title">Image Title</h3>
+          <p id="lightbox-caption">Image description</p>
+        </div>
+        <div>
+          <span class="gallery-category-pill" id="lightbox-cat-badge" style="position: static;">Category</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. NEWS STORY READER MODAL -->
+  <div class="reader-modal" id="news-reader-modal" role="dialog" aria-modal="true" aria-label="News Story Reader">
+    <div class="reader-sheet">
+      <div class="reader-toolbar">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--emerald-primary);" id="news-modal-category">Press Release</span>
+        <button class="btn-icon" id="news-modal-close-btn" aria-label="Close story">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="reader-content-scroll">
+        <img src="" alt="" id="news-modal-img" class="reader-banner-img">
+        <div class="reader-header">
+          <h2 class="reader-title" id="news-modal-title">News Title</h2>
+          <div class="reader-meta-row" id="news-modal-date">Date &amp; Read Time</div>
+        </div>
+        <div class="reader-body" id="news-modal-body">
+          <!-- Populated by news.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MAGAZINE ARTICLE READER MODAL (Academic Paper Viewer) -->
+  <div class="reader-modal" id="magazine-reader-modal" role="dialog" aria-modal="true" aria-label="Academic Paper Reader">
+    <div class="reader-sheet">
+      <div class="reader-toolbar">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--emerald-primary);" id="magazine-modal-category">Mawlid Academic Journal</span>
+        <div class="reader-toolbar-actions">
+          <button class="btn-icon" id="font-decrease-btn" title="Decrease font size">A-</button>
+          <button class="btn-icon" id="font-increase-btn" title="Increase font size">A+</button>
+          <button class="btn btn-sm btn-secondary" id="print-paper-btn" title="Print paper">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Print / PDF
+          </button>
+          <button class="btn-icon" id="magazine-modal-close-btn" aria-label="Close reader">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="reader-content-scroll">
+        <div class="reader-header">
+          <span class="reader-category-pill">Peer-Reviewed Student Contribution</span>
+          <h2 class="reader-title" id="magazine-modal-title">Paper Title</h2>
+          <div class="reader-meta-row">
+            <span>Author: <strong id="magazine-modal-author" style="color: var(--text-primary);">Student</strong></span>
+            <span>•</span>
+            <span id="magazine-modal-grade">Grade / Affiliation</span>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-secondary); border-left: 4px solid var(--emerald-primary); padding: 1.25rem 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 2rem;">
+          <div style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--emerald-primary); margin-bottom: 0.35rem;">Academic Abstract</div>
+          <p id="magazine-modal-abstract" style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); margin: 0;"></p>
+        </div>
+
+        <div class="reader-body" id="magazine-modal-body">
+          <!-- Populated by magazine.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <div class="brand-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.85 0 3.58-.5 5.08-1.38-4.24-1.07-7.38-4.9-7.38-9.47 0-4.57 3.14-8.4 7.38-9.47C15.58 2.5 13.85 2 12 2zm6.5 6l1.24 2.52 2.76.4-2 1.95.47 2.75L18.5 14.32l-2.47 1.3.47-2.75-2-1.95 2.76-.4L18.5 8z"/>
+              </svg>
+            </div>
+            <div class="brand-text-block">
+              <span class="brand-title">Mawlid Portal</span>
+              <span class="brand-subtitle">Celebration 1446</span>
+            </div>
+          </div>
+          <p>
+            An interactive educational platform commemorating the birth of the Prophet of Mercy (PBUH) through student research, Seerah knowledge, and community engagement.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Portal Views</div>
+          <ul class="footer-links">
+            <li><a href="#home">Home Landing</a></li>
+            <li><a href="#gallery">Photo Gallery</a></li>
+            <li><a href="#news">News &amp; Bulletins</a></li>
+            <li><a href="#magazine">Student Magazine</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Interactive</div>
+          <ul class="footer-links">
+            <li><a href="#quiz">Seerah Quiz</a></li>
+            <li><a href="#quiz">Live Leaderboard</a></li>
+            <li><a href="#admin">Admin Dashboard</a></li>
+            <li><a href="#home">Event Schedule</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Celebration Theme</div>
+          <p style="font-size: 0.885rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;">
+            "Mercy to all Worlds: Embodying Compassion, Integrity, and Knowledge in Contemporary Times."
+          </p>
+          <div class="footer-socials">
+            <span class="social-icon" title="Community Sharing">☪</span>
+            <span class="social-icon" title="Academic Excellence">📖</span>
+            <span class="social-icon" title="Charity Guild">🌱</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 1446 AH / 2024 CE Mawlid Celebration Portal. All rights reserved. Clean Minimalist "Plain White" Theme.</div>
+        <div style="display: flex; gap: 1rem;">
+          <a href="#admin" style="color: var(--emerald-primary); font-weight: 600;">Admin Panel (PIN: 1446)</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Core Scripts (Ordered by Dependency) -->
+  <script src="js/audio.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/news.js"></script>
+  <script src="js/magazine.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/router.js"></script>
+</body>
+</html>

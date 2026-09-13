@@ -1,0 +1,19 @@
+{
+  "name": "mawlid-celebration-portal",
+  "version": "1.0.0",
+  "description": "Responsive web application for Mawlid Celebration Event platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "mawlid",
+    "celebration",
+    "seerah",
+    "quiz",
+    "magazine"
+  ],
+  "author": "Mawlid Portal",
+  "license": "MIT"
+}

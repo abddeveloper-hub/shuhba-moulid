@@ -1,0 +1,186 @@
+/* ==========================================================================
+   MAWLID CELEBRATION PORTAL - RESPONSIVE & PRINT STYLES
+   Breakpoints: Mobile (<640px), Tablet (640px-1024px), Desktop (>1024px)
+   ========================================================================== */
+
+/* Tablet & Smaller Screens (< 1024px) */
+@media (max-width: 1024px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* Mobile Screens (< 768px) */
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 68px;
+  }
+
+  .container {
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
+  }
+
+  .page-header-section {
+    padding: 2.5rem 0 2rem;
+  }
+
+  .content-section {
+    padding: 2rem 0 3.5rem;
+  }
+
+  .countdown-box {
+    padding: 1.25rem 1rem;
+  }
+
+  .countdown-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+
+  .gallery-grid, .news-grid, .magazine-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .search-input-wrap {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .filter-group {
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    width: 100%;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filter-btn {
+    white-space: nowrap;
+  }
+
+  .lightbox-modal {
+    padding: 0.5rem;
+  }
+
+  .lightbox-image-stage {
+    min-height: 240px;
+  }
+
+  .lightbox-caption-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .reader-sheet {
+    max-height: 95vh;
+    border-radius: var(--radius-lg);
+  }
+
+  .reader-content-scroll {
+    padding: 1.5rem 1.15rem;
+  }
+
+  .reader-banner-img {
+    height: 190px;
+  }
+
+  .quiz-card {
+    padding: 1.5rem 1.15rem;
+  }
+
+  .quiz-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-tab-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .admin-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .admin-item-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .pin-digit-input {
+    width: 48px;
+    height: 56px;
+    font-size: 1.4rem;
+  }
+
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Print Styles (Optimized for Student Academic Paper Export) */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .navbar, .footer, .btn, .controls-bar, #toast-container,
+  .reader-toolbar, .lightbox-modal, .mobile-nav-drawer, .mobile-drawer-backdrop {
+    display: none !important;
+  }
+
+  .reader-modal {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .reader-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    max-height: none !important;
+    max-width: 100% !important;
+  }
+
+  .reader-content-scroll {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .reader-banner-img {
+    max-height: 250px;
+  }
+}
