@@ -59,7 +59,7 @@ class QuizEngine {
     this.questions = window.dataStore.getQuizQuestions();
 
     if (!this.questions || this.questions.length === 0) {
-      if (window.app) window.app.showToast('No quiz questions available.', 'error');
+      if (window.app) window.app.showToast('No Seerah Challenge questions currently available. Please add questions via the Admin Control Center.', 'warning');
       return;
     }
 
@@ -244,124 +244,220 @@ class QuizEngine {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    // Canvas size
+    // Canvas size (high-resolution 1000x650)
     canvas.width = 1000;
     canvas.height = 650;
 
-    // Background - Elegant warm parchment white
-    ctx.fillStyle = '#FFFFFF';
+    // 1. Authoritative Parchment Ground
+    const bgGrad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    bgGrad.addColorStop(0, '#fffdfa');
+    bgGrad.addColorStop(0.5, '#fff8f4');
+    bgGrad.addColorStop(1, '#fbf2eb');
+    ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Subtle border fill
-    ctx.fillStyle = '#FAFBFC';
-    ctx.fillRect(20, 20, canvas.width - 40, canvas.height - 40);
+    // Subtle inner vellum plate
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(24, 24, canvas.width - 48, canvas.height - 48);
 
-    // Outer Emerald Border
-    ctx.strokeStyle = '#059669';
-    ctx.lineWidth = 6;
-    ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+    // 2. Ornate Double Gold Ribbon Hairline Border
+    // Outer Cast Bronze Border
+    ctx.strokeStyle = '#8a6620';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(32, 32, canvas.width - 64, canvas.height - 64);
 
-    // Inner Gold Decorative Border
-    ctx.strokeStyle = '#D97706';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(42, 42, canvas.width - 84, canvas.height - 84);
+    // Mid Amber Border
+    ctx.strokeStyle = '#c89b3c';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
 
-    // Decorative Corner Motifs
-    const drawCorner = (x, y) => {
+    // Inner Illuminated Gold Hairline
+    ctx.strokeStyle = '#e6c27a';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(45, 45, canvas.width - 90, canvas.height - 90);
+
+    // Corner Cartouches & Rosettes
+    const drawCornerFlourish = (x, y, dx, dy) => {
       ctx.save();
-      ctx.fillStyle = '#059669';
+      ctx.strokeStyle = '#c89b3c';
+      ctx.fillStyle = '#8a6620';
+      ctx.lineWidth = 1.5;
+
+      // Miniature corner diamond
       ctx.beginPath();
-      ctx.arc(x, y, 6, 0, Math.PI * 2);
+      ctx.moveTo(x, y - dy * 8);
+      ctx.lineTo(x + dx * 8, y);
+      ctx.lineTo(x, y + dy * 8);
+      ctx.lineTo(x - dx * 8, y);
+      ctx.closePath();
       ctx.fill();
+
+      // Corner bracket lines
+      ctx.beginPath();
+      ctx.moveTo(x + dx * 16, y);
+      ctx.lineTo(x + dx * 28, y);
+      ctx.moveTo(x, y + dy * 16);
+      ctx.lineTo(x, y + dy * 28);
+      ctx.stroke();
+
       ctx.restore();
     };
-    drawCorner(42, 42);
-    drawCorner(canvas.width - 42, 42);
-    drawCorner(42, canvas.height - 42);
-    drawCorner(canvas.width - 42, canvas.height - 42);
 
-    // Arabic Header
-    ctx.fillStyle = '#059669';
-    ctx.font = 'bold 28px Amiri, serif';
+    drawCornerFlourish(45, 45, 1, 1);
+    drawCornerFlourish(canvas.width - 45, 45, -1, 1);
+    drawCornerFlourish(45, canvas.height - 45, 1, -1);
+    drawCornerFlourish(canvas.width - 45, canvas.height - 45, -1, -1);
+
+    // 3. Integrated Quranic Calligraphy Watermark in Center
+    ctx.save();
+    ctx.fillStyle = 'rgba(200, 155, 60, 0.085)';
+    ctx.font = '400 38px Amiri, serif';
+    ctx.textAlign = 'center';
+    ctx.direction = 'rtl';
+    ctx.fillText('وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ', canvas.width / 2, 335);
+    ctx.restore();
+
+    // 4. Bismillah Arabic Inscription
+    ctx.fillStyle = '#7b5900';
+    ctx.font = 'bold 26px Amiri, serif';
     ctx.textAlign = 'center';
     ctx.fillText('بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ', canvas.width / 2, 85);
 
-    // Subtitle
-    ctx.fillStyle = '#D97706';
-    ctx.font = '600 15px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('MAWLID CELEBRATION PORTAL 1446 AH', canvas.width / 2, 120);
+    // 5. System Kicker
+    ctx.fillStyle = '#c89b3c';
+    ctx.font = '600 13px Outfit, sans-serif';
+    ctx.letterSpacing = '3px';
+    ctx.fillText('NOOR & MAHABBA EVENT SYSTEM • 1446 AH', canvas.width / 2, 118);
 
-    // Certificate Title
-    ctx.fillStyle = '#111827';
-    ctx.font = 'bold 36px Cinzel, serif';
-    ctx.fillText('CERTIFICATE OF RECOGNITION', canvas.width / 2, 175);
+    // 6. Certificate Title
+    ctx.fillStyle = '#1f1b17';
+    ctx.font = '700 36px "Playfair Display", Georgia, serif';
+    ctx.fillText('CERTIFICATE OF RECOGNITION', canvas.width / 2, 168);
 
-    // Body lead
-    ctx.fillStyle = '#4B5563';
-    ctx.font = '400 16px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('This certificate is proudly awarded to', canvas.width / 2, 230);
-
-    // Participant Name
-    ctx.fillStyle = '#059669';
-    ctx.font = 'bold 38px Plus Jakarta Sans, sans-serif';
-    ctx.fillText(this.participantName.toUpperCase(), canvas.width / 2, 290);
-
-    // Line under name
-    ctx.strokeStyle = '#E5E7EB';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2 - 250, 310);
-    ctx.lineTo(canvas.width / 2 + 250, 310);
-    ctx.stroke();
-
-    // Achievement text
-    ctx.fillStyle = '#4B5563';
-    ctx.font = '400 16px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('for successfully completing the Interactive Prophetic Seerah & Teachings Quiz', canvas.width / 2, 350);
-    ctx.fillText(`achieving an outstanding score of ${scorePct}% in commemoration of Mawlid un-Nabi.`, canvas.width / 2, 380);
-
-    // Golden Seal Emblem in Canvas
-    const sealX = canvas.width / 2;
-    const sealY = 460;
-    ctx.save();
-    ctx.fillStyle = '#FEF3C7';
-    ctx.strokeStyle = '#D97706';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(sealX, sealY, 40, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#B45309';
-    ctx.font = 'bold 13px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('MAWLID', sealX, sealY - 6);
-    ctx.fillText('HONORS', sealX, sealY + 12);
-    ctx.restore();
-
-    // Signatures / Date
-    const today = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
-
-    // Date
-    ctx.fillStyle = '#6B7280';
-    ctx.font = '14px Plus Jakarta Sans, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(`Date: ${today}`, 100, 560);
-
-    // Signature
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#111827';
-    ctx.font = 'bold 15px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('Dr. Tariq Al-Mansoor', canvas.width - 100, 555);
-    ctx.fillStyle = '#6B7280';
-    ctx.font = '13px Plus Jakarta Sans, sans-serif';
-    ctx.fillText('Director, Seerah Educational Board', canvas.width - 100, 575);
-
-    // Signature line
-    ctx.strokeStyle = '#9CA3AF';
+    // Small Diamond Divider Under Title
+    ctx.strokeStyle = '#d2c5b1';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(canvas.width - 320, 535);
-    ctx.lineTo(canvas.width - 100, 535);
+    ctx.moveTo(canvas.width / 2 - 140, 185);
+    ctx.lineTo(canvas.width / 2 - 15, 185);
+    ctx.moveTo(canvas.width / 2 + 15, 185);
+    ctx.lineTo(canvas.width / 2 + 140, 185);
+    ctx.stroke();
+
+    ctx.fillStyle = '#c89b3c';
+    ctx.font = '10px Outfit, sans-serif';
+    ctx.fillText('◆', canvas.width / 2, 188);
+
+    // 7. Body Lead
+    ctx.fillStyle = '#4e4637';
+    ctx.font = '300 16px Outfit, sans-serif';
+    ctx.fillText('This illuminated certificate of achievement is solemnly awarded to', canvas.width / 2, 230);
+
+    // 8. Dynamic Candidate Name
+    ctx.fillStyle = '#1c1712';
+    ctx.font = '700 36px "Playfair Display", serif';
+    ctx.fillText(this.participantName.toUpperCase(), canvas.width / 2, 285);
+
+    // Decorative Gold Underline
+    ctx.strokeStyle = '#c89b3c';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2 - 220, 305);
+    ctx.lineTo(canvas.width / 2 + 220, 305);
+    ctx.stroke();
+
+    // Midpoint Diamond on Underline
+    ctx.fillStyle = '#8a6620';
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, 305, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 9. Narrative of Completion
+    ctx.fillStyle = '#4e4637';
+    ctx.font = '400 15px Outfit, sans-serif';
+    ctx.fillText('for exemplary scholarship and precision demonstrated in the Sacred Seerah Challenge,', canvas.width / 2, 345);
+    ctx.fillText(`achieving an honored accuracy rating of ${scorePct}% in commemoration of Mahabba Eve.`, canvas.width / 2, 372);
+
+    // 10. Dynamic Illuminated Gold-Foil Circular Seal
+    const sealX = canvas.width / 2;
+    const sealY = 465;
+    const radius = 46;
+
+    ctx.save();
+    // Radiant Amber Shadow
+    ctx.shadowColor = 'rgba(200, 155, 60, 0.45)';
+    ctx.shadowBlur = 18;
+
+    // Foil Radial Gradient Fill
+    const foilGrad = ctx.createRadialGradient(sealX - 10, sealY - 10, 5, sealX, sealY, radius);
+    foilGrad.addColorStop(0, '#fff7e6');
+    foilGrad.addColorStop(0.35, '#fed88e');
+    foilGrad.addColorStop(0.8, '#c89b3c');
+    foilGrad.addColorStop(1, '#8a6620');
+    ctx.fillStyle = foilGrad;
+
+    ctx.beginPath();
+    ctx.arc(sealX, sealY, radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Outer Bronze Stamped Ring
+    ctx.strokeStyle = '#7b5900';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(sealX, sealY, radius - 4, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Inner Beaded Ring
+    ctx.strokeStyle = '#fff8f4';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.arc(sealX, sealY, radius - 8, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Seal Typography
+    ctx.fillStyle = '#4b3500';
+    ctx.font = '700 9px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('NOOR & MAHABBA', sealX, sealY - 14);
+
+    ctx.font = '700 16px "Playfair Display", serif';
+    ctx.fillText('★ 1446 ★', sealX, sealY + 4);
+
+    ctx.font = '600 8.5px Outfit, sans-serif';
+    ctx.fillText('HONORS COUNCIL', sealX, sealY + 18);
+
+    // 11. Registry Date & Authenticated Signatures
+    const today = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    // Date (Left)
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#807665';
+    ctx.font = '500 13px Outfit, sans-serif';
+    ctx.fillText(`Registry Date: ${today}`, 95, 570);
+
+    ctx.font = '400 11px Outfit, sans-serif';
+    ctx.fillStyle = '#a89d8b';
+    ctx.fillText(`Token: NM-${Date.now().toString(36).toUpperCase()}`, 95, 588);
+
+    // Signature (Right)
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#1f1b17';
+    ctx.font = '600 15px "Playfair Display", serif';
+    ctx.fillText('Shaykh Dr. Tariq Al-Mansoor', canvas.width - 95, 565);
+
+    ctx.fillStyle = '#807665';
+    ctx.font = '400 12px Outfit, sans-serif';
+    ctx.fillText('Chancellor, Academic Council of Seerah Studies', canvas.width - 95, 583);
+
+    // Elegant Bronze Signature Hairline
+    ctx.strokeStyle = '#c89b3c';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 340, 545);
+    ctx.lineTo(canvas.width - 95, 545);
     ctx.stroke();
   }
 
@@ -371,7 +467,7 @@ class QuizEngine {
 
     if (window.soundFx) window.soundFx.playClick();
     const link = document.createElement('a');
-    link.download = `Mawlid_Certificate_${this.participantName.replace(/\s+/g, '_')}.png`;
+    link.download = `Noor_Mahabba_Certificate_${this.participantName.replace(/\s+/g, '_')}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
   }
@@ -389,8 +485,8 @@ class QuizEngine {
     if (entries.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="5" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
-            No participants found on the scoreboard. Take the quiz to be the first!
+          <td colspan="5" style="text-align: center; padding: 2.5rem; color: var(--outline);">
+            No participants currently recorded. Complete the Seerah Challenge to establish your honor!
           </td>
         </tr>
       `;
@@ -413,7 +509,7 @@ class QuizEngine {
 
       const mins = Math.floor(entry.timeTaken / 60);
       const secs = entry.timeTaken % 60;
-      const formattedTime = `${mins > 0 ? mins + 'm ' : ''}${secs}s`;
+      const formattedTime = `${mins > 0 ? mins + 'm ' : ''}${secs < 10 ? '0' : ''}${secs}s`;
       const initials = entry.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
       return `
@@ -422,12 +518,12 @@ class QuizEngine {
           <td>
             <div class="participant-cell">
               <div class="participant-avatar">${initials}</div>
-              <span style="font-weight: 700; color: var(--text-primary);">${entry.name}</span>
+              <span style="font-weight: 600; color: var(--on-surface); font-family: var(--font-body);">${entry.name}</span>
             </div>
           </td>
           <td><span class="score-pill">${entry.score}%</span></td>
-          <td style="color: var(--text-secondary); font-weight: 500;">${formattedTime}</td>
-          <td style="color: var(--text-muted); font-size: 0.85rem;">${entry.date || 'Recent'}</td>
+          <td style="color: var(--on-surface-variant); font-variant-numeric: tabular-nums; font-family: var(--font-sans); font-weight: 500;">${formattedTime}</td>
+          <td style="color: var(--outline); font-size: 0.825rem;">${entry.date || 'Recent'}</td>
         </tr>
       `;
     }).join('');

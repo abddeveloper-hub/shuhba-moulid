@@ -58,10 +58,10 @@ class NewsManager {
 
     if (newsList.length === 0) {
       grid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
-          <div style="font-size: 2.5rem; margin-bottom: 1rem;">📰</div>
-          <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">No Stories Found</h3>
-          <p>We couldn't find any press releases matching your search query.</p>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4.5rem 1.5rem; background: var(--surface-container-lowest); border: 1px dashed var(--outline-variant); border-radius: var(--radius-default);">
+          <div style="font-size: 2.5rem; margin-bottom: 0.85rem;">📰</div>
+          <h3 style="color: var(--on-surface); font-family: var(--font-display); margin-bottom: 0.5rem; font-size: 1.35rem;">No Dispatches Published</h3>
+          <p style="color: var(--outline); font-size: 0.95rem; max-width: 500px; margin: 0 auto;">Official press releases, announcements, and bulletins will appear here once added in the Admin Control Center.</p>
         </div>
       `;
       return;

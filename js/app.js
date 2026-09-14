@@ -186,17 +186,18 @@ class AppController {
         const featured = newsList.slice(0, 2);
         homeNewsContainer.innerHTML = featured.map(item => `
           <article class="news-card">
-            <div class="news-thumb-wrap" style="height: 180px;">
-              <img src="${item.imageUrl}" alt="${item.title}" class="news-thumb" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=600&q=80'">
+            <div class="news-thumb-wrap" style="height: 190px;">
+              <img src="${item.imageUrl}" alt="${item.title}" class="news-thumb" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=600&q=80'">
               <span class="news-date-badge">${item.date}</span>
             </div>
             <div class="news-body">
+              <div class="news-meta-row">${item.category || 'Dispatch'} &bull; ${item.readTime || '3 min'}</div>
               <h3 class="news-title" style="font-size: 1.15rem;">${item.title}</h3>
               <p class="news-excerpt" style="font-size: 0.885rem;">${item.excerpt}</p>
               <div class="news-card-footer">
-                <span class="news-read-time">${item.readTime || '3 min'}</span>
-                <a href="#news" class="btn btn-sm btn-outline-emerald" onclick="setTimeout(() => window.news.openStoryModal('${item.id}'), 100)">
-                  Read Story &rarr;
+                <span class="news-read-time">${item.readTime || '3 min read'}</span>
+                <a href="#news" class="btn btn-sm btn-secondary" onclick="setTimeout(() => window.news.openStoryModal('${item.id}'), 100)">
+                  Read Dispatch &rarr;
                 </a>
               </div>
             </div>
@@ -204,10 +205,10 @@ class AppController {
         `).join('');
       } else {
         homeNewsContainer.innerHTML = `
-          <div style="grid-column: 1 / -1; padding: 2.5rem 1.5rem; text-align: center; background: #ffffff; border: 1px dashed var(--border-soft); border-radius: 1rem;">
+          <div style="grid-column: 1 / -1; padding: 2.5rem 1.5rem; text-align: center; background: var(--surface-container-lowest); border: 1px dashed var(--outline-variant); border-radius: var(--radius-default);">
             <p style="font-size: 1.75rem; margin-bottom: 0.5rem;">📰</p>
-            <h4 style="font-family: var(--font-heading); color: var(--text-heading); margin-bottom: 0.35rem; font-size: 1.1rem;">No News Stories Published Yet</h4>
-            <p style="color: var(--text-muted); font-size: 0.875rem;">Dispatches and event updates will appear here once published by the administrators.</p>
+            <h4 style="color: var(--on-surface); margin-bottom: 0.35rem; font-size: 1.1rem; font-family: var(--font-display);">No Dispatches Published Yet</h4>
+            <p style="color: var(--outline); font-size: 0.875rem;">Dispatches and event updates will appear here once published by the administrators.</p>
           </div>
         `;
       }
@@ -233,7 +234,7 @@ class AppController {
             </div>
             <p class="magazine-abstract">${topPaper.abstract}</p>
             <div class="magazine-footer">
-              <span style="font-size: 0.85rem; color: var(--emerald-primary); font-weight: 700;">★ Editor's Pick</span>
+              <span style="font-size: 0.78rem; color: var(--primary); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">★ Editor's Choice</span>
               <a href="#magazine" class="btn btn-sm btn-primary" onclick="setTimeout(() => window.magazine.openReaderModal('${topPaper.id}'), 100)">
                 Read Paper &rarr;
               </a>
@@ -242,10 +243,10 @@ class AppController {
         `;
       } else {
         homePaperContainer.innerHTML = `
-          <div style="padding: 2.5rem 1.5rem; text-align: center; background: #ffffff; border: 1px dashed var(--border-soft); border-radius: 1rem;">
-            <p style="font-size: 1.75rem; margin-bottom: 0.5rem;">📝</p>
-            <h4 style="font-family: var(--font-heading); color: var(--text-heading); margin-bottom: 0.35rem; font-size: 1.1rem;">No Student Papers Published Yet</h4>
-            <p style="color: var(--text-muted); font-size: 0.875rem;">Essays and research articles will be spotlighted here once published by the administrators.</p>
+          <div style="padding: 2.5rem 1.5rem; text-align: center; background: var(--surface-container-lowest); border: 1px dashed var(--outline-variant); border-radius: var(--radius-default);">
+            <p style="font-size: 1.75rem; margin-bottom: 0.5rem;">📜</p>
+            <h4 style="color: var(--on-surface); margin-bottom: 0.35rem; font-size: 1.1rem; font-family: var(--font-display);">No Student Papers Published Yet</h4>
+            <p style="color: var(--outline); font-size: 0.875rem;">Essays and research articles will be spotlighted here once published by the administrators.</p>
           </div>
         `;
       }

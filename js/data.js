@@ -1,28 +1,24 @@
 /* ==========================================================================
-   MAWLID CELEBRATION PORTAL - DATA STORAGE & SEED ENGINE
-   Robust LocalStorage state management with comprehensive authentic seed data.
+   NOOR & MAHABBA EVENT SYSTEM - DATA STORAGE & STATE ENGINE
+   Clean slate: 0 photos, 0 quiz questions, 0 news dispatches, 0 magazine papers
    ========================================================================== */
 
 const STORAGE_KEYS = {
-  GALLERY: 'mawlid_portal_gallery',
-  NEWS: 'mawlid_portal_news',
-  MAGAZINE: 'mawlid_portal_magazine',
-  QUIZ_QUESTIONS: 'mawlid_portal_quiz_questions',
-  LEADERBOARD: 'mawlid_portal_leaderboard',
-  ADMIN_PIN: 'mawlid_portal_admin_pin'
+  GALLERY: 'noor_mahabba_gallery',
+  NEWS: 'noor_mahabba_news',
+  MAGAZINE: 'noor_mahabba_magazine',
+  QUIZ_QUESTIONS: 'noor_mahabba_quiz_questions',
+  LEADERBOARD: 'noor_mahabba_leaderboard',
+  ADMIN_PIN: 'noor_mahabba_admin_pin'
 };
 
 const DEFAULT_ADMIN_PIN = '1446';
 
-// Content Data Arrays - Clean slate for admin creation
+// Clean Slate - All content arrays completely emptied as requested
 const SEED_GALLERY = [];
-
 const SEED_NEWS = [];
-
 const SEED_MAGAZINE = [];
-
 const SEED_QUIZ_QUESTIONS = [];
-
 const SEED_LEADERBOARD = [];
 
 class DataStore {
@@ -31,31 +27,34 @@ class DataStore {
   }
 
   initStore() {
-    // Flag to reset and ensure clean slate across all browsers
-    const WIPE_KEY = 'mawlid_portal_cleared_v1';
-    if (!localStorage.getItem(WIPE_KEY)) {
-      localStorage.setItem(STORAGE_KEYS.GALLERY, JSON.stringify([]));
-      localStorage.setItem(STORAGE_KEYS.NEWS, JSON.stringify([]));
-      localStorage.setItem(STORAGE_KEYS.MAGAZINE, JSON.stringify([]));
-      localStorage.setItem(STORAGE_KEYS.QUIZ_QUESTIONS, JSON.stringify([]));
-      localStorage.setItem(STORAGE_KEYS.LEADERBOARD, JSON.stringify([]));
-      localStorage.setItem(WIPE_KEY, 'true');
+    // Flag to enforce a complete clean slate across all client browsers
+    const CLEAN_SLATE_KEY = 'noor_mahabba_clean_slate_v3';
+
+    if (!localStorage.getItem(CLEAN_SLATE_KEY)) {
+      this.set(STORAGE_KEYS.GALLERY, []);
+      this.set(STORAGE_KEYS.NEWS, []);
+      this.set(STORAGE_KEYS.MAGAZINE, []);
+      this.set(STORAGE_KEYS.QUIZ_QUESTIONS, []);
+      this.set(STORAGE_KEYS.LEADERBOARD, []);
+      localStorage.setItem(STORAGE_KEYS.ADMIN_PIN, DEFAULT_ADMIN_PIN);
+      localStorage.setItem(CLEAN_SLATE_KEY, 'true');
     }
 
+    // Ensure fallback initialization if any key is missing
     if (!localStorage.getItem(STORAGE_KEYS.GALLERY)) {
-      localStorage.setItem(STORAGE_KEYS.GALLERY, JSON.stringify([]));
+      this.set(STORAGE_KEYS.GALLERY, []);
     }
     if (!localStorage.getItem(STORAGE_KEYS.NEWS)) {
-      localStorage.setItem(STORAGE_KEYS.NEWS, JSON.stringify([]));
+      this.set(STORAGE_KEYS.NEWS, []);
     }
     if (!localStorage.getItem(STORAGE_KEYS.MAGAZINE)) {
-      localStorage.setItem(STORAGE_KEYS.MAGAZINE, JSON.stringify([]));
+      this.set(STORAGE_KEYS.MAGAZINE, []);
     }
     if (!localStorage.getItem(STORAGE_KEYS.QUIZ_QUESTIONS)) {
-      localStorage.setItem(STORAGE_KEYS.QUIZ_QUESTIONS, JSON.stringify([]));
+      this.set(STORAGE_KEYS.QUIZ_QUESTIONS, []);
     }
     if (!localStorage.getItem(STORAGE_KEYS.LEADERBOARD)) {
-      localStorage.setItem(STORAGE_KEYS.LEADERBOARD, JSON.stringify([]));
+      this.set(STORAGE_KEYS.LEADERBOARD, []);
     }
     if (!localStorage.getItem(STORAGE_KEYS.ADMIN_PIN)) {
       localStorage.setItem(STORAGE_KEYS.ADMIN_PIN, DEFAULT_ADMIN_PIN);
@@ -76,7 +75,7 @@ class DataStore {
   set(key, data) {
     try {
       localStorage.setItem(key, JSON.stringify(data));
-      // Real-time synchronization to Firebase Cloud Database
+      // Real-time synchronization to Firebase Cloud Database if connected
       if (window.firebaseService && typeof window.firebaseService.syncToFirebase === 'function') {
         window.firebaseService.syncToFirebase(key, data);
       }
@@ -227,7 +226,6 @@ class DataStore {
   // Leaderboard CRUD
   getLeaderboard() {
     const list = this.get(STORAGE_KEYS.LEADERBOARD);
-    // Sort descending by score, then ascending by time taken
     return list.sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
   }
 
@@ -260,20 +258,21 @@ class DataStore {
     return inputPin === this.getAdminPin();
   }
 
-  // Reset to Default Factory Seeds
+  // Reset to Default Factory Seeds (Clean slate)
   resetToDefaults() {
-    localStorage.setItem(STORAGE_KEYS.GALLERY, JSON.stringify(SEED_GALLERY));
-    localStorage.setItem(STORAGE_KEYS.NEWS, JSON.stringify(SEED_NEWS));
-    localStorage.setItem(STORAGE_KEYS.MAGAZINE, JSON.stringify(SEED_MAGAZINE));
-    localStorage.setItem(STORAGE_KEYS.QUIZ_QUESTIONS, JSON.stringify(SEED_QUIZ_QUESTIONS));
-    localStorage.setItem(STORAGE_KEYS.LEADERBOARD, JSON.stringify(SEED_LEADERBOARD));
+    this.set(STORAGE_KEYS.GALLERY, []);
+    this.set(STORAGE_KEYS.NEWS, []);
+    this.set(STORAGE_KEYS.MAGAZINE, []);
+    this.set(STORAGE_KEYS.QUIZ_QUESTIONS, []);
+    this.set(STORAGE_KEYS.LEADERBOARD, []);
     localStorage.setItem(STORAGE_KEYS.ADMIN_PIN, DEFAULT_ADMIN_PIN);
   }
 
   // Export full portal JSON
   exportData() {
     return JSON.stringify({
-      version: '1.0',
+      version: '2.0',
+      system: 'Noor & Mahabba Event System',
       timestamp: new Date().toISOString(),
       gallery: this.getGallery(),
       news: this.getNews(),
