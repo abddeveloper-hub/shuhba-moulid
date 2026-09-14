@@ -1,6 +1,6 @@
 /* ==========================================================================
-   MAWLID CELEBRATION PORTAL - APPLICATION CONTROLLER
-   Global app state, toast alerts, mobile drawer, audio controls & live countdown
+   NOOR & MAHABBA EVENT SYSTEM - APPLICATION CONTROLLER
+   Global app state, toast alerts, mobile drawer, and audio controls
    ========================================================================== */
 
 class AppController {
@@ -8,7 +8,6 @@ class AppController {
     this.initMobileDrawer();
     this.initAudioToggle();
     this.initScrollEffects();
-    this.initCountdown();
     this.initQuickHomeActions();
     this.initBottomNav();
   }
@@ -118,46 +117,6 @@ class AppController {
         navbar.classList.remove('scrolled');
       }
     });
-  }
-
-  // Countdown to Mawlid un-Nabi
-  initCountdown() {
-    if (!document.getElementById('countdown-days')) return;
-    // Target date set in future for continuous demonstration
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 18);
-    targetDate.setHours(9, 0, 0, 0);
-
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      const diff = targetDate.getTime() - now;
-
-      const daysEl = document.getElementById('countdown-days');
-      const hoursEl = document.getElementById('countdown-hours');
-      const minsEl = document.getElementById('countdown-mins');
-      const secsEl = document.getElementById('countdown-secs');
-
-      if (diff <= 0) {
-        if (daysEl) daysEl.textContent = '00';
-        if (hoursEl) hoursEl.textContent = '00';
-        if (minsEl) minsEl.textContent = '00';
-        if (secsEl) secsEl.textContent = '00';
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      if (daysEl) daysEl.textContent = days < 10 ? '0' + days : days;
-      if (hoursEl) hoursEl.textContent = hours < 10 ? '0' + hours : hours;
-      if (minsEl) minsEl.textContent = minutes < 10 ? '0' + minutes : minutes;
-      if (secsEl) secsEl.textContent = seconds < 10 ? '0' + seconds : seconds;
-    };
-
-    updateTimer();
-    setInterval(updateTimer, 1000);
   }
 
   // Home Page Renderer

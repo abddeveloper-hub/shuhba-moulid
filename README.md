@@ -28,11 +28,9 @@ An illuminated, responsive digital architecture commemorating the sacred nocturn
 
 1. **Home Landing & Invocations**:
    - Radiant hero section with Arabic calligraphy epigraph.
-   - Persistent countdown telemetry box to Mahabba Eve Invocations.
    - Live KPI statistics strip.
    - Editorial Dispatches feed and Editor's Choice spotlight paper.
    - Sacred divider motifs with miniature gold diamonds (`◆ ✧ ◆`).
-   - Noor & Mahabba Week timetable.
 
 2. **Visual Arts & Exhibition Gallery**:
    - High-resolution gallery grid with category filters (`Stage Programs`, `Exhibitions`, `Awards`).
