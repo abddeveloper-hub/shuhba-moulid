@@ -42,7 +42,7 @@
           <img src="assets/shuba-mawlid.png" alt="Shu'ba Mawlid Logo" class="admin-brand-img">
         </div>
         <div class="brand-text-block">
-          <span class="brand-title">Shu'ba Mawlid</span>
+          <span class="brand-title">B13 | Dept. Of Tafsīr &amp; Quranic Studies</span>
           <span class="brand-subtitle" style="color: var(--gold-amber);">Admin Console &bull; 1446</span>
         </div>
       </a>
@@ -123,7 +123,7 @@
           </button>
           <button class="admin-tab-btn" data-tab="magazine">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            Magazine Papers
+            Mawlid Meg (Poems &amp; Articles)
           </button>
           <button class="admin-tab-btn" data-tab="quiz">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -161,7 +161,7 @@
               <div class="stat-icon">📚</div>
               <div>
                 <div class="stat-num" id="admin-stat-magazine">0</div>
-                <div class="stat-label">Student Papers</div>
+                <div class="stat-label">Mawlid Meg Items</div>
               </div>
             </div>
             <div class="stat-item">
@@ -402,50 +402,70 @@
           </div>
         </div>
 
-        <!-- TAB 4: MAGAZINE PAPERS -->
+        <!-- TAB 4: MAWLID MEG (POEMS & ARTICLES) -->
         <div class="admin-tab-content" id="admin-pane-magazine">
-          <h3 style="margin-bottom: 1.5rem;">Submit New Student Academic Paper</h3>
+          <h3 style="margin-bottom: 1.5rem;">Add New Poem or Article to Mawlid Meg</h3>
 
           <form id="admin-add-magazine-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
+            
+            <!-- Content Type Selector (Poem / Article / Reflection) -->
+            <div style="margin-bottom: 1.25rem;">
+              <label class="form-label" style="margin-bottom: 0.5rem;">Select Content Type *</label>
+              <div style="display: inline-flex; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.25rem; gap: 0.25rem;">
+                <label style="cursor: pointer; padding: 0.45rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; user-select: none;">
+                  <input type="radio" name="add-mag-type" value="poem" checked style="accent-color: var(--emerald-primary);">
+                  <span>📜 Poem / Qasīda</span>
+                </label>
+                <label style="cursor: pointer; padding: 0.45rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; user-select: none;">
+                  <input type="radio" name="add-mag-type" value="article" style="accent-color: var(--emerald-primary);">
+                  <span>📖 Article / Essay</span>
+                </label>
+                <label style="cursor: pointer; padding: 0.45rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; user-select: none;">
+                  <input type="radio" name="add-mag-type" value="reflection" style="accent-color: var(--emerald-primary);">
+                  <span>✨ Reflection</span>
+                </label>
+              </div>
+            </div>
+
             <div class="form-grid-2">
               <div class="form-group">
-                <label class="form-label" for="add-mag-title">Paper Title *</label>
-                <input type="text" id="add-mag-title" class="form-input" placeholder="e.g. Ethical Commerce in the Prophetic Marketplace" required>
+                <label class="form-label" for="add-mag-title">Title (Poem, Qasīda, or Article) *</label>
+                <input type="text" id="add-mag-title" class="form-input" placeholder="e.g. Ode to the Prophet / Qasīda of Light" required>
               </div>
               <div class="form-group">
-                <label class="form-label" for="add-mag-author">Student Author Name *</label>
+                <label class="form-label" for="add-mag-author">Author / Poet Name *</label>
                 <input type="text" id="add-mag-author" class="form-input" placeholder="e.g. Tariq Al-Hashimi" required>
               </div>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
-                <label class="form-label" for="add-mag-grade">Grade / Class / Affiliation</label>
-                <input type="text" id="add-mag-grade" class="form-input" placeholder="e.g. Grade 12, Senior Islamic Studies">
+                <label class="form-label" for="add-mag-grade">Department / Class / Affiliation</label>
+                <input type="text" id="add-mag-grade" class="form-input" placeholder="e.g. B13 Dept. of Tafsīr">
               </div>
               <div class="form-group">
-                <label class="form-label" for="add-mag-category">Topic Category</label>
-                <input type="text" id="add-mag-category" class="form-input" placeholder="e.g. Ethics & Ecology / Seerah & Diplomacy">
+                <label class="form-label" for="add-mag-category">Category / Genre</label>
+                <input type="text" id="add-mag-category" class="form-input" placeholder="e.g. Prophetic Praise / Qasīda / Mawlid Reflections">
               </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="add-mag-abstract">Abstract Summary</label>
-              <textarea id="add-mag-abstract" class="form-textarea" style="min-height: 80px;" placeholder="Brief academic overview of the thesis and core findings..."></textarea>
+              <label class="form-label" for="add-mag-abstract">Short Excerpt / Introductory Note</label>
+              <textarea id="add-mag-abstract" class="form-textarea" style="min-height: 80px;" placeholder="Short 1-2 sentence preview or stanza excerpt for the card..."></textarea>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="add-mag-body">Complete Paper Body (HTML / Markdown supported) *</label>
-              <textarea id="add-mag-body" class="form-textarea" style="min-height: 200px;" placeholder="Full essay text with subheadings (&lt;h4&gt;), citations, and quotes..." required></textarea>
+              <label class="form-label" for="add-mag-body">Poetic Verses or Article Text (Stanzas separated by line breaks) *</label>
+              <textarea id="add-mag-body" class="form-textarea" style="min-height: 220px;" placeholder="Write your poem lines or article paragraphs here (press Enter between verses or stanzas)..." required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Publish Paper to Magazine
+              Publish to Mawlid Meg
             </button>
           </form>
 
-          <h4 style="margin-bottom: 1rem;">Submitted Student Papers</h4>
+          <h4 style="margin-bottom: 1rem;">Published Mawlid Meg Contributions</h4>
           <div class="admin-items-list" id="admin-magazine-items-list">
             <!-- Populated by admin.js -->
           </div>

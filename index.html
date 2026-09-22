@@ -74,7 +74,7 @@
           <img src="assets/shuba-mawlid.png" alt="Shu'ba Mawlid Logo" class="brand-fest-img">
         </div>
         <div class="brand-text-block">
-          <span class="brand-title">Shu'ba Mawlid</span>
+          <span class="brand-title">B13 | Dept. Of Tafsīr &amp; Quranic Studies</span>
           <span class="brand-subtitle">حَرِيصٌ عَلَيْكُم &bull; 1446</span>
         </div>
       </a>
@@ -117,14 +117,15 @@
       <!-- Hero Banner -->
       <section class="hero-section">
         <div class="container hero-content">
-          <div class="hero-pill" style="display: inline-flex; flex-direction: column; gap: 0.25rem; padding: 0.65rem 1.4rem; line-height: 1.4; border-radius: var(--radius-md); text-align: center;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 0.45rem; font-weight: 600; color: var(--gold-primary); font-size: 0.92rem; letter-spacing: 0.03em;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <span>B13 | Dept. Of Tafsīr &amp; Quranic Studies</span>
+          <!-- Department & College Attribution (Above Logo) -->
+          <div class="hero-dept-header" style="margin-bottom: 1.5rem; text-align: center;">
+            <div style="font-family: var(--font-display); font-size: 1.1rem; color: var(--gold-primary); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;">
+              B13 | Dept. Of Tafsīr &amp; Quranic Studies
             </div>
-            <div style="font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.02em; font-weight: 400;">
+            <div style="font-size: 0.92rem; color: var(--text-muted); letter-spacing: 0.03em; margin-top: 0.25rem;">
               Ma'din Kulliyya of Islamic Science, Swalath Nagar
             </div>
+            <div style="width: 60px; height: 1.5px; background: var(--gold-antique); margin: 0.65rem auto 0; opacity: 0.7;"></div>
           </div>
 
           <div class="hero-emblem-wrap">
@@ -138,7 +139,7 @@
           </h1>
 
           <!-- Official Event Specification Banner -->
-          <div class="event-meta-card" style="display: inline-flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-dark-input); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 0.85rem 1.75rem; margin: 1rem auto 1.5rem; max-width: 580px; width: 92%;">
+          <div class="event-meta-card" style="display: inline-flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg-dark-input); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 0.9rem 2.2rem; margin: 1.25rem auto 1.5rem; max-width: 620px; width: 92%;">
             <div style="font-family: var(--font-display); font-size: 1.15rem; color: var(--gold-primary); font-weight: 600; letter-spacing: 0.04em;">
               Mahabbah Eve &bull; September 22, 2026 &bull; Tuesday &bull; 7:30 PM
             </div>
@@ -264,14 +265,14 @@
       </div>
     </section>
 
-    <!-- VIEW 4: MAGAZINE PAGE (/magazine) -->
+    <!-- VIEW 4: MAWLID MEG PAGE (/magazine) -->
     <section id="view-magazine" class="app-view">
       <div class="page-header-section">
         <div class="container">
-          <span class="page-badge">Academic Journal</span>
-          <h1 class="page-title headline-lg">Student Seerah Research Journal</h1>
+          <span class="page-badge">Mawlid Special Edition</span>
+          <h1 class="page-title headline-lg">Mawlid Meg — Poems, Qasīdas &amp; Articles</h1>
           <p class="page-description">
-            Showcasing student-written scholarly papers, philosophical reflections, and research essays examining the life, diplomacy, ecology, and ethics of Prophet Muhammad (PBUH).
+            Explore inspired poetry, sacred odes, qasīdas, creative reflections, and articles written in loving celebration of Prophet Muhammad (Peace Be Upon Him).
           </p>
         </div>
       </div>
@@ -280,16 +281,16 @@
         <!-- Category & Search Bar -->
         <div class="controls-bar">
           <div class="filter-group" id="magazine-filter-group">
-            <button class="filter-btn active" data-filter="All">All Topics</button>
-            <button class="filter-btn" data-filter="Ethics & Ecology">Ethics &amp; Ecology</button>
-            <button class="filter-btn" data-filter="Seerah & Diplomacy">Seerah &amp; Diplomacy</button>
-            <button class="filter-btn" data-filter="Historical Context">Historical Context</button>
-            <button class="filter-btn" data-filter="Youth Reflections">Youth Reflections</button>
+            <button class="filter-btn active" data-filter="All">All Items</button>
+            <button class="filter-btn" data-filter="Poems">Poems &amp; Qasīda</button>
+            <button class="filter-btn" data-filter="Articles">Articles &amp; Essays</button>
+            <button class="filter-btn" data-filter="Reflections">Reflections</button>
+            <button class="filter-btn" data-filter="Youth Voice">Youth Voice</button>
           </div>
 
           <div class="search-input-wrap">
             <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" class="search-input" id="magazine-search-input" placeholder="Search papers by author, title, or topic...">
+            <input type="text" class="search-input" id="magazine-search-input" placeholder="Search Mawlid Meg by title, poet, or verses...">
           </div>
         </div>
 
@@ -594,15 +595,15 @@
     </div>
   </div>
 
-  <!-- 3. MAGAZINE ARTICLE READER MODAL (Academic Paper Viewer) -->
-  <div class="reader-modal" id="magazine-reader-modal" role="dialog" aria-modal="true" aria-label="Academic Paper Reader">
+  <!-- 3. MAGAZINE ARTICLE & POEM READER MODAL -->
+  <div class="reader-modal" id="magazine-reader-modal" role="dialog" aria-modal="true" aria-label="Mawlid Meg Reader">
     <div class="reader-sheet">
       <div class="reader-toolbar">
-        <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);" id="magazine-modal-category">Noor &amp; Mahabba Academic Journal</span>
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);" id="magazine-modal-category">Mawlid Meg Special Edition</span>
         <div class="reader-toolbar-actions">
           <button class="btn-stepper" id="font-decrease-btn" title="Decrease font size">A-</button>
           <button class="btn-stepper" id="font-increase-btn" title="Increase font size">A+</button>
-          <button class="btn btn-sm btn-secondary" id="print-paper-btn" title="Print paper">
+          <button class="btn btn-sm btn-secondary" id="print-paper-btn" title="Print item">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             Print / PDF
           </button>
@@ -613,17 +614,17 @@
       </div>
       <div class="reader-content-scroll">
         <div class="reader-header">
-          <span class="reader-category-pill">Peer-Reviewed Student Contribution</span>
-          <h2 class="reader-title" id="magazine-modal-title">Paper Title</h2>
+          <span class="reader-category-pill" id="magazine-modal-type-badge">Mawlid Meg Contribution</span>
+          <h2 class="reader-title" id="magazine-modal-title">Title</h2>
           <div class="reader-meta-row">
-            <span>Author: <strong id="magazine-modal-author" style="color: var(--on-surface);">Student</strong></span>
+            <span>By: <strong id="magazine-modal-author" style="color: var(--on-surface);">Author</strong></span>
             <span>&bull;</span>
-            <span id="magazine-modal-grade">Grade / Affiliation</span>
+            <span id="magazine-modal-grade">Department / Affiliation</span>
           </div>
         </div>
 
-        <div style="background: var(--surface-container-low); border-left: 3px solid var(--primary-container); padding: 1.25rem 1.5rem; border-radius: 0 var(--radius-default) var(--radius-default) 0; margin-bottom: 2rem;">
-          <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); margin-bottom: 0.35rem;">Academic Abstract</div>
+        <div id="magazine-modal-abstract-box" style="background: var(--surface-container-low); border-left: 3px solid var(--primary-container); padding: 1.25rem 1.5rem; border-radius: 0 var(--radius-default) var(--radius-default) 0; margin-bottom: 2rem;">
+          <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--primary); margin-bottom: 0.35rem;">Excerpt / Introduction</div>
           <p id="magazine-modal-abstract" style="font-size: 0.95rem; line-height: 1.6; color: var(--on-surface-variant); margin: 0;"></p>
         </div>
 
@@ -646,7 +647,7 @@
               <img src="assets/shuba-mawlid.png" alt="Shu'ba Mawlid Logo" class="brand-fest-img">
             </div>
             <div class="brand-text-block">
-              <span class="brand-title">Shu'ba Mawlid</span>
+              <span class="brand-title">B13 | Dept. Of Tafsīr &amp; Quranic Studies</span>
               <span class="brand-subtitle">حَرِيصٌ عَلَيْكُم &bull; 1446</span>
             </div>
           </div>

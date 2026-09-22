@@ -422,11 +422,33 @@ class AdminManager {
       });
     }
 
-    // Magazine Add Form
+    // Magazine / Mawlid Meg Add Form
     const magForm = document.getElementById('admin-add-magazine-form');
     if (magForm) {
+      const typeRadios = document.querySelectorAll('input[name="add-mag-type"]');
+      const bodyLabel = document.querySelector('label[for="add-mag-body"]');
+      const bodyInput = document.getElementById('add-mag-body');
+      const catInput = document.getElementById('add-mag-category');
+
+      typeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          const val = e.target.value;
+          if (val === 'poem') {
+            if (bodyLabel) bodyLabel.textContent = 'Poem Verses (Displayed with exact line breaks & stanzas) *';
+            if (bodyInput) bodyInput.placeholder = 'Write or paste your poem verses here...\nLines and stanzas will appear on the site exactly as typed here.\n\nFirst verse line\nSecond verse line\n\nNext stanza line 1\nNext stanza line 2';
+            if (catInput && !catInput.value) catInput.value = 'Poem / Qasīda';
+          } else {
+            if (bodyLabel) bodyLabel.textContent = 'Article / Essay Content *';
+            if (bodyInput) bodyInput.placeholder = 'Write article text here...';
+            if (catInput && catInput.value === 'Poem / Qasīda') catInput.value = 'Mawlid Article';
+          }
+        });
+      });
+
       magForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const typeEl = document.querySelector('input[name="add-mag-type"]:checked');
+        const itemType = typeEl ? typeEl.value : 'poem';
         const title = document.getElementById('add-mag-title').value.trim();
         const author = document.getElementById('add-mag-author').value.trim();
         const grade = document.getElementById('add-mag-grade').value.trim();
@@ -435,23 +457,25 @@ class AdminManager {
         const body = document.getElementById('add-mag-body').value.trim();
 
         if (!title || !author || !body) {
-          window.app.showToast('Please fill in title, author, and paper body.', 'warning');
+          window.app.showToast('Please fill in title, author, and verses/content.', 'warning');
           return;
         }
 
         window.dataStore.addMagazineItem({
           title,
           author,
-          grade: grade || 'Student Contributor',
-          category: category || 'Scholarly Paper',
+          itemType,
+          grade: grade || 'B13 Contributor',
+          category: category || (itemType === 'poem' ? 'Poem / Qasīda' : 'Mawlid Article'),
           abstract: abstract || body.substring(0, 160) + '...',
           body
         });
 
-        window.app.showToast('Student paper published to Magazine!', 'success');
+        window.app.showToast(itemType === 'poem' ? 'Poem published to Mawlid Meg!' : 'Item published to Mawlid Meg!', 'success');
         magForm.reset();
         this.renderMagazineList();
         this.renderOverviewStats();
+        if (window.magazine) window.magazine.render();
       });
     }
 
@@ -705,36 +729,46 @@ class AdminManager {
 
     const items = window.dataStore.getMagazine();
     if (items.length === 0) {
-      container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No student papers submitted.</p>`;
+      container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No poems or articles submitted yet.</p>`;
       return;
     }
 
-    container.innerHTML = items.map(item => `
-      <div class="admin-item-row">
-        <div class="admin-item-info">
-          <div class="admin-item-texts">
-            <h4>${item.title}</h4>
-            <p>Author: <strong>${item.author}</strong> (${item.grade || 'Student'}) • ${item.category}</p>
+    container.innerHTML = items.map(item => {
+      const isPoem = item.itemType === 'poem' || (item.category && item.category.toLowerCase().includes('poem')) || (item.category && item.category.toLowerCase().includes('qas'));
+      const badge = isPoem
+        ? `<span style="background: var(--gold-primary); color: #072520; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">📜 Poem / Qasīda</span>`
+        : `<span style="background: var(--emerald-primary); color: #fff; font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">📖 Article</span>`;
+
+      return `
+        <div class="admin-item-row">
+          <div class="admin-item-info">
+            <div class="admin-item-texts">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+                <h4>${item.title}</h4>
+                ${badge}
+              </div>
+              <p>Author/Poet: <strong>${item.author}</strong> (${item.grade || 'B13'}) • ${item.category}</p>
+            </div>
+          </div>
+          <div class="admin-item-actions">
+            <button class="btn btn-sm btn-outline" style="margin-right: 0.4rem;" onclick="window.admin.openEditModal('magazine', '${item.id}')">
+              Edit
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="window.admin.deleteMagazineItem('${item.id}')">
+              Delete
+            </button>
           </div>
         </div>
-        <div class="admin-item-actions">
-          <button class="btn btn-sm btn-outline" style="margin-right: 0.4rem;" onclick="window.admin.openEditModal('magazine', '${item.id}')">
-            Edit
-          </button>
-          <button class="btn btn-sm btn-danger" onclick="window.admin.deleteMagazineItem('${item.id}')">
-            Delete
-          </button>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   deleteMagazineItem(id) {
-    if (confirm('Are you sure you want to delete this student paper?')) {
+    if (confirm('Are you sure you want to delete this Mawlid Meg item?')) {
       window.dataStore.deleteMagazineItem(id);
       this.renderMagazineList();
       this.renderOverviewStats();
-      window.app.showToast('Paper removed from magazine.', 'info');
+      window.app.showToast('Item deleted from Mawlid Meg.', 'info');
       if (window.magazine) window.magazine.render();
     }
   }
@@ -910,32 +944,40 @@ class AdminManager {
       const items = window.dataStore.getMagazine();
       const item = items.find(i => i.id === id);
       if (!item) return;
-      titleEl.textContent = 'Edit Student Research Paper';
+      titleEl.textContent = 'Edit Mawlid Meg Item (Poem / Article)';
 
       fieldsContainer.innerHTML = `
         <div class="form-group" style="margin-bottom: 1rem;">
-          <label class="form-label">Paper Title</label>
+          <label class="form-label">Content Type</label>
+          <select id="edit-mag-type" class="form-select">
+            <option value="poem" ${item.itemType === 'poem' ? 'selected' : ''}>📜 Poem / Qasīda</option>
+            <option value="article" ${item.itemType === 'article' ? 'selected' : ''}>📖 Article / Essay</option>
+            <option value="reflection" ${item.itemType === 'reflection' ? 'selected' : ''}>✨ Reflection / Ode</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Title</label>
           <input type="text" id="edit-mag-title" class="form-input" value="${item.title || ''}" required>
         </div>
         <div class="form-group" style="margin-bottom: 1rem;">
-          <label class="form-label">Author Name</label>
+          <label class="form-label">Author / Poet Name</label>
           <input type="text" id="edit-mag-author" class="form-input" value="${item.author || ''}" required>
         </div>
         <div class="form-group" style="margin-bottom: 1rem;">
-          <label class="form-label">Grade / Designation</label>
+          <label class="form-label">Department / Class</label>
           <input type="text" id="edit-mag-grade" class="form-input" value="${item.grade || ''}">
         </div>
         <div class="form-group" style="margin-bottom: 1rem;">
-          <label class="form-label">Category</label>
+          <label class="form-label">Category / Genre</label>
           <input type="text" id="edit-mag-category" class="form-input" value="${item.category || ''}">
         </div>
         <div class="form-group" style="margin-bottom: 1rem;">
-          <label class="form-label">Abstract</label>
+          <label class="form-label">Excerpt / Short Intro</label>
           <textarea id="edit-mag-abstract" class="form-textarea" rows="2">${item.abstract || ''}</textarea>
         </div>
         <div class="form-group" style="margin-bottom: 1rem;">
-          <label class="form-label">Full Body Content</label>
-          <textarea id="edit-mag-body" class="form-textarea" rows="6">${item.body || ''}</textarea>
+          <label class="form-label">Verses or Body Text (Enter stanzas or paragraphs)</label>
+          <textarea id="edit-mag-body" class="form-textarea" rows="7">${item.body || ''}</textarea>
         </div>
       `;
     } else if (type === 'quiz') {
@@ -1025,6 +1067,8 @@ class AdminManager {
       if (window.news) window.news.render();
       if (window.app) window.app.showToast('News article updated & synced to Cloud!', 'success');
     } else if (type === 'magazine') {
+      const typeEl = document.getElementById('edit-mag-type');
+      const itemType = typeEl ? typeEl.value : 'poem';
       const title = document.getElementById('edit-mag-title').value.trim();
       const author = document.getElementById('edit-mag-author').value.trim();
       const grade = document.getElementById('edit-mag-grade').value.trim();
@@ -1035,6 +1079,7 @@ class AdminManager {
       window.dataStore.updateMagazineItem(id, {
         title,
         author,
+        itemType,
         grade,
         category,
         abstract: abstract || body.substring(0, 160) + '...',
@@ -1043,7 +1088,7 @@ class AdminManager {
 
       this.renderMagazineList();
       if (window.magazine) window.magazine.render();
-      if (window.app) window.app.showToast('Student paper updated & synced to Cloud!', 'success');
+      if (window.app) window.app.showToast('Mawlid Meg item updated & synced!', 'success');
     } else if (type === 'quiz') {
       const question = document.getElementById('edit-quiz-question').value.trim();
       const category = document.getElementById('edit-quiz-category').value.trim();
