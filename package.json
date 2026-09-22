@@ -1,19 +1,21 @@
 {
-  "name": "mawlid-celebration-portal",
+  "name": "noor-mahabba-event-system",
   "version": "1.0.0",
-  "description": "Responsive web application for Mawlid Celebration Event platform",
+  "description": "Sacred Emerald & Antique Gold illuminated event system for Mawlid & Seerah gathering",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
   },
   "keywords": [
+    "noor-mahabba",
     "mawlid",
     "celebration",
     "seerah",
     "quiz",
-    "magazine"
+    "magazine",
+    "gallery"
   ],
-  "author": "Mawlid Portal",
+  "author": "Noor & Mahabba",
   "license": "MIT"
 }

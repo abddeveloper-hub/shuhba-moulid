@@ -460,6 +460,19 @@
 
           <form id="admin-add-quiz-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">
             <div class="form-group">
+              <label class="form-label" for="add-quiz-category">Knowledge Discipline / Category *</label>
+              <select id="add-quiz-category" class="form-select">
+                <option value="Quran & Revelation">Quran & Revelation</option>
+                <option value="Seerah & Prophetic History">Seerah & Prophetic History</option>
+                <option value="Aqeedah & Fundamentals of Faith">Aqeedah & Fundamentals of Faith</option>
+                <option value="Fiqh & Worship (Ibadah)">Fiqh & Worship (Ibadah)</option>
+                <option value="Hadith & Hadith Sciences">Hadith & Hadith Sciences</option>
+                <option value="Early Islamic History & Khulafa">Early Islamic History & Khulafa</option>
+                <option value="General Islamic Knowledge">General Islamic Knowledge</option>
+              </select>
+            </div>
+
+            <div class="form-group">
               <label class="form-label" for="add-quiz-question">Question Text *</label>
               <input type="text" id="add-quiz-question" class="form-input" placeholder="e.g. What was the name of the Prophet's mother?" required>
             </div>
@@ -506,10 +519,16 @@
 
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
             <h4>Active Seerah Quiz Question Bank</h4>
-            <button class="btn btn-sm btn-danger" id="admin-clear-leaderboard-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-              Clear / Reset Scoreboard
-            </button>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button type="button" class="btn btn-sm btn-outline" id="admin-seed-quiz-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                Load / Reset 30 Curated Questions
+              </button>
+              <button type="button" class="btn btn-sm btn-danger" id="admin-clear-leaderboard-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                Clear / Reset Scoreboard
+              </button>
+            </div>
           </div>
 
           <div class="admin-items-list" id="admin-quiz-items-list">

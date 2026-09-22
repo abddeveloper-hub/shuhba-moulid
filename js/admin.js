@@ -460,6 +460,7 @@ class AdminManager {
     if (quizForm) {
       quizForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const category = document.getElementById('add-quiz-category') ? document.getElementById('add-quiz-category').value : 'General Islamic Knowledge';
         const question = document.getElementById('add-quiz-question').value.trim();
         const opt0 = document.getElementById('add-quiz-opt0').value.trim();
         const opt1 = document.getElementById('add-quiz-opt1').value.trim();
@@ -474,6 +475,7 @@ class AdminManager {
         }
 
         window.dataStore.addQuizQuestion({
+          category,
           question,
           options: [opt0, opt1, opt2, opt3],
           correctIndex,
@@ -484,6 +486,19 @@ class AdminManager {
         quizForm.reset();
         this.renderQuizList();
         this.renderOverviewStats();
+      });
+    }
+
+    // Seed 30 Curated Questions button
+    const seedQuizBtn = document.getElementById('admin-seed-quiz-btn');
+    if (seedQuizBtn) {
+      seedQuizBtn.addEventListener('click', () => {
+        if (confirm('Load / restore the 30 curated and categorized Islamic studies questions?')) {
+          window.dataStore.loadCuratedQuizQuestions();
+          this.renderQuizList();
+          this.renderOverviewStats();
+          window.app.showToast('Successfully loaded 30 categorized questions!', 'success');
+        }
       });
     }
 
@@ -729,8 +744,11 @@ class AdminManager {
       <div class="admin-item-row">
         <div class="admin-item-info">
           <div class="admin-item-texts">
-            <h4>${idx + 1}. ${item.question}</h4>
-            <p>Correct: <strong>${item.options[item.correctIndex]}</strong> (${item.options.length} options)</p>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+              <span class="badge" style="background: rgba(212, 175, 55, 0.15); color: var(--gold-highlight); border: 1px solid rgba(212, 175, 55, 0.4); padding: 0.15rem 0.5rem; font-size: 0.725rem; border-radius: 4px; text-transform: uppercase; font-weight: 600;">${item.category || 'General'}</span>
+              <h4 style="margin: 0;">${idx + 1}. ${item.question}</h4>
+            </div>
+            <p>Correct: <strong>${item.options[item.correctIndex]}</strong> (${item.options.length} options) &bull; <em>${item.explanation ? item.explanation.substring(0, 75) + '...' : 'No explanation'}</em></p>
           </div>
         </div>
         <div class="admin-item-actions">
@@ -768,7 +786,7 @@ class AdminManager {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `Mawlid_Portal_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+    link.download = `Noor_Mahabba_Backup_${new Date().toISOString().slice(0, 10)}.json`;
     link.click();
     URL.revokeObjectURL(url);
     window.app.showToast('Complete portal data exported to JSON.', 'success');

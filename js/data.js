@@ -12,13 +12,416 @@ const STORAGE_KEYS = {
   ADMIN_PIN: 'noor_mahabba_admin_pin'
 };
 
+window.STORAGE_KEYS = STORAGE_KEYS;
+
 const DEFAULT_ADMIN_PIN = '1446';
 
 // Clean Slate - All content arrays completely emptied as requested
-const SEED_GALLERY = [];
-const SEED_NEWS = [];
-const SEED_MAGAZINE = [];
-const SEED_QUIZ_QUESTIONS = [];
+// 30 Curated & Categorized Islamic Studies & Seerah Quiz Questions
+const SEED_QUIZ_QUESTIONS = [
+  // 1. Quran & Revelation
+  {
+    id: "q-101",
+    category: "Quran & Revelation",
+    question: "Which Surah in the Holy Quran is known as the \"Heart of the Quran\"?",
+    options: [
+      "Surah Al-Baqarah",
+      "Surah Ya-Sin",
+      "Surah Al-Mulk",
+      "Surah Ar-Rahman"
+    ],
+    correctIndex: 1,
+    explanation: "Surah Ya-Sin (Surah 36) is traditionally revered as the Heart of the Quran (Qalb al-Quran) in classical Hadith literature."
+  },
+  {
+    id: "q-102",
+    category: "Quran & Revelation",
+    question: "Which was the first Surah revealed in its entirety to Prophet Muhammad (peace be upon him)?",
+    options: [
+      "Surah Al-Alaq",
+      "Surah Al-Muddaththir",
+      "Surah Al-Fatihah",
+      "Surah Al-Ikhlas"
+    ],
+    correctIndex: 2,
+    explanation: "While the initial verses revealed were from Surah Al-Alaq, Surah Al-Fatihah was the very first complete Surah revealed in its entirety all at once."
+  },
+  {
+    id: "q-103",
+    category: "Quran & Revelation",
+    question: "What is the longest Ayah (verse) in the Holy Quran, and what is its subject?",
+    options: [
+      "Ayat al-Kursi (The Verse of the Throne) - Divine Sovereignty",
+      "Ayat ad-Dayn (The Verse of the Debt) - Commercial Contracts & Loans",
+      "Ayat an-Nur (The Verse of Light) - Parable of Guidance",
+      "Ayat al-Mubahalah (The Verse of Imprecation) - Interfaith Dialogue"
+    ],
+    correctIndex: 1,
+    explanation: "Ayat ad-Dayn (Surah Al-Baqarah 2:282) is the longest verse in the Holy Quran, establishing detailed guidelines for recording, witnessing, and fulfilling debt transactions."
+  },
+  {
+    id: "q-104",
+    category: "Quran & Revelation",
+    question: "Which companion's name is explicitly mentioned in the text of the Holy Quran?",
+    options: [
+      "Abu Bakr al-Siddiq",
+      "Umar ibn al-Khattab",
+      "Ali ibn Abi Talib",
+      "Zayd ibn Harithah"
+    ],
+    correctIndex: 3,
+    explanation: "Zayd ibn Harithah (may Allah be pleased with him) is the only Sahabi whose name is explicitly mentioned in the text of the Holy Quran (Surah Al-Ahzab 33:37)."
+  },
+  {
+    id: "q-105",
+    category: "Quran & Revelation",
+    question: "How many Surahs are there in the Quran, and how many Juz (parts) is it divided into?",
+    options: [
+      "114 Surahs and 30 Juz",
+      "112 Surahs and 30 Juz",
+      "114 Surahs and 28 Juz",
+      "120 Surahs and 30 Juz"
+    ],
+    correctIndex: 0,
+    explanation: "The Holy Quran comprises exactly 114 Surahs structured into 30 Juz (equal divisions) to facilitate systematic recitation and memorization."
+  },
+
+  // 2. Seerah & Prophetic History
+  {
+    id: "q-201",
+    category: "Seerah & Prophetic History",
+    question: "In which cave did the Prophet Muhammad (pbuh) receive the very first revelation?",
+    options: [
+      "Cave of Thawr (Ghar Thawr)",
+      "Cave of Hira (Ghar Hira)",
+      "Cave of Uhud",
+      "Cave of Quba"
+    ],
+    correctIndex: 1,
+    explanation: "The Prophet (pbuh) received the first revelation from Angel Jibril while in devotion in the Cave of Hira atop Jabal al-Nour (The Mountain of Light)."
+  },
+  {
+    id: "q-202",
+    category: "Seerah & Prophetic History",
+    question: "What title was given to Prophet Muhammad (pbuh) by the Quraysh before prophethood due to his honesty?",
+    options: [
+      "Al-Farooq (The Distinguisher)",
+      "Sayyid al-Shuhada (Master of Martyrs)",
+      "Al-Amin (The Trustworthy) and Al-Sadiq (The Truthful)",
+      "Dhu al-Nurayn (Possessor of Two Lights)"
+    ],
+    correctIndex: 2,
+    explanation: "Prior to revelation, the Makkans universally honored the Prophet (pbuh) as Al-Amin (The Trustworthy) and Al-Sadiq (The Truthful) for his upright character."
+  },
+  {
+    id: "q-203",
+    category: "Seerah & Prophetic History",
+    question: "In which year of the Hijrah did the decisive Battle of Badr take place?",
+    options: [
+      "1 AH",
+      "2 AH",
+      "3 AH",
+      "5 AH"
+    ],
+    correctIndex: 1,
+    explanation: "The Battle of Badr (Ghazwat Badr al-Kubra) took place on the 17th of Ramadan in the 2nd year of the Hijrah (2 AH / 624 CE)."
+  },
+  {
+    id: "q-204",
+    category: "Seerah & Prophetic History",
+    question: "Who accompanied the Prophet Muhammad (pbuh) during the historic migration (Hijrah) from Makkah to Madinah?",
+    options: [
+      "Ali ibn Abi Talib",
+      "Uthman ibn Affan",
+      "Abu Bakr al-Siddiq",
+      "Umar ibn al-Khattab"
+    ],
+    correctIndex: 2,
+    explanation: "Abu Bakr al-Siddiq (RA) had the honor of accompanying the Prophet (pbuh) during the Hijrah, commemorated in the Quran as 'the second of the two in the cave' (9:40)."
+  },
+  {
+    id: "q-205",
+    category: "Seerah & Prophetic History",
+    question: "What is the name of the peace treaty signed between the Muslims of Madinah and the Quraysh of Makkah in 6 AH?",
+    options: [
+      "The Constitution of Madinah (Mithaq al-Madinah)",
+      "The Treaty of Hudaybiyyah (Sulh al-Hudaybiyyah)",
+      "The Pledge of Ridwan (Bay'at al-Ridwan)",
+      "The Pact of Najran"
+    ],
+    correctIndex: 1,
+    explanation: "The Treaty of Hudaybiyyah was negotiated in 6 AH, initiating a period of peace that allowed the message of Islam to spread rapidly throughout Arabia."
+  },
+
+  // 3. Aqeedah & Fundamentals of Faith
+  {
+    id: "q-301",
+    category: "Aqeedah & Fundamentals of Faith",
+    question: "What are the six Pillars of Iman (Articles of Faith) in Islam?",
+    options: [
+      "Shahadah, Salah, Zakat, Sawm, Hajj, and Jihad",
+      "Belief in Allah, His Angels, His Revealed Books, His Messengers, the Day of Judgment, and Divine Decree (Qadr)",
+      "Love, Compassion, Charity, Prayer, Truthfulness, and Fasting",
+      "Tawhid, Adl, Nubuwwah, Imamah, Ma'ad, and Walayah"
+    ],
+    correctIndex: 1,
+    explanation: "Detailed in Hadith Jibril, the six Pillars of Iman are: belief in Allah, His Angels, His Books, His Messengers, the Last Day, and Divine Decree (Qadr)."
+  },
+  {
+    id: "q-302",
+    category: "Aqeedah & Fundamentals of Faith",
+    question: "What does the theological term Tawhid al-Rububiyyah signify?",
+    options: [
+      "Directing all acts of worship exclusively to Allah",
+      "Affirming the Oneness of Allah in His Lordship, Creation, Sovereignty, and Maintenance of the universe",
+      "Confirming Allah's Divine Names and Attributes without likeness",
+      "Observing ritual prayers with full devotion"
+    ],
+    correctIndex: 1,
+    explanation: "Tawhid al-Rububiyyah affirms that Allah alone is the Creator, Sustainer, Ruler, and Nourisher of all existence without any partner."
+  },
+  {
+    id: "q-303",
+    category: "Aqeedah & Fundamentals of Faith",
+    question: "Which archangel is tasked with blowing the Trumpet (Sur) to signal the Day of Resurrection?",
+    options: [
+      "Angel Jibril (Gabriel)",
+      "Angel Mikail (Michael)",
+      "Angel Israfil",
+      "Angel Malik"
+    ],
+    correctIndex: 2,
+    explanation: "Angel Israfil is the archangel commissioned to blow the Trumpet (as-Sur) to mark the end of the world and summon creation for resurrection."
+  },
+  {
+    id: "q-304",
+    category: "Aqeedah & Fundamentals of Faith",
+    question: "What is the linguistic and theological opposite of Tawhid (Monotheism)?",
+    options: [
+      "Fisq (Moral deviation)",
+      "Nifaq (Hypocrisy)",
+      "Shirk (Associating partners with Allah)",
+      "Bid'ah (Religious innovation)"
+    ],
+    correctIndex: 2,
+    explanation: "Shirk—associating partners, rivals, or equals with Allah in worship or divine lordship—is the ultimate antithesis of Tawhid."
+  },
+  {
+    id: "q-305",
+    category: "Aqeedah & Fundamentals of Faith",
+    question: "Which divine scripture was revealed to Prophet Dawud (David, peace be upon him)?",
+    options: [
+      "The Tawrat (Torah)",
+      "The Injil (Gospel)",
+      "The Zabur (Psalms)",
+      "The Suhuf (Scrolls of Abraham)"
+    ],
+    correctIndex: 2,
+    explanation: "The Zabur (Psalms) was revealed by Allah to Prophet Dawud (AS), as stated in Surah An-Nisa (4:163): 'And to Dawud We gave the Zabur.'"
+  },
+
+  // 4. Fiqh & Worship (Ibadah)
+  {
+    id: "q-401",
+    category: "Fiqh & Worship (Ibadah)",
+    question: "What is the minimum threshold of wealth upon which Zakat becomes obligatory called?",
+    options: [
+      "Hawl",
+      "Nisab",
+      "Sadaqah",
+      "Khums"
+    ],
+    correctIndex: 1,
+    explanation: "Nisab is the minimum threshold (~85 grams gold / 595 grams silver) upon which paying 2.5% Zakat becomes mandatory once possessed for a full lunar year (Hawl)."
+  },
+  {
+    id: "q-402",
+    category: "Fiqh & Worship (Ibadah)",
+    question: "What is the term for ritual purification using clean earth or sand when water is unavailable or cannot be used?",
+    options: [
+      "Istinja",
+      "Ghusl",
+      "Tayammum",
+      "Wudu"
+    ],
+    correctIndex: 2,
+    explanation: "Tayammum is the dry ritual purification with clean earth or dust, legislated in Surah Al-Ma'idah (5:6) when water is unavailable or dangerous to use."
+  },
+  {
+    id: "q-403",
+    category: "Fiqh & Worship (Ibadah)",
+    question: "Which standing (Wuquf) is considered the indispensable pillar (rukn) without which Hajj is invalid?",
+    options: [
+      "Wuquf at Muzdalifah",
+      "Wuquf at the Plains of Arafah on the 9th of Dhul-Hijjah",
+      "Staying at Mina during the Days of Tashreeq",
+      "Standing at the Station of Ibrahim"
+    ],
+    correctIndex: 1,
+    explanation: "Standing at Arafah on the 9th of Dhul-Hijjah is the paramount pillar of Hajj. The Prophet (pbuh) famously stated: 'Hajj is Arafah' (Al-Hajju Arafah)."
+  },
+  {
+    id: "q-404",
+    category: "Fiqh & Worship (Ibadah)",
+    question: "What are the five daily obligatory prayers in chronological order of the day?",
+    options: [
+      "Fajr, Dhuhr, Asr, Maghrib, and Isha",
+      "Dhuhr, Asr, Maghrib, Isha, and Fajr",
+      "Fajr, Ishraq, Dhuhr, Asr, and Maghrib",
+      "Tahajjud, Fajr, Dhuhr, Asr, and Isha"
+    ],
+    correctIndex: 0,
+    explanation: "The five prescribed daily prayers in sequence from dawn are: Fajr (Dawn), Dhuhr (Midday), Asr (Afternoon), Maghrib (Sunset), and Isha (Night)."
+  },
+  {
+    id: "q-405",
+    category: "Fiqh & Worship (Ibadah)",
+    question: "Under Islamic jurisprudence, what is the term for an action that is recommended and rewarded, but not sinful if omitted?",
+    options: [
+      "Fard (Obligatory)",
+      "Makruh (Disliked)",
+      "Mubah (Permissible/Neutral)",
+      "Mustahabb (Recommended / Sunnah / Mandub)"
+    ],
+    correctIndex: 3,
+    explanation: "Mustahabb (also called Sunnah or Mandub) encompasses acts that earn divine reward when performed, but carry no sin or punishment if omitted."
+  },
+
+  // 5. Hadith & Hadith Sciences
+  {
+    id: "q-501",
+    category: "Hadith & Hadith Sciences",
+    question: "Who is the Sahabi who narrated the highest number of Hadiths from the Prophet (pbuh)?",
+    options: [
+      "Abdullah ibn Umar (RA)",
+      "Anas ibn Malik (RA)",
+      "Abu Hurairah (RA)",
+      "Aisha bint Abi Bakr (RA)"
+    ],
+    correctIndex: 2,
+    explanation: "Abu Hurairah (RA) was blessed with a phenomenal memory and accompanied the Prophet (pbuh) constantly, narrating 5,374 Hadiths."
+  },
+  {
+    id: "q-502",
+    category: "Hadith & Hadith Sciences",
+    question: "What are the two primary components that make up a Hadith?",
+    options: [
+      "Sanad (Chain of transmitters) and Matn (The actual text/content)",
+      "Tafsir (Exegesis) and Qira'at (Recitation style)",
+      "Riwayah (Transmission) and Dirayah (Jurisprudence)",
+      "Fiqh (Law) and Fatwa (Verdict)"
+    ],
+    correctIndex: 0,
+    explanation: "A Hadith consists of two fundamental parts: the Sanad (the chain of narrators linking to the Prophet) and the Matn (the text/speech itself)."
+  },
+  {
+    id: "q-503",
+    category: "Hadith & Hadith Sciences",
+    question: "What is the collective name given to the six canonical collections of Sunni Hadith?",
+    options: [
+      "Al-Mu'jam al-Kabir",
+      "The Kutub al-Sittah (or Al-Sihah al-Sittah)",
+      "Riyadh al-Salihin",
+      "Al-Muwatta Collections"
+    ],
+    correctIndex: 1,
+    explanation: "The Kutub al-Sittah comprise: Sahih al-Bukhari, Sahih Muslim, Sunan Abi Dawood, Jami' al-Tirmidhi, Sunan al-Nasa'i, and Sunan Ibn Majah."
+  },
+  {
+    id: "q-504",
+    category: "Hadith & Hadith Sciences",
+    question: "What is a Hadith called in which the Prophet (pbuh) quotes words directly from Allah that are not part of the Quran?",
+    options: [
+      "Hadith Mutawatir",
+      "Hadith Hasan",
+      "Hadith Qudsi (Sacred Hadith)",
+      "Hadith Da'if"
+    ],
+    correctIndex: 2,
+    explanation: "Hadith Qudsi is a sacred report wherein the Prophet (pbuh) relates the meaning of Allah's words, distinct in status and phrasing from the Holy Quran."
+  },
+  {
+    id: "q-505",
+    category: "Hadith & Hadith Sciences",
+    question: "Which renowned scholar compiled the landmark authentic collection titled Al-Jami' al-Sahih?",
+    options: [
+      "Imam Muslim ibn al-Hajjaj",
+      "Imam Muhammad ibn Isma'il al-Bukhari",
+      "Imam Malik ibn Anas",
+      "Imam Ahmad ibn Hanbal"
+    ],
+    correctIndex: 1,
+    explanation: "Imam Muhammad ibn Isma'il al-Bukhari (194-256 AH) spent sixteen rigorous years verifying and compiling Al-Jami' al-Sahih."
+  },
+
+  // 6. Early Islamic History & Khulafa
+  {
+    id: "q-601",
+    category: "Early Islamic History & Khulafa",
+    question: "Who were the four Rightly Guided Caliphs (Al-Khulafa al-Rashidun) in correct chronological order?",
+    options: [
+      "Abu Bakr, Ali, Umar, and Uthman",
+      "Umar, Abu Bakr, Uthman, and Ali",
+      "Abu Bakr al-Siddiq, Umar ibn al-Khattab, Uthman ibn Affan, and Ali ibn Abi Talib",
+      "Uthman, Ali, Abu Bakr, and Umar"
+    ],
+    correctIndex: 2,
+    explanation: "The Rashidun Caliphs governed in this order: Abu Bakr al-Siddiq (11-13 AH), Umar ibn al-Khattab (13-23 AH), Uthman ibn Affan (23-35 AH), and Ali ibn Abi Talib (35-40 AH)."
+  },
+  {
+    id: "q-602",
+    category: "Early Islamic History & Khulafa",
+    question: "During whose caliphate was the standardized written compilation of the Quran (Mushaf) distributed to regional Islamic centers?",
+    options: [
+      "Caliph Abu Bakr al-Siddiq",
+      "Caliph Umar ibn al-Khattab",
+      "Caliph Uthman ibn Affan",
+      "Caliph Ali ibn Abi Talib"
+    ],
+    correctIndex: 2,
+    explanation: "Caliph Uthman ibn Affan (RA) unified the recitation of the Quran and dispatched master copies of the Mushaf to major regional cities."
+  },
+  {
+    id: "q-603",
+    category: "Early Islamic History & Khulafa",
+    question: "Who was the very first person and woman to embrace Islam and believe in Prophet Muhammad (pbuh)?",
+    options: [
+      "Aisha bint Abi Bakr (RA)",
+      "Khadijah bint Khuwaylid (RA)",
+      "Fatimah bint Muhammad (RA)",
+      "Asma bint Abi Bakr (RA)"
+    ],
+    correctIndex: 1,
+    explanation: "Umm al-Mu'minin Khadijah bint Khuwaylid (RA), the Prophet's wife, was the very first person to accept Islam and give him comfort and faith."
+  },
+  {
+    id: "q-604",
+    category: "Early Islamic History & Khulafa",
+    question: "Which city served as the central administrative capital during the caliphate of Ali ibn Abi Talib (RA)?",
+    options: [
+      "Makkah",
+      "Madinah",
+      "Damascus",
+      "Kufa"
+    ],
+    correctIndex: 3,
+    explanation: "Caliph Ali ibn Abi Talib (RA) relocated the administrative capital of the Caliphate from Madinah to Kufa (in present-day Iraq) in 36 AH."
+  },
+  {
+    id: "q-605",
+    category: "Early Islamic History & Khulafa",
+    question: "Which companion was appointed by Abu Bakr to lead the initial committee to collect the Quranic manuscripts into a single codex?",
+    options: [
+      "Zayd ibn Thabit (RA)",
+      "Abdullah ibn Mas'ud (RA)",
+      "Ubayy ibn Ka'b (RA)",
+      "Mu'adh ibn Jabal (RA)"
+    ],
+    correctIndex: 0,
+    explanation: "Zayd ibn Thabit (RA) was commissioned by Abu Bakr and Umar (RA) after Yamama to painstakingly assemble the Quran into a single authenticated codex."
+  }
+];
+
 const SEED_LEADERBOARD = [];
 
 class DataStore {
@@ -27,20 +430,16 @@ class DataStore {
   }
 
   initStore() {
-    // Flag to enforce a complete clean slate across all client browsers
-    const CLEAN_SLATE_KEY = 'noor_mahabba_clean_slate_v3';
+    // Flag to enforce clean slate or current seed version
+    const SEED_VERSION_KEY = 'noor_mahabba_seed_v4';
 
-    if (!localStorage.getItem(CLEAN_SLATE_KEY)) {
-      this.set(STORAGE_KEYS.GALLERY, []);
-      this.set(STORAGE_KEYS.NEWS, []);
-      this.set(STORAGE_KEYS.MAGAZINE, []);
-      this.set(STORAGE_KEYS.QUIZ_QUESTIONS, []);
-      this.set(STORAGE_KEYS.LEADERBOARD, []);
-      localStorage.setItem(STORAGE_KEYS.ADMIN_PIN, DEFAULT_ADMIN_PIN);
-      localStorage.setItem(CLEAN_SLATE_KEY, 'true');
+    if (!localStorage.getItem(SEED_VERSION_KEY)) {
+      // Auto-load the 30 curated and categorized quiz questions
+      this.set(STORAGE_KEYS.QUIZ_QUESTIONS, SEED_QUIZ_QUESTIONS);
+      localStorage.setItem(SEED_VERSION_KEY, 'true');
     }
 
-    // Ensure fallback initialization if any key is missing
+    // Ensure fallback initialization if any key is missing or empty
     if (!localStorage.getItem(STORAGE_KEYS.GALLERY)) {
       this.set(STORAGE_KEYS.GALLERY, []);
     }
@@ -50,8 +449,9 @@ class DataStore {
     if (!localStorage.getItem(STORAGE_KEYS.MAGAZINE)) {
       this.set(STORAGE_KEYS.MAGAZINE, []);
     }
-    if (!localStorage.getItem(STORAGE_KEYS.QUIZ_QUESTIONS)) {
-      this.set(STORAGE_KEYS.QUIZ_QUESTIONS, []);
+    const currentQuiz = this.get(STORAGE_KEYS.QUIZ_QUESTIONS);
+    if (!currentQuiz || currentQuiz.length === 0) {
+      this.set(STORAGE_KEYS.QUIZ_QUESTIONS, SEED_QUIZ_QUESTIONS);
     }
     if (!localStorage.getItem(STORAGE_KEYS.LEADERBOARD)) {
       this.set(STORAGE_KEYS.LEADERBOARD, []);
@@ -221,6 +621,11 @@ class DataStore {
     let items = this.getQuizQuestions();
     items = items.filter(i => i.id !== id);
     this.set(STORAGE_KEYS.QUIZ_QUESTIONS, items);
+  }
+
+  loadCuratedQuizQuestions() {
+    this.set(STORAGE_KEYS.QUIZ_QUESTIONS, SEED_QUIZ_QUESTIONS);
+    return SEED_QUIZ_QUESTIONS;
   }
 
   // Leaderboard CRUD

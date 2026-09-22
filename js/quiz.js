@@ -9,6 +9,7 @@ class QuizEngine {
     this.currentIndex = 0;
     this.score = 0;
     this.participantName = '';
+    this.selectedCategory = 'all';
     this.timerInterval = null;
     this.elapsedSeconds = 0;
     this.hasAnswered = false;
@@ -56,10 +57,18 @@ class QuizEngine {
     }
 
     this.participantName = name;
-    this.questions = window.dataStore.getQuizQuestions();
+    const catSelect = document.getElementById('quiz-category-select');
+    this.selectedCategory = catSelect ? catSelect.value : 'all';
+
+    const allQuestions = window.dataStore.getQuizQuestions();
+    if (this.selectedCategory && this.selectedCategory !== 'all') {
+      this.questions = allQuestions.filter(q => q.category === this.selectedCategory);
+    } else {
+      this.questions = allQuestions;
+    }
 
     if (!this.questions || this.questions.length === 0) {
-      if (window.app) window.app.showToast('No Seerah Challenge questions currently available. Please add questions via the Admin Control Center.', 'warning');
+      if (window.app) window.app.showToast('No questions currently available for this curriculum. Please select another category or add questions in Admin.', 'warning');
       return;
     }
 
@@ -114,6 +123,11 @@ class QuizEngine {
     const total = this.questions.length;
     const currentNum = this.currentIndex + 1;
     const percentage = Math.round((currentNum / total) * 100);
+
+    const catBadge = document.getElementById('quiz-category-badge');
+    if (catBadge) {
+      catBadge.textContent = q.category || 'General Islamic Studies';
+    }
 
     if (progressText) progressText.textContent = `Question ${currentNum} of ${total}`;
     if (progressFill) progressFill.style.width = `${percentage}%`;
@@ -196,8 +210,13 @@ class QuizEngine {
     const scorePct = Math.round((this.score / total) * 100);
 
     // Save to Leaderboard automatically
+    const categoryName = (this.selectedCategory && this.selectedCategory !== 'all')
+      ? this.selectedCategory
+      : 'All Disciplines';
+
     window.dataStore.addLeaderboardEntry({
       name: this.participantName,
+      category: categoryName,
       score: scorePct,
       timeTaken: this.elapsedSeconds
     });
@@ -378,10 +397,14 @@ class QuizEngine {
     ctx.fill();
 
     // 9. Narrative of Completion
+    const categoryTitle = (this.selectedCategory && this.selectedCategory !== 'all')
+      ? `the ${this.selectedCategory} Challenge`
+      : 'the Grand Seerah & Islamic Knowledge Challenge';
+
     ctx.fillStyle = '#36352a';
     ctx.font = '400 15px Outfit, sans-serif';
     ctx.letterSpacing = '0px';
-    ctx.fillText('for exemplary scholarship and precision demonstrated in the Sacred Seerah Challenge,', canvas.width / 2, 345);
+    ctx.fillText(`for exemplary scholarship and precision demonstrated in ${categoryTitle},`, canvas.width / 2, 345);
     ctx.fillText(`achieving an honored accuracy rating of ${scorePct}% in commemoration of Mahabba Eve.`, canvas.width / 2, 372);
 
     // 10. Dynamic Illuminated Gold-Foil Circular Seal
@@ -491,7 +514,7 @@ class QuizEngine {
     if (entries.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="5" style="text-align: center; padding: 2.5rem; color: var(--outline);">
+          <td colspan="6" style="text-align: center; padding: 2.5rem; color: var(--outline);">
             No participants currently recorded. Complete the Seerah Challenge to establish your honor!
           </td>
         </tr>
@@ -527,6 +550,7 @@ class QuizEngine {
               <span style="font-weight: 600; color: var(--on-surface); font-family: var(--font-body);">${entry.name}</span>
             </div>
           </td>
+          <td><span class="category-pill">${entry.category || 'All Disciplines'}</span></td>
           <td><span class="score-pill">${entry.score}%</span></td>
           <td style="color: var(--on-surface-variant); font-variant-numeric: tabular-nums; font-family: var(--font-sans); font-weight: 500;">${formattedTime}</td>
           <td style="color: var(--outline); font-size: 0.825rem;">${entry.date || 'Recent'}</td>

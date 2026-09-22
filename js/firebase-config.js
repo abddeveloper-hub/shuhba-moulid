@@ -49,6 +49,13 @@ try {
 
 // Map Storage Keys to Firebase Database Nodes (matching user's rules)
 const NODE_MAP = {
+  // Noor & Mahabba storage keys
+  noor_mahabba_gallery: 'gallery',
+  noor_mahabba_news: 'news',
+  noor_mahabba_magazine: 'magazine',
+  noor_mahabba_quiz_questions: 'quiz_questions',
+  noor_mahabba_leaderboard: 'leaderboard',
+  // Legacy / fallback keys
   mawlid_portal_gallery: 'gallery',
   mawlid_portal_news: 'news',
   mawlid_portal_magazine: 'magazine',
@@ -79,7 +86,7 @@ window.firebaseService = {
 
 // Incoming sync: Firebase Cloud -> Local UI in Real-Time
 if (db) {
-  const setupListener = (nodeName, storageKey, renderCallbacks = []) => {
+  const setupListener = (nodeName, primaryKey, fallbackKey, renderCallbacks = []) => {
     try {
       const dbRef = ref(db, nodeName);
       onValue(dbRef, (snapshot) => {
@@ -87,7 +94,10 @@ if (db) {
         if (val !== null && window.dataStore) {
           const items = Array.isArray(val) ? val : Object.values(val);
           // Set in localStorage directly without echoing back to Firebase
-          localStorage.setItem(storageKey, JSON.stringify(items));
+          localStorage.setItem(primaryKey, JSON.stringify(items));
+          if (fallbackKey) {
+            localStorage.setItem(fallbackKey, JSON.stringify(items));
+          }
           renderCallbacks.forEach(cb => {
             try { cb(); } catch (e) {}
           });
@@ -101,34 +111,34 @@ if (db) {
   };
 
   // Setup live listeners matching user's database rules
-  setupListener('gallery', 'mawlid_portal_gallery', [
+  setupListener('gallery', 'noor_mahabba_gallery', 'mawlid_portal_gallery', [
     () => window.gallery && window.gallery.render(),
     () => window.app && window.app.renderHome(),
     () => window.admin && window.admin.currentTab === 'gallery' && window.admin.renderGalleryList(),
     () => window.admin && window.admin.renderOverviewStats()
   ]);
 
-  setupListener('news', 'mawlid_portal_news', [
+  setupListener('news', 'noor_mahabba_news', 'mawlid_portal_news', [
     () => window.news && window.news.render(),
     () => window.app && window.app.renderHome(),
     () => window.admin && window.admin.currentTab === 'news' && window.admin.renderNewsList(),
     () => window.admin && window.admin.renderOverviewStats()
   ]);
 
-  setupListener('magazine', 'mawlid_portal_magazine', [
+  setupListener('magazine', 'noor_mahabba_magazine', 'mawlid_portal_magazine', [
     () => window.magazine && window.magazine.render(),
     () => window.app && window.app.renderHome(),
     () => window.admin && window.admin.currentTab === 'magazine' && window.admin.renderMagazineList(),
     () => window.admin && window.admin.renderOverviewStats()
   ]);
 
-  setupListener('quiz_questions', 'mawlid_portal_quiz_questions', [
+  setupListener('quiz_questions', 'noor_mahabba_quiz_questions', 'mawlid_portal_quiz_questions', [
     () => window.app && window.app.renderHome(),
     () => window.admin && window.admin.currentTab === 'quiz' && window.admin.renderQuizList(),
     () => window.admin && window.admin.renderOverviewStats()
   ]);
 
-  setupListener('leaderboard', 'mawlid_portal_leaderboard', [
+  setupListener('leaderboard', 'noor_mahabba_leaderboard', 'mawlid_portal_leaderboard', [
     () => window.quiz && window.quiz.renderScoreboard(),
     () => window.admin && window.admin.renderOverviewStats()
   ]);

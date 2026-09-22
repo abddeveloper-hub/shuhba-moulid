@@ -326,6 +326,19 @@
                 <input type="text" id="quiz-participant-name" class="quiz-input" placeholder="e.g. Maryam Siddiqui" required>
               </div>
 
+              <div class="quiz-name-input-group">
+                <label for="quiz-category-select">Select Challenge Category / Curriculum:</label>
+                <select id="quiz-category-select" class="quiz-input quiz-select">
+                  <option value="all">🌟 All Disciplines (30 Questions Comprehensive Challenge)</option>
+                  <option value="Quran & Revelation">📖 Quran & Revelation (5 Questions)</option>
+                  <option value="Seerah & Prophetic History">🌙 Seerah & Prophetic History (5 Questions)</option>
+                  <option value="Aqeedah & Fundamentals of Faith">⚖️ Aqeedah & Fundamentals of Faith (5 Questions)</option>
+                  <option value="Fiqh & Worship (Ibadah)">🕌 Fiqh & Worship / Ibadah (5 Questions)</option>
+                  <option value="Hadith & Hadith Sciences">📜 Hadith & Hadith Sciences (5 Questions)</option>
+                  <option value="Early Islamic History & Khulafa">🏛️ Early Islamic History & Khulafa (5 Questions)</option>
+                </select>
+              </div>
+
               <button class="btn btn-lg btn-primary btn-full" id="quiz-start-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 Begin Seerah Challenge
@@ -348,6 +361,9 @@
             </div>
 
             <div class="quiz-question-box">
+              <div style="margin-bottom: 0.85rem;">
+                <span class="quiz-category-badge" id="quiz-category-badge">Quran &amp; Revelation</span>
+              </div>
               <h3 class="quiz-question-text" id="quiz-question-text">Question text goes here...</h3>
             </div>
 
@@ -436,11 +452,12 @@
                 <table class="scoreboard-table">
                   <thead>
                     <tr>
-                      <th style="width: 80px;">Rank</th>
+                      <th style="width: 75px;">Rank</th>
                       <th>Student Scholar</th>
-                      <th style="width: 120px;">Score</th>
-                      <th style="width: 130px;">Time Taken</th>
-                      <th style="width: 140px;">Date</th>
+                      <th style="width: 170px;">Discipline</th>
+                      <th style="width: 110px;">Score</th>
+                      <th style="width: 120px;">Time Taken</th>
+                      <th style="width: 130px;">Date</th>
                     </tr>
                   </thead>
                   <tbody id="scoreboard-table-body">
