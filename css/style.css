@@ -1384,8 +1384,8 @@ main {
 }
 
 .welcome-fest-logo {
-  max-width: 220px;
-  width: 55vw;
+  max-width: 160px;
+  width: 42vw;
   height: auto;
   display: block;
   filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);

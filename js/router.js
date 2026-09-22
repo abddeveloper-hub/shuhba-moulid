@@ -5,7 +5,7 @@
 
 class Router {
   constructor() {
-    this.routes = ['home', 'gallery', 'news', 'magazine', 'quiz'];
+    this.routes = ['home', 'gallery', 'magazine', 'quiz'];
     this.currentRoute = 'home';
     this.init();
   }
@@ -85,11 +85,7 @@ class Router {
           window.gallery.render();
         }
         break;
-      case 'news':
-        if (window.news && typeof window.news.render === 'function') {
-          window.news.render();
-        }
-        break;
+
       case 'magazine':
         if (window.magazine && typeof window.magazine.render === 'function') {
           window.magazine.render();
