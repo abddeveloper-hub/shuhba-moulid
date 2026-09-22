@@ -22,6 +22,8 @@
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     overflow-x: hidden;
+    background-color: #0a332c !important;
+    background: #0a332c !important;
   }
 
   /* Prevent bottom fixed bar from overlapping content */
@@ -66,7 +68,7 @@
     height: var(--navbar-height);
     padding: 0;
     padding-top: env(safe-area-inset-top, 0px);
-    background: rgba(13, 43, 29, 0.92);
+    background: rgba(10, 51, 44, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--gold-hairline);
@@ -553,7 +555,7 @@
     height: auto;
     padding-bottom: max(0.4rem, env(safe-area-inset-bottom, 8px));
     border-top: 1px solid var(--gold-hairline);
-    background: rgba(13, 43, 29, 0.94);
+    background: rgba(10, 51, 44, 0.96);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
