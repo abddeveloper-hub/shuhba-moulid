@@ -248,94 +248,97 @@ class QuizEngine {
     canvas.width = 1000;
     canvas.height = 650;
 
-    // 1. Authoritative Parchment Ground
+    // 1. Authoritative Parchment Ground with Subtle Emerald Tone
     const bgGrad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    bgGrad.addColorStop(0, '#fffdfa');
-    bgGrad.addColorStop(0.5, '#fff8f4');
-    bgGrad.addColorStop(1, '#fbf2eb');
+    bgGrad.addColorStop(0, '#fdfbf7');
+    bgGrad.addColorStop(0.5, '#f7f3e3');
+    bgGrad.addColorStop(1, '#eee8d5');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Subtle inner vellum plate
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(24, 24, canvas.width - 48, canvas.height - 48);
+    // Inner Deep Emerald Filigree Frame
+    ctx.strokeStyle = '#0d2b1d';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
 
     // 2. Ornate Double Gold Ribbon Hairline Border
-    // Outer Cast Bronze Border
-    ctx.strokeStyle = '#8a6620';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(32, 32, canvas.width - 64, canvas.height - 64);
+    // Outer Antique Gold Border
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(28, 28, canvas.width - 56, canvas.height - 56);
 
-    // Mid Amber Border
-    ctx.strokeStyle = '#c89b3c';
+    // Mid Emerald Hairline
+    ctx.strokeStyle = '#143d2b';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(34, 34, canvas.width - 68, canvas.height - 68);
+
+    // Inner Illuminated Gold Hairline
+    ctx.strokeStyle = '#e8ca65';
     ctx.lineWidth = 1.5;
     ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
 
-    // Inner Illuminated Gold Hairline
-    ctx.strokeStyle = '#e6c27a';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(45, 45, canvas.width - 90, canvas.height - 90);
-
-    // Corner Cartouches & Rosettes
+    // Corner Cartouches & 8-Pointed Star Khatim Flourishes
     const drawCornerFlourish = (x, y, dx, dy) => {
       ctx.save();
-      ctx.strokeStyle = '#c89b3c';
-      ctx.fillStyle = '#8a6620';
+      ctx.strokeStyle = '#d4af37';
+      ctx.fillStyle = '#0d2b1d';
       ctx.lineWidth = 1.5;
 
       // Miniature corner diamond
       ctx.beginPath();
-      ctx.moveTo(x, y - dy * 8);
-      ctx.lineTo(x + dx * 8, y);
-      ctx.lineTo(x, y + dy * 8);
-      ctx.lineTo(x - dx * 8, y);
+      ctx.moveTo(x, y - dy * 9);
+      ctx.lineTo(x + dx * 9, y);
+      ctx.lineTo(x, y + dy * 9);
+      ctx.lineTo(x - dx * 9, y);
       ctx.closePath();
       ctx.fill();
+      ctx.stroke();
 
       // Corner bracket lines
       ctx.beginPath();
       ctx.moveTo(x + dx * 16, y);
-      ctx.lineTo(x + dx * 28, y);
+      ctx.lineTo(x + dx * 30, y);
       ctx.moveTo(x, y + dy * 16);
-      ctx.lineTo(x, y + dy * 28);
+      ctx.lineTo(x, y + dy * 30);
       ctx.stroke();
 
       ctx.restore();
     };
 
-    drawCornerFlourish(45, 45, 1, 1);
-    drawCornerFlourish(canvas.width - 45, 45, -1, 1);
-    drawCornerFlourish(45, canvas.height - 45, 1, -1);
-    drawCornerFlourish(canvas.width - 45, canvas.height - 45, -1, -1);
+    drawCornerFlourish(40, 40, 1, 1);
+    drawCornerFlourish(canvas.width - 40, 40, -1, 1);
+    drawCornerFlourish(40, canvas.height - 40, 1, -1);
+    drawCornerFlourish(canvas.width - 40, canvas.height - 40, -1, -1);
 
     // 3. Integrated Quranic Calligraphy Watermark in Center
     ctx.save();
-    ctx.fillStyle = 'rgba(200, 155, 60, 0.085)';
-    ctx.font = '400 38px Amiri, serif';
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.08)';
+    ctx.font = '400 40px Amiri, serif';
     ctx.textAlign = 'center';
     ctx.direction = 'rtl';
     ctx.fillText('وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ', canvas.width / 2, 335);
     ctx.restore();
 
     // 4. Bismillah Arabic Inscription
-    ctx.fillStyle = '#7b5900';
+    ctx.fillStyle = '#0d2b1d';
     ctx.font = 'bold 26px Amiri, serif';
     ctx.textAlign = 'center';
     ctx.fillText('بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ', canvas.width / 2, 85);
 
     // 5. System Kicker
-    ctx.fillStyle = '#c89b3c';
-    ctx.font = '600 13px Outfit, sans-serif';
+    ctx.fillStyle = '#997a15';
+    ctx.font = '600 12px Outfit, sans-serif';
     ctx.letterSpacing = '3px';
     ctx.fillText('NOOR & MAHABBA EVENT SYSTEM • 1446 AH', canvas.width / 2, 118);
 
     // 6. Certificate Title
-    ctx.fillStyle = '#1f1b17';
-    ctx.font = '700 36px "Playfair Display", Georgia, serif';
+    ctx.fillStyle = '#0d2b1d';
+    ctx.font = '700 34px Cinzel, serif';
+    ctx.letterSpacing = '2px';
     ctx.fillText('CERTIFICATE OF RECOGNITION', canvas.width / 2, 168);
 
     // Small Diamond Divider Under Title
-    ctx.strokeStyle = '#d2c5b1';
+    ctx.strokeStyle = '#d4af37';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(canvas.width / 2 - 140, 185);
@@ -344,22 +347,24 @@ class QuizEngine {
     ctx.lineTo(canvas.width / 2 + 140, 185);
     ctx.stroke();
 
-    ctx.fillStyle = '#c89b3c';
+    ctx.fillStyle = '#d4af37';
     ctx.font = '10px Outfit, sans-serif';
     ctx.fillText('◆', canvas.width / 2, 188);
 
     // 7. Body Lead
-    ctx.fillStyle = '#4e4637';
-    ctx.font = '300 16px Outfit, sans-serif';
+    ctx.fillStyle = '#4d4635';
+    ctx.font = '400 16px Outfit, sans-serif';
+    ctx.letterSpacing = '0px';
     ctx.fillText('This illuminated certificate of achievement is solemnly awarded to', canvas.width / 2, 230);
 
     // 8. Dynamic Candidate Name
-    ctx.fillStyle = '#1c1712';
-    ctx.font = '700 36px "Playfair Display", serif';
+    ctx.fillStyle = '#0d2b1d';
+    ctx.font = '700 34px Cinzel, serif';
+    ctx.letterSpacing = '2px';
     ctx.fillText(this.participantName.toUpperCase(), canvas.width / 2, 285);
 
     // Decorative Gold Underline
-    ctx.strokeStyle = '#c89b3c';
+    ctx.strokeStyle = '#d4af37';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(canvas.width / 2 - 220, 305);
@@ -367,14 +372,15 @@ class QuizEngine {
     ctx.stroke();
 
     // Midpoint Diamond on Underline
-    ctx.fillStyle = '#8a6620';
+    ctx.fillStyle = '#0d2b1d';
     ctx.beginPath();
     ctx.arc(canvas.width / 2, 305, 4, 0, Math.PI * 2);
     ctx.fill();
 
     // 9. Narrative of Completion
-    ctx.fillStyle = '#4e4637';
+    ctx.fillStyle = '#36352a';
     ctx.font = '400 15px Outfit, sans-serif';
+    ctx.letterSpacing = '0px';
     ctx.fillText('for exemplary scholarship and precision demonstrated in the Sacred Seerah Challenge,', canvas.width / 2, 345);
     ctx.fillText(`achieving an honored accuracy rating of ${scorePct}% in commemoration of Mahabba Eve.`, canvas.width / 2, 372);
 
@@ -385,15 +391,15 @@ class QuizEngine {
 
     ctx.save();
     // Radiant Amber Shadow
-    ctx.shadowColor = 'rgba(200, 155, 60, 0.45)';
+    ctx.shadowColor = 'rgba(212, 175, 55, 0.45)';
     ctx.shadowBlur = 18;
 
     // Foil Radial Gradient Fill
     const foilGrad = ctx.createRadialGradient(sealX - 10, sealY - 10, 5, sealX, sealY, radius);
-    foilGrad.addColorStop(0, '#fff7e6');
-    foilGrad.addColorStop(0.35, '#fed88e');
-    foilGrad.addColorStop(0.8, '#c89b3c');
-    foilGrad.addColorStop(1, '#8a6620');
+    foilGrad.addColorStop(0, '#fdfbf7');
+    foilGrad.addColorStop(0.35, '#f3e5ab');
+    foilGrad.addColorStop(0.75, '#d4af37');
+    foilGrad.addColorStop(1, '#997a15');
     ctx.fillStyle = foilGrad;
 
     ctx.beginPath();
@@ -401,15 +407,15 @@ class QuizEngine {
     ctx.fill();
     ctx.restore();
 
-    // Outer Bronze Stamped Ring
-    ctx.strokeStyle = '#7b5900';
+    // Outer Deep Emerald Stamped Ring
+    ctx.strokeStyle = '#0d2b1d';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(sealX, sealY, radius - 4, 0, Math.PI * 2);
     ctx.stroke();
 
     // Inner Beaded Ring
-    ctx.strokeStyle = '#fff8f4';
+    ctx.strokeStyle = '#ffffff';
     ctx.lineWidth = 1;
     ctx.setLineDash([3, 3]);
     ctx.beginPath();
@@ -418,12 +424,12 @@ class QuizEngine {
     ctx.setLineDash([]);
 
     // Seal Typography
-    ctx.fillStyle = '#4b3500';
+    ctx.fillStyle = '#0d2b1d';
     ctx.font = '700 9px Outfit, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('NOOR & MAHABBA', sealX, sealY - 14);
 
-    ctx.font = '700 16px "Playfair Display", serif';
+    ctx.font = '700 15px Cinzel, serif';
     ctx.fillText('★ 1446 ★', sealX, sealY + 4);
 
     ctx.font = '600 8.5px Outfit, sans-serif';
@@ -434,26 +440,26 @@ class QuizEngine {
 
     // Date (Left)
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#807665';
+    ctx.fillStyle = '#4d4635';
     ctx.font = '500 13px Outfit, sans-serif';
     ctx.fillText(`Registry Date: ${today}`, 95, 570);
 
     ctx.font = '400 11px Outfit, sans-serif';
-    ctx.fillStyle = '#a89d8b';
+    ctx.fillStyle = '#99907c';
     ctx.fillText(`Token: NM-${Date.now().toString(36).toUpperCase()}`, 95, 588);
 
     // Signature (Right)
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#1f1b17';
-    ctx.font = '600 15px "Playfair Display", serif';
+    ctx.fillStyle = '#0d2b1d';
+    ctx.font = '700 15px Cinzel, serif';
     ctx.fillText('Shaykh Dr. Tariq Al-Mansoor', canvas.width - 95, 565);
 
-    ctx.fillStyle = '#807665';
+    ctx.fillStyle = '#4d4635';
     ctx.font = '400 12px Outfit, sans-serif';
     ctx.fillText('Chancellor, Academic Council of Seerah Studies', canvas.width - 95, 583);
 
-    // Elegant Bronze Signature Hairline
-    ctx.strokeStyle = '#c89b3c';
+    // Elegant Gold Signature Hairline
+    ctx.strokeStyle = '#d4af37';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(canvas.width - 340, 545);

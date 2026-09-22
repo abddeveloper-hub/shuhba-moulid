@@ -1,19 +1,41 @@
 /* ==========================================================================
    NOOR & MAHABBA EVENT SYSTEM - RESPONSIVE ARCHITECTURE & PRINT STYLES
-   Grid Layout Model: Desktop (12-Col), Tablet (8-Col), Mobile (4-Col)
-   Fluid Typographical Scaling & Safe-Area Boundaries
+   Theme: Sacred Emerald & Antique Gold
+   Grid Layout Model:
+     - Desktop (1025px+): 12-Column Fixed-Max (max-width: 1280px), 3rem margins, 1.5rem gutters
+     - Tablet (641px - 1024px): 6-Column Fluid Structure, 2rem margins, 1rem gutters
+     - Mobile (Base to 640px): 1-Column Layout, 1rem margins, 1rem gutters
    ========================================================================== */
 
-/* Tablet Screens (768px - 1023px) - 8 Column Layout Model */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* --------------------------------------------------------------------------
+   DESKTOP TIER (1025px+)
+   -------------------------------------------------------------------------- */
+@media (min-width: 1025px) {
   :root {
-    --gutter: 1rem;
-    --margin: 2rem;
+    --margin: 3rem;
+    --gutter: 1.5rem;
   }
 
   .container {
-    padding-left: var(--margin);
-    padding-right: var(--margin);
+    max-width: 1280px;
+    padding-left: var(--margin-desktop);
+    padding-right: var(--margin-desktop);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   TABLET TIER (641px - 1024px) - 6 Column Fluid Grid Model
+   -------------------------------------------------------------------------- */
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --margin: 2rem;
+    --gutter: 1rem;
+    --navbar-height: 70px;
+  }
+
+  .container {
+    padding-left: var(--margin-tablet);
+    padding-right: var(--margin-tablet);
   }
 
   .footer-top {
@@ -23,26 +45,29 @@
 
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   .news-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 
   .magazine-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 }
 
 /* Tablet & Smaller (< 1024px) */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .nav-menu {
     display: none;
-  }
-
-  .footer-top {
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
   }
 
   .hero-content {
@@ -50,39 +75,15 @@
   }
 }
 
-/* Mobile Screens (< 768px) - 4 Column Layout Model */
-@media (max-width: 767px) {
+/* --------------------------------------------------------------------------
+   MOBILE TIER (Base to 640px) - Single Column Fluid Layout
+   -------------------------------------------------------------------------- */
+@media (max-width: 640px) {
   :root {
-    --gutter: 0.75rem;
     --margin: 1rem;
-    --navbar-height: 68px;
-  }
-
-  /* Fluid Mobile Typography Scaling */
-  .display-hero,
-  .hero-title {
-    font-size: 2.25rem !important;
-    line-height: 2.75rem !important;
-    letter-spacing: -0.01em !important;
-  }
-
-  .epigraph-arabic,
-  .hero-arabic-title {
-    font-size: 1.5rem !important;
-    line-height: 2.5rem !important;
-  }
-
-  .headline-lg,
-  .page-title {
-    font-size: 1.75rem !important;
-    line-height: 2.25rem !important;
-    letter-spacing: -0.01em !important;
-  }
-
-  .body-lead,
-  .hero-subtitle {
-    font-size: 1rem !important;
-    line-height: 1.65rem !important;
+    --gutter: 1rem;
+    --navbar-height: 64px;
+    --space-lg: 1.25rem;
   }
 
   .container {
@@ -90,17 +91,61 @@
     padding-right: var(--margin);
   }
 
+  /* Fluid Mobile Typography Scaling for Cinzel & Outfit */
+  .display-lg,
+  .display-hero,
+  .hero-title {
+    font-size: 30px !important;
+    line-height: 38px !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  .display-md {
+    font-size: 24px !important;
+    line-height: 32px !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .headline-lg,
+  .page-title {
+    font-size: 24px !important;
+    line-height: 32px !important;
+  }
+
+  .headline-md {
+    font-size: 20px !important;
+    line-height: 28px !important;
+  }
+
+  .epigraph-arabic,
+  .hero-arabic-title {
+    font-size: 1.6rem !important;
+    line-height: 2.75rem !important;
+  }
+
+  .body-lead,
+  .hero-subtitle {
+    font-size: 15px !important;
+    line-height: 24px !important;
+  }
+
   .page-header-section {
-    padding: 2.75rem 0 2rem;
+    padding: 3rem 0 2.25rem;
   }
 
   .content-section {
-    padding: 2rem 0 3.5rem;
+    padding: 2.25rem 0 4rem;
+  }
+
+  /* Filigree Inset Rule Safe Padding */
+  .hero-section {
+    padding: 3.5rem 0 2.75rem;
   }
 
   /* Countdown Grid 2-Col on Mobile */
   .countdown-box {
-    padding: 1.25rem 1rem;
+    padding: 1.35rem 1rem;
+    margin: 0 0.25rem;
   }
 
   .countdown-grid {
@@ -108,16 +153,17 @@
     gap: 0.75rem;
   }
 
-  /* Fluid Single Column Stacks */
+  /* Single Column Card Stacks */
   .gallery-grid,
   .news-grid,
   .magazine-grid,
-  .timeline-grid {
+  .timeline-grid,
+  .stats-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
 
-  /* Horizontal scrolling chip lists */
+  /* Horizontal Scrolling Chip Lists */
   .controls-bar {
     flex-direction: column;
     align-items: stretch;
@@ -144,7 +190,7 @@
     flex-shrink: 0;
   }
 
-  /* Lightbox */
+  /* Lightbox Mobile Frame */
   .lightbox-modal {
     padding: 0.5rem;
   }
@@ -159,7 +205,7 @@
     gap: 0.75rem;
   }
 
-  /* Reader Modal */
+  /* Reader Sheet Modal */
   .reader-sheet {
     max-height: 94vh;
   }
@@ -211,7 +257,7 @@
   }
 
   .pin-digit-input {
-    width: 46px;
+    width: 48px;
     height: 56px;
     font-size: 1.35rem;
   }
@@ -229,7 +275,7 @@
   }
 
   .bottom-nav-label {
-    font-size: 0.65rem;
+    font-size: 10px;
   }
 
   .bottom-nav-icon {
@@ -245,7 +291,7 @@
   .bottom-nav-badge {
     width: 12px;
     height: 12px;
-    font-size: 0.5rem;
+    font-size: 8px;
   }
 }
 
@@ -279,6 +325,8 @@
     border: none !important;
     max-height: none !important;
     max-width: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
   }
 
   .reader-content-scroll {

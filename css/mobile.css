@@ -1,0 +1,764 @@
+/* ==========================================================================
+   NOOR & MAHABBA EVENT SYSTEM - MOBILE ARCHITECTURE & TOUCH STYLES
+   Bespoke responsive optimizations for handheld, mobile & touch devices (< 768px, < 480px, < 360px)
+   Safe-area inset handling, iOS auto-zoom prevention, touch ergonomic targets,
+   fluid typography, compact high-density KPI grids, and bottom navigation ergonomics.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. GLOBAL MOBILE TOUCH & SAFE AREA FOUNDATION
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  :root {
+    --navbar-height: 62px;
+    --bottom-nav-height: 68px;
+    --margin: 1rem;
+    --gutter: 0.75rem;
+  }
+
+  html,
+  body {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Prevent bottom fixed bar from overlapping content */
+  body {
+    padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 12px)) !important;
+  }
+
+  /* Prevent iOS Safari from zooming on input focus (minimum 16px font-size) */
+  input[type="text"],
+  input[type="password"],
+  input[type="search"],
+  input[type="url"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Universal container safe margin */
+  .container {
+    padding-left: max(var(--margin), env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(var(--margin), env(safe-area-inset-right, 0px)) !important;
+  }
+
+  /* Touch action optimization for faster response */
+  button,
+  a,
+  .filter-btn,
+  .quiz-option-card,
+  .bottom-nav-link,
+  .card,
+  .btn {
+    touch-action: manipulation;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. MOBILE STICKY NAVIGATION BAR
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .navbar {
+    height: var(--navbar-height);
+    padding: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: rgba(13, 43, 29, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--gold-hairline);
+  }
+
+  .nav-container {
+    height: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .brand-logo {
+    gap: 0.65rem;
+  }
+
+  .brand-icon-wrap {
+    width: 36px;
+    height: 36px;
+    font-size: 1.15rem;
+    border-radius: var(--radius-default);
+  }
+
+  .brand-title {
+    font-size: 1.15rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-subtitle {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+  }
+
+  .btn-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: var(--radius-default);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. MOBILE HERO SECTION & SACRED EPIGRAPH
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .hero-section {
+    padding: 2.25rem 0 2rem;
+    min-height: auto;
+  }
+
+  .hero-content {
+    padding: 0;
+  }
+
+  .hero-pill {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.15rem;
+    gap: 0.4rem;
+  }
+
+  .hero-arabic-title,
+  .epigraph-arabic {
+    font-size: 1.45rem !important;
+    line-height: 2.5rem !important;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-default);
+  }
+
+  .hero-title,
+  .display-hero {
+    font-size: clamp(1.85rem, 7vw, 2.35rem) !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle,
+  .body-lead {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    color: var(--on-surface-variant);
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. COMPACT 2-COLUMN LIVE KPI STATS STRIP
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .stats-strip {
+    padding: 1.5rem 0;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .stat-item {
+    padding: 0.95rem 0.85rem;
+    gap: 0.75rem;
+    border-radius: var(--radius-default);
+  }
+
+  .stat-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    font-size: 1.15rem;
+    border-radius: var(--radius-default);
+  }
+
+  .stat-num {
+    font-size: 1.35rem;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    margin-top: 0.15rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. MOBILE CONTROLS, SEARCH & HORIZONTAL FILTER CHIPS
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem;
+    gap: 0.85rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius-default);
+  }
+
+  .search-input-wrap {
+    width: 100%;
+    min-width: 100%;
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 44px;
+    padding: 0.65rem 1rem 0.65rem 2.65rem;
+    border-radius: var(--radius-default);
+    background: var(--surface-container-lowest);
+  }
+
+  .search-icon {
+    left: 0.9rem;
+    width: 16px;
+    height: 16px;
+  }
+
+  .filter-group {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 0.35rem;
+    gap: 0.45rem;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .filter-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+    font-size: 0.82rem;
+    border-radius: var(--radius-default);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. SINGLE-COLUMN CARDS (GALLERY, NEWS DISPATCHES, STUDENT PAPERS)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .gallery-grid,
+  .news-grid,
+  .magazine-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .gallery-card,
+  .news-card,
+  .magazine-card {
+    border-radius: var(--radius-default);
+  }
+
+  .gallery-img-wrap {
+    height: 220px;
+  }
+
+  .news-card-img-wrap {
+    height: 200px;
+  }
+
+  .news-card-body,
+  .magazine-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .news-title,
+  .magazine-title {
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
+
+  .news-summary,
+  .magazine-abstract {
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .wisdom-card {
+    padding: 1.5rem 1.15rem;
+  }
+
+  .wisdom-body {
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .section-title-wrap {
+    margin-bottom: 1.75rem;
+  }
+
+  .section-title-wrap h2 {
+    font-size: 1.65rem;
+    line-height: 1.3;
+  }
+
+  .section-title-wrap p {
+    font-size: 0.875rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. SEERAH QUIZ DECK, TELEMETRY & CERTIFICATE GENERATOR
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .quiz-section {
+    padding: 1rem 0 2rem;
+  }
+
+  .quiz-card {
+    padding: 1.25rem 1rem;
+    border-radius: var(--radius-default);
+  }
+
+  .quiz-meta-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .quiz-timer {
+    font-size: 0.88rem;
+    padding: 0.3rem 0.65rem;
+    min-height: 32px;
+  }
+
+  .quiz-question-title {
+    font-size: 1.15rem;
+    line-height: 1.45;
+    margin-bottom: 1.25rem;
+  }
+
+  .quiz-options-grid {
+    gap: 0.65rem;
+  }
+
+  .quiz-option-card {
+    min-height: 52px;
+    padding: 0.85rem 1rem;
+    font-size: 0.92rem;
+    border-radius: var(--radius-default);
+  }
+
+  .quiz-action-bar {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .quiz-action-bar .btn {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+  }
+
+  .quiz-score-badge {
+    padding: 1.25rem 1rem;
+  }
+
+  .quiz-score-num {
+    font-size: 2.75rem;
+  }
+
+  /* Certificate Generator Box on Mobile */
+  .certificate-preview-box {
+    margin: 1.5rem 0;
+    padding: 0.75rem;
+    border-radius: var(--radius-default);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #certificate-canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .certificate-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  .certificate-actions .btn {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. HIGH-DENSITY SCOREBOARD TABLE ON MOBILE
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .scoreboard-section {
+    margin-top: 2.5rem;
+  }
+
+  .scoreboard-card {
+    padding: 1.25rem 0.85rem;
+    border-radius: var(--radius-default);
+  }
+
+  .scoreboard-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 1rem;
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-default);
+  }
+
+  .scoreboard-table th {
+    padding: 0.65rem 0.5rem;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  .scoreboard-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .rank-badge {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. MOBILE MODALS & BOTTOM SHEETS (READER & LIGHTBOX)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .reader-modal,
+  .lightbox-modal {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .reader-sheet {
+    width: 100%;
+    max-width: 100%;
+    max-height: 94dvh;
+    border-radius: var(--radius-default) var(--radius-default) 0 0;
+    margin: 0;
+  }
+
+  .reader-header {
+    padding: 0.85rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .reader-toolbar {
+    gap: 0.35rem;
+  }
+
+  .stepper-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .reader-content-scroll {
+    padding: 1.25rem 1rem;
+  }
+
+  .reader-banner-img {
+    height: 190px;
+    border-radius: var(--radius-default);
+  }
+
+  .reader-article-title {
+    font-size: 1.45rem;
+    line-height: 1.3;
+  }
+
+  .reader-prose p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  /* Lightbox Dialog */
+  .lightbox-dialog {
+    width: 100%;
+    max-width: 100%;
+    max-height: 95dvh;
+    border-radius: var(--radius-default) var(--radius-default) 0 0;
+    padding: 0.75rem;
+  }
+
+  .lightbox-image-stage {
+    min-height: 220px;
+    max-height: 50vh;
+  }
+
+  .lightbox-caption-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 0.75rem 0.25rem;
+  }
+
+  .lightbox-actions {
+    width: 100%;
+    display: flex;
+    justify-content: stretch;
+    gap: 0.5rem;
+  }
+
+  .lightbox-actions .btn {
+    flex: 1;
+    min-height: 44px;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. FIXED BOTTOM NAVIGATION BAR (PORTAL CONTROLS)
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .fixed-bottom-bar {
+    height: auto;
+    padding-bottom: max(0.4rem, env(safe-area-inset-bottom, 8px));
+    border-top: 1px solid var(--gold-hairline);
+    background: rgba(13, 43, 29, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .bottom-nav-list {
+    padding: 0.35rem 0.25rem 0.25rem;
+    gap: 0.15rem;
+  }
+
+  .bottom-nav-link {
+    min-height: 48px;
+    padding: 0.35rem 0.15rem 0.25rem;
+    max-width: 72px;
+  }
+
+  .bottom-nav-icon-wrap {
+    width: 36px;
+    height: 26px;
+  }
+
+  .bottom-nav-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bottom-nav-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.01em;
+    margin-top: 0.15rem;
+  }
+
+  .bottom-nav-badge {
+    top: -2px;
+    right: 2px;
+    width: 13px;
+    height: 13px;
+    font-size: 0.55rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. ADMIN DASHBOARD MOBILE STYLES
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .admin-header-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .admin-tabs {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    width: 100%;
+    padding-bottom: 0.45rem;
+    gap: 0.45rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .admin-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-tab-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-height: 42px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .admin-tab-content {
+    padding: 1.25rem 0.85rem;
+    border-radius: var(--radius-default);
+  }
+
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-default);
+  }
+
+  .admin-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 0.85rem;
+    gap: 0.85rem;
+  }
+
+  .admin-item-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .admin-item-actions .btn {
+    min-height: 38px;
+  }
+
+  /* PIN Modal for mobile */
+  .pin-modal-card {
+    width: 100%;
+    max-width: 360px;
+    padding: 1.75rem 1.25rem;
+    margin: 1rem;
+  }
+
+  .pin-digits-row {
+    gap: 0.65rem;
+    justify-content: center;
+  }
+
+  .pin-digit-input {
+    width: 48px;
+    height: 58px;
+    font-size: 1.45rem;
+    border-radius: var(--radius-default);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. EXTRA-SMALL MOBILE DEVICES (< 480px & < 360px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 479px) {
+  .hero-title,
+  .display-hero {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-arabic-title,
+  .epigraph-arabic {
+    font-size: 1.3rem !important;
+    line-height: 2.25rem !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .stat-item {
+    padding: 0.75rem 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 1rem;
+  }
+
+  .stat-num {
+    font-size: 1.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
+  }
+
+  .bottom-nav-link {
+    max-width: 62px;
+    padding: 0.25rem 0.1rem;
+  }
+
+  .bottom-nav-label {
+    font-size: 0.62rem;
+  }
+
+  .bottom-nav-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 359px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-nav-label {
+    display: none;
+  }
+
+  .bottom-nav-link {
+    min-height: 42px;
+    justify-content: center;
+  }
+}
