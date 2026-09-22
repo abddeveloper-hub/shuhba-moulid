@@ -177,7 +177,7 @@ class MagazineManager {
     const abstractEl = document.getElementById('magazine-modal-abstract');
     const bodyEl = document.getElementById('magazine-modal-body');
 
-    if (catEl) catEl.textContent = paper.category || (isPoem ? 'Mawlid Poetry & Qasīda' : 'Mawlid Meg Special Edition');
+    if (catEl) catEl.textContent = paper.category || (isPoem ? 'Mawlid Poetry & Qasīda' : 'Mawlid Mag Special Edition');
     if (typeBadge) typeBadge.textContent = isPoem ? '📜 Sacred Poetry' : '📖 Mawlid Article';
     if (titleEl) {
       titleEl.textContent = paper.title;

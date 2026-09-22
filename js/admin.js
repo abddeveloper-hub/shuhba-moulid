@@ -422,7 +422,7 @@ class AdminManager {
       });
     }
 
-    // Magazine / Mawlid Meg Add Form
+    // Magazine / Mawlid Mag Add Form
     const magForm = document.getElementById('admin-add-magazine-form');
     if (magForm) {
       const typeRadios = document.querySelectorAll('input[name="add-mag-type"]');
@@ -471,7 +471,7 @@ class AdminManager {
           body
         });
 
-        window.app.showToast(itemType === 'poem' ? 'Poem published to Mawlid Meg!' : 'Item published to Mawlid Meg!', 'success');
+        window.app.showToast(itemType === 'poem' ? 'Poem published to Mawlid Mag!' : 'Item published to Mawlid Mag!', 'success');
         magForm.reset();
         this.renderMagazineList();
         this.renderOverviewStats();
@@ -902,11 +902,11 @@ class AdminManager {
   }
 
   deleteMagazineItem(id) {
-    if (confirm('Are you sure you want to delete this Mawlid Meg item?')) {
+    if (confirm('Are you sure you want to delete this Mawlid Mag item?')) {
       window.dataStore.deleteMagazineItem(id);
       this.renderMagazineList();
       this.renderOverviewStats();
-      window.app.showToast('Item deleted from Mawlid Meg.', 'info');
+      window.app.showToast('Item deleted from Mawlid Mag.', 'info');
       if (window.magazine) window.magazine.render();
     }
   }
@@ -1082,7 +1082,7 @@ class AdminManager {
       const items = window.dataStore.getMagazine();
       const item = items.find(i => i.id === id);
       if (!item) return;
-      titleEl.textContent = 'Edit Mawlid Meg Item (Poem / Article)';
+      titleEl.textContent = 'Edit Mawlid Mag Item (Poem / Article)';
 
       fieldsContainer.innerHTML = `
         <div class="form-group" style="margin-bottom: 1rem;">
@@ -1226,7 +1226,7 @@ class AdminManager {
 
       this.renderMagazineList();
       if (window.magazine) window.magazine.render();
-      if (window.app) window.app.showToast('Mawlid Meg item updated & synced!', 'success');
+      if (window.app) window.app.showToast('Mawlid Mag item updated & synced!', 'success');
     } else if (type === 'quiz') {
       const question = document.getElementById('edit-quiz-question').value.trim();
       const category = document.getElementById('edit-quiz-category').value.trim();
