@@ -420,7 +420,7 @@ class QuizEngine {
     ctx.fillStyle = '#997a15';
     ctx.font = '600 12px Outfit, sans-serif';
     ctx.letterSpacing = '3px';
-    ctx.fillText('NOOR & MAHABBA EVENT SYSTEM • 1446 AH', canvas.width / 2, 118);
+    ctx.fillText("SHU'BA MAWLID FESTIVAL • حَرِيصٌ عَلَيْكُم • 1446 AH", canvas.width / 2, 118);
 
     // 6. Certificate Title
     ctx.fillStyle = '#0d2b1d';
@@ -477,7 +477,7 @@ class QuizEngine {
     ctx.font = '400 15px Outfit, sans-serif';
     ctx.letterSpacing = '0px';
     ctx.fillText(`for exemplary scholarship and precision demonstrated in ${categoryTitle},`, canvas.width / 2, 345);
-    ctx.fillText(`achieving an honored accuracy rating of ${scorePct}% in commemoration of Mahabba Eve.`, canvas.width / 2, 372);
+    ctx.fillText(`achieving an honored accuracy rating of ${scorePct}% in commemoration of Shu'ba Mawlid.`, canvas.width / 2, 372);
 
     // 10. Dynamic Illuminated Gold-Foil Circular Seal
     const sealX = canvas.width / 2;
@@ -520,15 +520,15 @@ class QuizEngine {
 
     // Seal Typography
     ctx.fillStyle = '#0d2b1d';
-    ctx.font = '700 9px Outfit, sans-serif';
+    ctx.font = '700 8.5px Outfit, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('NOOR & MAHABBA', sealX, sealY - 14);
+    ctx.fillText("SHU'BA MAWLID", sealX, sealY - 14);
 
     ctx.font = '700 15px Cinzel, serif';
     ctx.fillText('★ 1446 ★', sealX, sealY + 4);
 
-    ctx.font = '600 8.5px Outfit, sans-serif';
-    ctx.fillText('HONORS COUNCIL', sealX, sealY + 18);
+    ctx.font = '600 9px Amiri, serif';
+    ctx.fillText('حَرِيصٌ عَلَيْكُم', sealX, sealY + 18);
 
     // 11. Registry Date & Authenticated Signatures
     const today = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -541,7 +541,7 @@ class QuizEngine {
 
     ctx.font = '400 11px Outfit, sans-serif';
     ctx.fillStyle = '#99907c';
-    ctx.fillText(`Token: NM-${Date.now().toString(36).toUpperCase()}`, 95, 588);
+    ctx.fillText(`Token: SM-${Date.now().toString(36).toUpperCase()}`, 95, 588);
 
     // Signature (Right)
     ctx.textAlign = 'right';
@@ -568,7 +568,7 @@ class QuizEngine {
 
     if (window.soundFx) window.soundFx.playClick();
     const link = document.createElement('a');
-    link.download = `Noor_Mahabba_Certificate_${this.participantName.replace(/\s+/g, '_')}.png`;
+    link.download = `Shuba_Mawlid_Certificate_${this.participantName.replace(/\s+/g, '_')}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
   }
