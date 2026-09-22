@@ -12,40 +12,57 @@
      EXACT DESIGN SPECIFICATION TOKENS
      ========================================================================== */
 
-  /* Surface Stratification (Dark Sanctuary Velvet & Obsidian Earth) */
-  --surface: #14140b;
-  --surface-dim: #14140b;
-  --surface-bright: #3b3a2f;
-  --surface-container-lowest: #0f0f06;
-  --surface-container-low: #1d1c12;
-  --surface-container: #212016;
-  --surface-container-high: #2b2a20;
-  --surface-container-highest: #36352a;
-  --surface-variant: #36352a;
-  --background: #14140b;
+  /* Ready-to-Use Tailwind / CSS Variables */
+  /* Backgrounds */
+  --bg-primary: #0a332c;
+  --bg-surface: #0e3d35;
+  --bg-dark-input: #072520;
 
-  /* Ink, Parchment & Contrast Tones (Optimized Warm Ivory Legibility) */
-  --on-surface: #f5f2e6;
-  --on-surface-variant: #dcd3bf;
-  --on-background: #f5f2e6;
-  --inverse-surface: #f5f2e6;
-  --inverse-on-surface: #323126;
-  --outline: #a09783;
-  --outline-variant: #4d4635;
+  /* Golds & Accents */
+  --gold-primary: #e6ca95;
+  --gold-antique: #c8a86b;
+  --gold-light: #f3e8d0;
 
-  /* Primary Antique Gold System */
-  --surface-tint: #e9c349;
-  --primary: #f2ca50;
-  --on-primary: #3c2f00;
-  --primary-container: #d4af37;
-  --on-primary-container: #554300;
-  --inverse-primary: #735c00;
+  /* Accent & Text */
+  --accent-cyan: #00a3c4;
+  --text-main: #f3e8d0;
+  --text-muted: #a3b8b1;
+  --border-gold: rgba(230, 202, 149, 0.25);
+
+  /* Primary & Background Colors */
+  --surface: #0a332c;
+  --surface-dim: #072520;
+  --surface-bright: #0e3d35;
+  --surface-container-lowest: #072520;
+  --surface-container-low: #0a332c;
+  --surface-container: #0e3d35;
+  --surface-container-high: #12443b;
+  --surface-container-highest: #174f45;
+  --surface-variant: #0e3d35;
+  --background: #0a332c;
+
+  /* Ink, Parchment & Contrast Tones */
+  --on-surface: #f3e8d0;
+  --on-surface-variant: #a3b8b1;
+  --on-background: #f3e8d0;
+  --inverse-surface: #f3e8d0;
+  --inverse-on-surface: #072520;
+  --outline: #c8a86b;
+  --outline-variant: rgba(230, 202, 149, 0.25);
+
+  /* Primary Sand Gold System */
+  --surface-tint: #e6ca95;
+  --primary: #e6ca95;
+  --on-primary: #072520;
+  --primary-container: #c8a86b;
+  --on-primary-container: #072520;
+  --inverse-primary: #c8a86b;
 
   /* Secondary Deep Forest Emerald */
-  --secondary: #adceb9;
-  --on-secondary: #193627;
-  --secondary-container: #2f4d3d;
-  --on-secondary-container: #9cbda8;
+  --secondary: #0e3d35;
+  --on-secondary: #f3e8d0;
+  --secondary-container: #072520;
+  --on-secondary-container: #e6ca95;
 
   /* Tertiary Ottoman Crimson / Tulip Red */
   --tertiary: #ffbfba;
@@ -60,85 +77,82 @@
   --on-error-container: #ffdad6;
 
   /* Fixed Accent Tiers */
-  --primary-fixed: #ffe088;
-  --primary-fixed-dim: #e9c349;
-  --on-primary-fixed: #241a00;
-  --on-primary-fixed-variant: #574500;
-  --secondary-fixed: #c9ebd5;
-  --secondary-fixed-dim: #adceb9;
-  --on-secondary-fixed: #022113;
-  --on-secondary-fixed-variant: #2f4d3d;
+  --primary-fixed: #e6ca95;
+  --primary-fixed-dim: #c8a86b;
+  --on-primary-fixed: #072520;
+  --on-primary-fixed-variant: #0a332c;
+  --secondary-fixed: #0e3d35;
+  --secondary-fixed-dim: #0a332c;
+  --on-secondary-fixed: #f3e8d0;
+  --on-secondary-fixed-variant: #a3b8b1;
   --tertiary-fixed: #ffdad7;
   --tertiary-fixed-dim: #ffb3ae;
   --on-tertiary-fixed: #410005;
   --on-tertiary-fixed-variant: #930015;
 
   /* Bespoke Sacred Emerald & Gold Foil Spectrum */
-  --emerald-base: #0d2b1d;
-  --emerald-card: #143d2b;
-  --emerald-container: #1b4d36;
-  --emerald-surface-glass: rgba(13, 43, 29, 0.72);
-  --emerald-glass-card: rgba(20, 61, 43, 0.70);
-  --emerald-elevated-card: rgba(27, 77, 54, 0.85);
-  --emerald-input-bg: rgba(13, 43, 29, 0.85);
+  --emerald-base: #0a332c;
+  --emerald-card: #0e3d35;
+  --emerald-container: #072520;
+  --emerald-surface-glass: rgba(10, 51, 44, 0.75);
+  --emerald-glass-card: rgba(14, 61, 53, 0.72);
+  --emerald-elevated-card: rgba(14, 61, 53, 0.88);
+  --emerald-input-bg: #072520;
 
-  --gold-antique: #d4af37;
-  --gold-highlight: #f3e5ab;
-  --gold-deep: #997a15;
-  --gold-foil-start: #e8ca65;
-  --gold-foil-end: #d4af37;
-  --gold-hairline: rgba(212, 175, 55, 0.28);
-  --gold-hairline-subtle: rgba(212, 175, 55, 0.18);
-  --gold-glow: rgba(212, 175, 55, 0.40);
+  --gold-highlight: #f3e8d0;
+  --gold-deep: #c8a86b;
+  --gold-foil-start: #e6ca95;
+  --gold-foil-end: #c8a86b;
+  --gold-hairline: rgba(230, 202, 149, 0.25);
+  --gold-hairline-subtle: rgba(230, 202, 149, 0.15);
+  --gold-glow: rgba(230, 202, 149, 0.40);
 
   --crimson-tulip: #c0262d;
   --crimson-bright: #e63946;
-  --parchment-ivory: #f7f3e3;
+  --parchment-ivory: #f3e8d0;
 
   /* Depth & Elevation Tiers */
   --shadow-level-1: 0 8px 32px rgba(0, 0, 0, 0.45);
   --shadow-level-2: 0 16px 48px rgba(0, 0, 0, 0.60);
-  --halo-gold-level-3: 0 0 24px rgba(212, 175, 55, 0.40), 0 8px 20px rgba(0, 0, 0, 0.50);
-  --halo-crimson: 0 0 20px rgba(192, 38, 45, 0.45);
+  --halo-gold-level-3: 0 8px 24px rgba(0, 0, 0, 0.50);
+  --halo-crimson: 0 8px 24px rgba(0, 0, 0, 0.50);
 
   /* Compatibility Mapping for Existing Framework */
-  --bg-primary: #14140b;
-  --bg-secondary: #1d1c12;
-  --bg-tertiary: #212016;
-  --bg-card: rgba(20, 61, 43, 0.70);
-  --bg-overlay: rgba(10, 26, 18, 0.88);
-  --bg-modal: rgba(27, 77, 54, 0.95);
+  --bg-secondary: #0e3d35;
+  --bg-tertiary: #072520;
+  --bg-card: rgba(14, 61, 53, 0.72);
+  --bg-overlay: rgba(7, 37, 32, 0.88);
+  --bg-modal: #0a332c;
 
-  --text-primary: #e6e3d3;
-  --text-secondary: #d0c5af;
-  --text-muted: #99907c;
-  --text-inverse: #14140b;
+  --text-primary: #f3e8d0;
+  --text-secondary: #a3b8b1;
+  --text-inverse: #072520;
 
-  --emerald-primary: #adceb9;
-  --emerald-hover: #c9ebd5;
-  --emerald-subtle: #193627;
-  --emerald-border: #2f4d3d;
-  --emerald-glow: rgba(47, 77, 61, 0.35);
+  --emerald-primary: #0e3d35;
+  --emerald-hover: #12443b;
+  --emerald-subtle: #072520;
+  --emerald-border: rgba(230, 202, 149, 0.25);
+  --emerald-glow: rgba(10, 51, 44, 0.35);
 
-  --gold-primary: #d4af37;
-  --gold-hover: #f2ca50;
-  --gold-subtle: rgba(212, 175, 55, 0.15);
-  --gold-border: rgba(212, 175, 55, 0.35);
-  --gold-bronze: #997a15;
-  --gold-amber: #d4af37;
-  --gold-illuminated: #f2ca50;
-  --gold-candlelight: #f3e5ab;
-  --gold-luminous-glow: 0 0 24px rgba(212, 175, 55, 0.35);
+  --gold-hover: #f3e8d0;
+  --gold-subtle: rgba(230, 202, 149, 0.15);
+  --gold-border: rgba(230, 202, 149, 0.25);
+  --gold-bronze: #c8a86b;
+  --gold-amber: #e6ca95;
+  --gold-illuminated: #e6ca95;
+  --gold-candlelight: #f3e8d0;
+  --gold-luminous-glow: none;
   --gold-card-shadow: var(--shadow-level-1);
 
+  --color-white: #ffffff;
   --color-success: #34d399;
   --color-danger: #c0262d;
-  --color-warning: #f2ca50;
-  --color-info: #adceb9;
+  --color-warning: #e6ca95;
+  --color-info: #00a3c4;
 
-  --border-subtle: rgba(212, 175, 55, 0.18);
-  --border-color: #4d4635;
-  --border-emphasis: #99907c;
+  --border-subtle: rgba(230, 202, 149, 0.18);
+  --border-color: rgba(230, 202, 149, 0.25);
+  --border-emphasis: #c8a86b;
 
   /* Shadows */
   --shadow-xs: 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -212,10 +226,6 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-image: 
-    radial-gradient(circle at 50% -5%, rgba(212, 175, 55, 0.16) 0%, rgba(13, 43, 29, 0.42) 38%, transparent 75%),
-    radial-gradient(ellipse at 50% 100%, rgba(13, 43, 29, 0.35) 0%, transparent 65%);
-  background-attachment: fixed;
 }
 
 /* Ambient Sacred Canvas Ottoman Micro-Pattern Texture */
@@ -301,12 +311,11 @@ p {
 a {
   color: var(--primary);
   text-decoration: none;
-  transition: color var(--transition-fast), text-shadow var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 a:hover {
   color: var(--gold-highlight);
-  text-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
 }
 
 img {
@@ -420,12 +429,11 @@ button, input, select, textarea {
 
 .epigraph-arabic {
   font-family: var(--font-arabic);
-  font-size: clamp(2.2rem, 5.5vw, 3.35rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 700;
-  line-height: 3.6rem;
+  line-height: 4.8rem;
   direction: rtl;
   color: var(--gold-highlight);
-  text-shadow: 0 0 24px rgba(212, 175, 55, 0.45);
 }
 
 .display-hero {
@@ -543,19 +551,17 @@ button, input, select, textarea {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-default);
-  background: linear-gradient(135deg, var(--gold-foil-start) 0%, var(--gold-antique) 100%);
-  border: 1px solid var(--gold-highlight);
+  background: var(--bg-dark-input);
+  border: 1px solid var(--border-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--on-secondary);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
 }
 
 .brand-logo:hover .brand-icon-wrap {
-  transform: translateY(-1px) scale(1.04);
-  box-shadow: 0 0 26px rgba(212, 175, 55, 0.6);
+  transform: translateY(-1px);
+  border-color: var(--gold-primary);
 }
 
 .brand-text-block {
@@ -739,7 +745,6 @@ main {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: 0.03em;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
 }
 
 .page-description {
@@ -760,8 +765,8 @@ main {
 .hero-section {
   position: relative;
   padding: 5.5rem 0 4.5rem;
-  background: radial-gradient(ellipse at 50% 12%, rgba(212, 175, 55, 0.18) 0%, rgba(13, 43, 29, 0.45) 45%, var(--surface) 85%);
-  border-bottom: 1px solid var(--gold-hairline);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-gold);
   overflow: hidden;
 }
 
@@ -777,7 +782,6 @@ main {
   font-size: 0.85rem;
   letter-spacing: 0.2em;
   z-index: 2;
-  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.5));
 }
 
 .hero-pattern-bg {
@@ -821,13 +825,14 @@ main {
 
 .hero-arabic-title {
   font-family: var(--font-arabic);
-  font-size: clamp(2.2rem, 5.5vw, 3.4rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   color: var(--gold-highlight);
-  margin-bottom: 0.85rem;
+  margin-top: 2.75rem;
+  margin-bottom: 3rem;
   font-weight: 700;
-  line-height: 3.5rem;
+  line-height: 4.8rem;
   letter-spacing: 0;
-  text-shadow: 0 0 28px rgba(212, 175, 55, 0.45);
+  padding: 0 1rem;
 }
 
 /* ==========================================================================
@@ -837,7 +842,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.5rem auto 1.25rem;
+  margin: 2rem auto 3rem;
 }
 
 .hero-fest-calligraphy {
@@ -845,13 +850,12 @@ main {
   width: 82%;
   height: auto;
   display: block;
-  filter: brightness(0) saturate(100%) invert(80%) sepia(35%) saturate(800%) hue-rotate(5deg) brightness(108%) drop-shadow(0 0 22px rgba(212, 175, 55, 0.55));
-  transition: transform var(--transition-normal), filter var(--transition-normal);
+  filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);
+  transition: transform var(--transition-normal);
 }
 
 .hero-fest-calligraphy:hover {
-  transform: scale(1.03);
-  filter: brightness(0) saturate(100%) invert(80%) sepia(35%) saturate(800%) hue-rotate(5deg) brightness(118%) drop-shadow(0 0 30px rgba(212, 175, 55, 0.75));
+  transform: scale(1.02);
 }
 
 .brand-fest-img {
@@ -859,6 +863,7 @@ main {
   height: 28px;
   object-fit: contain;
   display: block;
+  filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);
 }
 
 .admin-brand-img {
@@ -866,22 +871,23 @@ main {
   height: 32px;
   object-fit: contain;
   display: block;
+  filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);
 }
 
 .admin-auth-fest-img {
   max-width: 220px;
   width: 65%;
   height: auto;
-  margin: 0 auto 1.25rem;
+  margin: 0 auto 1.5rem;
   display: block;
-  filter: brightness(0) saturate(100%) invert(80%) sepia(35%) saturate(800%) hue-rotate(5deg) brightness(105%) drop-shadow(0 0 16px rgba(212, 175, 55, 0.45));
+  filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);
 }
 
 .quiz-fest-badge {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .quiz-fest-logo {
@@ -889,27 +895,27 @@ main {
   width: 70%;
   height: auto;
   display: block;
-  filter: brightness(0) saturate(100%) invert(80%) sepia(35%) saturate(800%) hue-rotate(5deg) brightness(108%) drop-shadow(0 0 16px rgba(212, 175, 55, 0.5));
+  filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);
 }
 
 .footer-fest-logo {
   max-width: 170px;
   width: 80%;
   height: auto;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
   display: block;
-  filter: brightness(0) saturate(100%) invert(80%) sepia(35%) saturate(800%) hue-rotate(5deg) brightness(105%) drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
+  filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);
 }
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4.8vw, 3.35rem);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
   font-weight: 700;
-  line-height: 1.22;
-  letter-spacing: 0.03em;
-  margin-bottom: 1.35rem;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   color: var(--parchment-ivory);
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
 .hero-title span {
@@ -919,7 +925,6 @@ main {
   background: linear-gradient(135deg, var(--gold-highlight) 0%, var(--gold-antique) 50%, #997a15 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.3));
 }
 
 .hero-subtitle {
@@ -1004,7 +1009,6 @@ main {
   line-height: 1.1;
   font-family: var(--font-sans);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
 }
 
 .countdown-label {
@@ -1128,7 +1132,6 @@ main {
 .view-all-link:hover {
   color: var(--gold-highlight);
   transform: translateX(4px);
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
 }
 
 /* Wisdom Quote Card - Level 2 Elevated Translucent Manuscript Container */
@@ -1173,7 +1176,6 @@ main {
   line-height: 1.8;
   font-style: italic;
   margin-bottom: 1.25rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .wisdom-author {
@@ -1302,7 +1304,6 @@ main {
 .footer-links a:hover {
   color: var(--primary);
   padding-left: 4px;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
 .footer-bottom {
@@ -1340,4 +1341,127 @@ main {
   color: var(--gold-highlight);
   border-color: var(--gold-antique);
   box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+}
+
+/* ==========================================================================
+   3D WELCOME OPENING SCREEN
+   ========================================================================== */
+.welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  background-color: var(--bg-primary, #0a332c);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+  perspective: 1200px;
+}
+
+.welcome-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Welcome Page Logo */
+.welcome-logo-wrap {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.welcome-fest-logo {
+  max-width: 320px;
+  width: 75vw;
+  height: auto;
+  display: block;
+  filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);
+  animation: floatLogo 5s ease-in-out infinite alternate;
+}
+
+@keyframes floatLogo {
+  0% { transform: translateY(-8px) scale(1); }
+  100% { transform: translateY(8px) scale(1.02); }
+}
+
+/* Welcome Content */
+.welcome-content {
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.welcome-greeting {
+  font-family: var(--font-arabic, 'Amiri', serif);
+  font-size: 1.75rem;
+  color: var(--gold-primary, #e6ca95);
+  margin-bottom: 0.4rem;
+  direction: rtl;
+}
+
+.welcome-title {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+
+.welcome-subtitle {
+  font-family: var(--font-body, 'Outfit', sans-serif);
+  font-size: 1.05rem;
+  color: var(--gold-primary, #e6ca95);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.welcome-desc {
+  font-family: var(--font-body, 'Outfit', sans-serif);
+  font-size: 0.925rem;
+  color: var(--text-muted, #a3b8b1);
+  margin-bottom: 2rem;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.welcome-enter-btn {
+  background: var(--gold-primary, #e6ca95);
+  color: #072520;
+  border: none;
+  border-radius: 4px;
+  padding: 0.9rem 2.75rem;
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.welcome-enter-btn:hover {
+  background: #f3e8d0;
+  transform: translateY(-2px);
 }

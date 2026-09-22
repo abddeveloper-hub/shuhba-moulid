@@ -74,8 +74,15 @@ window.firebaseService = {
     if (!nodeName) return;
 
     try {
+      // Deep sanitize: Firebase throws error on undefined properties (e.g. videoUrl: undefined)
+      const cleanData = JSON.parse(JSON.stringify(data, (key, value) => {
+        return value === undefined ? null : value;
+      }));
+
       const dbRef = ref(db, nodeName);
-      set(dbRef, data).catch((err) => {
+      set(dbRef, cleanData).then(() => {
+        console.log(`✅ Successfully synced ${nodeName} to Firebase Cloud`);
+      }).catch((err) => {
         console.warn(`Firebase write warning for ${nodeName}:`, err);
       });
     } catch (err) {
@@ -101,6 +108,18 @@ if (db) {
           renderCallbacks.forEach(cb => {
             try { cb(); } catch (e) {}
           });
+        } else if (val === null) {
+          // If cloud node is empty, automatically push existing local data
+          try {
+            const localRaw = localStorage.getItem(primaryKey) || localStorage.getItem(fallbackKey);
+            if (localRaw) {
+              const localParsed = JSON.parse(localRaw);
+              if (Array.isArray(localParsed) && localParsed.length > 0) {
+                console.log(`Pushing existing local ${nodeName} to Firebase cloud...`);
+                window.firebaseService.syncToFirebase(primaryKey, localParsed);
+              }
+            }
+          } catch (e) {}
         }
       }, (error) => {
         console.warn(`Firebase read note for ${nodeName}:`, error);

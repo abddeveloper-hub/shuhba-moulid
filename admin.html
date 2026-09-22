@@ -552,6 +552,25 @@
     </div>
   </footer>
 
+  <!-- Universal Admin Edit Modal -->
+  <div id="admin-edit-modal" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(7, 37, 32, 0.88); z-index: 99999; backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1.5rem; overflow-y: auto;">
+    <div class="modal-card" style="background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); max-width: 620px; width: 100%; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.7); position: relative; margin: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-gold); padding-bottom: 0.75rem;">
+        <h3 id="admin-edit-title" style="color: var(--gold-primary); font-family: var(--font-display); margin: 0; font-size: 1.3rem;">Edit Item</h3>
+        <button type="button" onclick="window.admin.closeEditModal()" style="background: none; border: none; color: var(--text-muted); font-size: 1.6rem; cursor: pointer; line-height: 1; padding: 0.2rem 0.5rem;" aria-label="Close">&times;</button>
+      </div>
+      <form id="admin-edit-form" onsubmit="window.admin.handleEditSubmit(event)">
+        <input type="hidden" id="edit-item-type">
+        <input type="hidden" id="edit-item-id">
+        <div id="admin-edit-fields"></div>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.75rem; border-top: 1px solid var(--border-gold); padding-top: 1rem;">
+          <button type="button" class="btn btn-sm btn-outline" onclick="window.admin.closeEditModal()">Cancel</button>
+          <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
 
@@ -567,6 +586,15 @@
       if (window.admin) {
         window.admin.render();
       }
+      // Automatically re-sync previously blocked local items to Firebase Cloud
+      setTimeout(() => {
+        if (window.dataStore && window.firebaseService && typeof window.firebaseService.syncToFirebase === 'function') {
+          const gallery = window.dataStore.getGallery();
+          if (gallery && gallery.length > 0) {
+            window.firebaseService.syncToFirebase('noor_mahabba_gallery', gallery);
+          }
+        }
+      }, 1000);
     });
   </script>
 </body>

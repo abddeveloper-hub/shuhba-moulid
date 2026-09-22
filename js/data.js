@@ -474,10 +474,12 @@ class DataStore {
 
   set(key, data) {
     try {
-      localStorage.setItem(key, JSON.stringify(data));
+      // Sanitize undefined fields so Firebase never rejects the payload
+      const cleanData = JSON.parse(JSON.stringify(data, (k, v) => (v === undefined ? null : v)));
+      localStorage.setItem(key, JSON.stringify(cleanData));
       // Real-time synchronization to Firebase Cloud Database if connected
       if (window.firebaseService && typeof window.firebaseService.syncToFirebase === 'function') {
-        window.firebaseService.syncToFirebase(key, data);
+        window.firebaseService.syncToFirebase(key, cleanData);
       }
       return true;
     } catch (e) {
@@ -509,8 +511,8 @@ class DataStore {
   addGalleryItem(item) {
     const items = this.getGallery();
     const isVideo = item.mediaType === 'video' || !!item.videoUrl;
-    let imageUrl = item.imageUrl;
-    let videoUrl = item.videoUrl;
+    let imageUrl = item.imageUrl || '';
+    let videoUrl = item.videoUrl || '';
 
     if (imageUrl) imageUrl = this.convertGoogleDriveUrl(imageUrl, false);
     if (videoUrl) videoUrl = this.convertGoogleDriveUrl(videoUrl, true);
@@ -520,8 +522,12 @@ class DataStore {
       date: item.date || new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
       ...item,
       imageUrl,
-      videoUrl
+      videoUrl: videoUrl || ''
     };
+    // Ensure no undefined values exist
+    Object.keys(newItem).forEach(k => {
+      if (newItem[k] === undefined) delete newItem[k];
+    });
     items.unshift(newItem);
     this.set(STORAGE_KEYS.GALLERY, items);
     return newItem;
@@ -531,6 +537,19 @@ class DataStore {
     let items = this.getGallery();
     items = items.filter(i => i.id !== id);
     this.set(STORAGE_KEYS.GALLERY, items);
+  }
+
+  updateGalleryItem(id, updatedFields) {
+    const items = this.getGallery();
+    const index = items.findIndex(i => i.id === id);
+    if (index !== -1) {
+      if (updatedFields.imageUrl) updatedFields.imageUrl = this.convertGoogleDriveUrl(updatedFields.imageUrl, false);
+      if (updatedFields.videoUrl) updatedFields.videoUrl = this.convertGoogleDriveUrl(updatedFields.videoUrl, true);
+      items[index] = { ...items[index], ...updatedFields };
+      this.set(STORAGE_KEYS.GALLERY, items);
+      return items[index];
+    }
+    return null;
   }
 
   // News CRUD
@@ -621,6 +640,17 @@ class DataStore {
     let items = this.getQuizQuestions();
     items = items.filter(i => i.id !== id);
     this.set(STORAGE_KEYS.QUIZ_QUESTIONS, items);
+  }
+
+  updateQuizQuestion(id, updatedFields) {
+    const items = this.getQuizQuestions();
+    const index = items.findIndex(i => i.id === id);
+    if (index !== -1) {
+      items[index] = { ...items[index], ...updatedFields };
+      this.set(STORAGE_KEYS.QUIZ_QUESTIONS, items);
+      return items[index];
+    }
+    return null;
   }
 
   loadCuratedQuizQuestions() {

@@ -636,6 +636,9 @@ class AdminManager {
             </div>
           </div>
           <div class="admin-item-actions">
+            <button class="btn btn-sm btn-outline" style="margin-right: 0.4rem;" onclick="window.admin.openEditModal('gallery', '${item.id}')">
+              Edit
+            </button>
             <button class="btn btn-sm btn-danger" onclick="window.admin.deleteGalleryItem('${item.id}')">
               Delete
             </button>
@@ -675,6 +678,9 @@ class AdminManager {
           </div>
         </div>
         <div class="admin-item-actions">
+          <button class="btn btn-sm btn-outline" style="margin-right: 0.4rem;" onclick="window.admin.openEditModal('news', '${item.id}')">
+            Edit
+          </button>
           <button class="btn btn-sm btn-danger" onclick="window.admin.deleteNewsItem('${item.id}')">
             Delete
           </button>
@@ -712,6 +718,9 @@ class AdminManager {
           </div>
         </div>
         <div class="admin-item-actions">
+          <button class="btn btn-sm btn-outline" style="margin-right: 0.4rem;" onclick="window.admin.openEditModal('magazine', '${item.id}')">
+            Edit
+          </button>
           <button class="btn btn-sm btn-danger" onclick="window.admin.deleteMagazineItem('${item.id}')">
             Delete
           </button>
@@ -752,6 +761,9 @@ class AdminManager {
           </div>
         </div>
         <div class="admin-item-actions">
+          <button class="btn btn-sm btn-outline" style="margin-right: 0.4rem;" onclick="window.admin.openEditModal('quiz', '${item.id}')">
+            Edit
+          </button>
           <button class="btn btn-sm btn-danger" onclick="window.admin.deleteQuizQuestion('${item.id}')">
             Delete
           </button>
@@ -823,6 +835,239 @@ class AdminManager {
       if (window.magazine) window.magazine.render();
       if (window.quiz) window.quiz.renderScoreboard();
     }
+  }
+
+  openEditModal(type, id) {
+    const modal = document.getElementById('admin-edit-modal');
+    const titleEl = document.getElementById('admin-edit-title');
+    const typeInput = document.getElementById('edit-item-type');
+    const idInput = document.getElementById('edit-item-id');
+    const fieldsContainer = document.getElementById('admin-edit-fields');
+    if (!modal || !fieldsContainer) return;
+
+    typeInput.value = type;
+    idInput.value = id;
+
+    if (type === 'gallery') {
+      const items = window.dataStore.getGallery();
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      titleEl.textContent = item.mediaType === 'video' ? 'Edit Gallery Video' : 'Edit Gallery Photo';
+      const isVideo = item.mediaType === 'video' || !!item.videoUrl;
+
+      fieldsContainer.innerHTML = `
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Title</label>
+          <input type="text" id="edit-gal-title" class="form-input" value="${item.title || ''}" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Category</label>
+          <select id="edit-gal-category" class="form-select">
+            <option value="Stage Programs" ${item.category === 'Stage Programs' ? 'selected' : ''}>Stage Programs</option>
+            <option value="Exhibitions" ${item.category === 'Exhibitions' ? 'selected' : ''}>Exhibitions</option>
+            <option value="Awards" ${item.category === 'Awards' ? 'selected' : ''}>Awards</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">${isVideo ? 'Thumbnail Image URL' : 'Photo Image URL / Data'}</label>
+          <input type="text" id="edit-gal-image" class="form-input" value="${item.imageUrl || ''}" required>
+        </div>
+        ${isVideo ? `
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Video URL (Google Drive, YouTube, Vimeo, MP4)</label>
+          <input type="text" id="edit-gal-video" class="form-input" value="${item.videoUrl || ''}">
+        </div>` : ''}
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Caption / Description</label>
+          <textarea id="edit-gal-caption" class="form-textarea" rows="3">${item.caption || ''}</textarea>
+        </div>
+      `;
+    } else if (type === 'news') {
+      const items = window.dataStore.getNews();
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      titleEl.textContent = 'Edit News Dispatch';
+
+      fieldsContainer.innerHTML = `
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Headline / Title</label>
+          <input type="text" id="edit-news-title" class="form-input" value="${item.title || ''}" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Category</label>
+          <input type="text" id="edit-news-category" class="form-input" value="${item.category || ''}">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Banner Image URL</label>
+          <input type="text" id="edit-news-image" class="form-input" value="${item.imageUrl || ''}" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Article Body</label>
+          <textarea id="edit-news-content" class="form-textarea" rows="5">${item.content || item.summary || ''}</textarea>
+        </div>
+      `;
+    } else if (type === 'magazine') {
+      const items = window.dataStore.getMagazine();
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      titleEl.textContent = 'Edit Student Research Paper';
+
+      fieldsContainer.innerHTML = `
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Paper Title</label>
+          <input type="text" id="edit-mag-title" class="form-input" value="${item.title || ''}" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Author Name</label>
+          <input type="text" id="edit-mag-author" class="form-input" value="${item.author || ''}" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Grade / Designation</label>
+          <input type="text" id="edit-mag-grade" class="form-input" value="${item.grade || ''}">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Category</label>
+          <input type="text" id="edit-mag-category" class="form-input" value="${item.category || ''}">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Abstract</label>
+          <textarea id="edit-mag-abstract" class="form-textarea" rows="2">${item.abstract || ''}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Full Body Content</label>
+          <textarea id="edit-mag-body" class="form-textarea" rows="6">${item.body || ''}</textarea>
+        </div>
+      `;
+    } else if (type === 'quiz') {
+      const items = window.dataStore.getQuizQuestions();
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      titleEl.textContent = 'Edit Quiz Question';
+
+      fieldsContainer.innerHTML = `
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Question</label>
+          <input type="text" id="edit-quiz-question" class="form-input" value="${item.question || ''}" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Category</label>
+          <input type="text" id="edit-quiz-category" class="form-input" value="${item.category || 'General'}">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+          <div><label class="form-label">Option 1</label><input type="text" id="edit-quiz-opt0" class="form-input" value="${item.options && item.options[0] ? item.options[0] : ''}" required></div>
+          <div><label class="form-label">Option 2</label><input type="text" id="edit-quiz-opt1" class="form-input" value="${item.options && item.options[1] ? item.options[1] : ''}" required></div>
+          <div><label class="form-label">Option 3</label><input type="text" id="edit-quiz-opt2" class="form-input" value="${item.options && item.options[2] ? item.options[2] : ''}" required></div>
+          <div><label class="form-label">Option 4</label><input type="text" id="edit-quiz-opt3" class="form-input" value="${item.options && item.options[3] ? item.options[3] : ''}" required></div>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Correct Option</label>
+          <select id="edit-quiz-correct" class="form-select">
+            <option value="0" ${item.correctIndex === 0 ? 'selected' : ''}>Option 1</option>
+            <option value="1" ${item.correctIndex === 1 ? 'selected' : ''}>Option 2</option>
+            <option value="2" ${item.correctIndex === 2 ? 'selected' : ''}>Option 3</option>
+            <option value="3" ${item.correctIndex === 3 ? 'selected' : ''}>Option 4</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Explanation</label>
+          <textarea id="edit-quiz-explanation" class="form-textarea" rows="2">${item.explanation || ''}</textarea>
+        </div>
+      `;
+    }
+
+    modal.style.display = 'flex';
+  }
+
+  closeEditModal() {
+    const modal = document.getElementById('admin-edit-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  handleEditSubmit(e) {
+    e.preventDefault();
+    const type = document.getElementById('edit-item-type').value;
+    const id = document.getElementById('edit-item-id').value;
+
+    if (type === 'gallery') {
+      const title = document.getElementById('edit-gal-title').value.trim();
+      const category = document.getElementById('edit-gal-category').value;
+      const imageUrl = document.getElementById('edit-gal-image').value.trim();
+      const videoEl = document.getElementById('edit-gal-video');
+      const videoUrl = videoEl ? videoEl.value.trim() : '';
+      const caption = document.getElementById('edit-gal-caption').value.trim();
+
+      window.dataStore.updateGalleryItem(id, {
+        title,
+        category,
+        imageUrl,
+        videoUrl: videoUrl || '',
+        caption
+      });
+
+      this.renderGalleryList();
+      if (window.gallery) window.gallery.render();
+      if (window.app) window.app.showToast('Gallery item updated & synced to Cloud!', 'success');
+    } else if (type === 'news') {
+      const title = document.getElementById('edit-news-title').value.trim();
+      const category = document.getElementById('edit-news-category').value.trim();
+      const imageUrl = document.getElementById('edit-news-image').value.trim();
+      const content = document.getElementById('edit-news-content').value.trim();
+
+      window.dataStore.updateNewsItem(id, {
+        title,
+        category,
+        imageUrl,
+        content,
+        summary: content.substring(0, 160) + '...'
+      });
+
+      this.renderNewsList();
+      if (window.news) window.news.render();
+      if (window.app) window.app.showToast('News article updated & synced to Cloud!', 'success');
+    } else if (type === 'magazine') {
+      const title = document.getElementById('edit-mag-title').value.trim();
+      const author = document.getElementById('edit-mag-author').value.trim();
+      const grade = document.getElementById('edit-mag-grade').value.trim();
+      const category = document.getElementById('edit-mag-category').value.trim();
+      const abstract = document.getElementById('edit-mag-abstract').value.trim();
+      const body = document.getElementById('edit-mag-body').value.trim();
+
+      window.dataStore.updateMagazineItem(id, {
+        title,
+        author,
+        grade,
+        category,
+        abstract: abstract || body.substring(0, 160) + '...',
+        body
+      });
+
+      this.renderMagazineList();
+      if (window.magazine) window.magazine.render();
+      if (window.app) window.app.showToast('Student paper updated & synced to Cloud!', 'success');
+    } else if (type === 'quiz') {
+      const question = document.getElementById('edit-quiz-question').value.trim();
+      const category = document.getElementById('edit-quiz-category').value.trim();
+      const opt0 = document.getElementById('edit-quiz-opt0').value.trim();
+      const opt1 = document.getElementById('edit-quiz-opt1').value.trim();
+      const opt2 = document.getElementById('edit-quiz-opt2').value.trim();
+      const opt3 = document.getElementById('edit-quiz-opt3').value.trim();
+      const correctIndex = parseInt(document.getElementById('edit-quiz-correct').value, 10);
+      const explanation = document.getElementById('edit-quiz-explanation').value.trim();
+
+      window.dataStore.updateQuizQuestion(id, {
+        question,
+        category,
+        options: [opt0, opt1, opt2, opt3],
+        correctIndex,
+        explanation
+      });
+
+      this.renderQuizList();
+      if (window.app) window.app.showToast('Question updated & synced to Cloud!', 'success');
+    }
+
+    this.renderOverviewStats();
+    this.closeEditModal();
   }
 }
 
