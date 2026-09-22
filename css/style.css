@@ -581,6 +581,67 @@ button, input, select, textarea {
   letter-spacing: 0.14em;
 }
 
+/* Desktop Navigation Links */
+.desktop-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--on-surface-variant);
+  text-decoration: none;
+  padding: 0.5rem 0.2rem;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--gold-highlight);
+}
+
+.nav-link.active {
+  color: var(--gold-highlight);
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold-antique), var(--gold-highlight));
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.7);
+}
+
+.nav-link.admin-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--gold-hairline);
+  border-radius: var(--radius-full);
+  font-size: 0.825rem;
+  color: var(--gold-highlight);
+  font-weight: 600;
+}
+
+.nav-link.admin-nav-pill:hover {
+  background: rgba(212, 175, 55, 0.24);
+  border-color: var(--gold-antique);
+}
+
+.nav-link.admin-nav-pill.active::after {
+  display: none;
+}
+
 .nav-actions {
   display: flex;
   align-items: center;

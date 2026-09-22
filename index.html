@@ -43,6 +43,19 @@
         </div>
       </a>
 
+      <!-- Desktop Navigation Links -->
+      <nav class="desktop-nav-links" id="desktop-nav-links" aria-label="Main Navigation">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#gallery" class="nav-link">Gallery</a>
+        <a href="#news" class="nav-link">Dispatches</a>
+        <a href="#magazine" class="nav-link">Journal</a>
+        <a href="#quiz" class="nav-link">Seerah Quiz</a>
+        <a href="admin.html" class="nav-link admin-nav-pill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Admin
+        </a>
+      </nav>
+
       <!-- Action Buttons -->
       <div class="nav-actions">
         <!-- Audio Effects Mute/Unmute -->
@@ -425,10 +438,27 @@
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   Download Certificate (PNG)
                 </button>
+                <button class="btn btn-outline" id="quiz-review-toggle-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  Review Answers &amp; Insights
+                </button>
                 <button class="btn btn-secondary" id="quiz-restart-btn">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
                   Retake Quiz
                 </button>
+              </div>
+
+              <!-- Accordion / Review Container -->
+              <div class="quiz-review-section" id="quiz-review-section" style="display: none; margin-top: 2rem; text-align: left;">
+                <h3 style="font-family: var(--font-display); margin-bottom: 0.5rem; color: var(--gold-highlight); display: flex; align-items: center; gap: 0.5rem;">
+                  <span>📋</span> Detailed Review &amp; Educational Insights
+                </h3>
+                <p style="font-size: 0.885rem; color: var(--on-surface-variant); margin-bottom: 1.25rem;">
+                  Examine each question, verify your choices against the correct historical evidence, and deepen your Seerah knowledge.
+                </p>
+                <div class="quiz-review-list" id="quiz-review-list">
+                  <!-- Populated by quiz.js -->
+                </div>
               </div>
             </div>
           </div>
@@ -446,6 +476,17 @@
                   <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                   <input type="text" class="search-input" id="leaderboard-search-input" placeholder="Search student name...">
                 </div>
+              </div>
+
+              <!-- Leaderboard Discipline Filter Chips -->
+              <div class="scoreboard-filter-chips" id="scoreboard-filter-chips">
+                <button class="filter-chip active" data-category="all">🌟 All Disciplines</button>
+                <button class="filter-chip" data-category="Quran & Revelation">📖 Quran &amp; Revelation</button>
+                <button class="filter-chip" data-category="Seerah & Prophetic History">🌙 Seerah &amp; History</button>
+                <button class="filter-chip" data-category="Aqeedah & Fundamentals of Faith">⚖️ Aqeedah</button>
+                <button class="filter-chip" data-category="Fiqh & Worship (Ibadah)">🕌 Fiqh &amp; Worship</button>
+                <button class="filter-chip" data-category="Hadith & Hadith Sciences">📜 Hadith</button>
+                <button class="filter-chip" data-category="Early Islamic History & Khulafa">🏛️ Islamic History</button>
               </div>
 
               <div class="scoreboard-table-wrap">

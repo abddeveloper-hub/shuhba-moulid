@@ -3,6 +3,29 @@
    Step-by-step Seerah quiz, timer, audio feedback, canvas certificate & leaderboard
    ========================================================================== */
 
+// Helper functions for shuffling questions and answer options
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function randomizeQuestions(questions) {
+  return shuffleArray(questions).map(q => {
+    const correctOptionString = q.options[q.correctIndex];
+    const shuffledOptions = shuffleArray(q.options);
+    const newCorrectIndex = shuffledOptions.indexOf(correctOptionString);
+    return {
+      ...q,
+      options: shuffledOptions,
+      correctIndex: newCorrectIndex
+    };
+  });
+}
+
 class QuizEngine {
   constructor() {
     this.questions = [];
@@ -10,6 +33,7 @@ class QuizEngine {
     this.score = 0;
     this.participantName = '';
     this.selectedCategory = 'all';
+    this.currentScoreboardCategory = 'all';
     this.timerInterval = null;
     this.elapsedSeconds = 0;
     this.hasAnswered = false;
@@ -38,12 +62,43 @@ class QuizEngine {
       downloadCertBtn.addEventListener('click', () => this.downloadCertificate());
     }
 
+    // Review answers toggle button
+    const reviewToggleBtn = document.getElementById('quiz-review-toggle-btn');
+    if (reviewToggleBtn) {
+      reviewToggleBtn.addEventListener('click', () => {
+        const reviewSection = document.getElementById('quiz-review-section');
+        if (reviewSection) {
+          const isHidden = reviewSection.style.display === 'none' || !reviewSection.style.display;
+          reviewSection.style.display = isHidden ? 'block' : 'none';
+          reviewToggleBtn.innerHTML = isHidden
+            ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg> Hide Review`
+            : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Review Answers &amp; Insights`;
+          if (isHidden) {
+            reviewSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    }
+
     const lbSearch = document.getElementById('leaderboard-search-input');
     if (lbSearch) {
       lbSearch.addEventListener('input', (e) => {
-        this.renderScoreboard(e.target.value.toLowerCase().trim());
+        this.renderScoreboard(e.target.value.toLowerCase().trim(), this.currentScoreboardCategory);
       });
     }
+
+    // Leaderboard discipline filter chips
+    const filterChips = document.querySelectorAll('#scoreboard-filter-chips .filter-chip');
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        this.currentScoreboardCategory = chip.dataset.category || 'all';
+        const searchInput = document.getElementById('leaderboard-search-input');
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        this.renderScoreboard(query, this.currentScoreboardCategory);
+      });
+    });
   }
 
   startQuiz() {
@@ -61,16 +116,20 @@ class QuizEngine {
     this.selectedCategory = catSelect ? catSelect.value : 'all';
 
     const allQuestions = window.dataStore.getQuizQuestions();
+    let questionsPool = [];
     if (this.selectedCategory && this.selectedCategory !== 'all') {
-      this.questions = allQuestions.filter(q => q.category === this.selectedCategory);
+      questionsPool = allQuestions.filter(q => q.category === this.selectedCategory);
     } else {
-      this.questions = allQuestions;
+      questionsPool = allQuestions;
     }
 
-    if (!this.questions || this.questions.length === 0) {
+    if (!questionsPool || questionsPool.length === 0) {
       if (window.app) window.app.showToast('No questions currently available for this curriculum. Please select another category or add questions in Admin.', 'warning');
       return;
     }
+
+    // Randomize question sequence and option order for a fresh, authentic challenge
+    this.questions = randomizeQuestions(questionsPool);
 
     this.currentIndex = 0;
     this.score = 0;
@@ -175,9 +234,12 @@ class QuizEngine {
 
     this.userAnswers.push({
       question: q.question,
+      category: q.category,
+      options: [...q.options],
       selected: selectedIndex,
       correct: q.correctIndex,
-      isCorrect
+      isCorrect,
+      explanation: q.explanation
     });
 
     // Show Explanation
@@ -245,6 +307,9 @@ class QuizEngine {
     // Draw Certificate on Canvas
     this.drawCertificate(scorePct);
 
+    // Render Detailed Answer Review
+    this.renderReviewList();
+
     // Re-render scoreboard with new record
     this.renderScoreboard();
 
@@ -256,6 +321,13 @@ class QuizEngine {
     document.getElementById('quiz-summary-screen').style.display = 'none';
     document.getElementById('quiz-active-screen').style.display = 'none';
     document.getElementById('quiz-welcome-screen').style.display = 'block';
+
+    const reviewSec = document.getElementById('quiz-review-section');
+    if (reviewSec) reviewSec.style.display = 'none';
+    const reviewBtn = document.getElementById('quiz-review-toggle-btn');
+    if (reviewBtn) {
+      reviewBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Review Answers &amp; Insights`;
+    }
   }
 
   drawCertificate(scorePct) {
@@ -501,11 +573,74 @@ class QuizEngine {
     link.click();
   }
 
-  renderScoreboard(filterQuery = '') {
+  renderReviewList() {
+    const container = document.getElementById('quiz-review-list');
+    if (!container) return;
+
+    if (!this.userAnswers || this.userAnswers.length === 0) {
+      container.innerHTML = `<p style="color: var(--on-surface-variant); text-align: center; padding: 1.5rem;">No answers recorded for this session.</p>`;
+      return;
+    }
+
+    const letters = ['A', 'B', 'C', 'D'];
+    container.innerHTML = this.userAnswers.map((ans, idx) => {
+      const cardClass = ans.isCorrect ? 'correct-card' : 'incorrect-card';
+      const badgeClass = ans.isCorrect ? 'correct' : 'incorrect';
+      const badgeIcon = ans.isCorrect ? '✓ Correct' : '✕ Incorrect';
+
+      return `
+        <div class="quiz-review-card ${cardClass}">
+          <div class="quiz-review-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span class="badge" style="background: rgba(212, 175, 55, 0.15); color: var(--gold-highlight); border: 1px solid rgba(212, 175, 55, 0.4); padding: 0.15rem 0.5rem; font-size: 0.725rem; border-radius: 4px; text-transform: uppercase; font-weight: 600;">${ans.category || 'Islamic Studies'}</span>
+              <span style="font-size: 0.85rem; color: var(--on-surface-variant); font-weight: 600;">Question ${idx + 1}</span>
+            </div>
+            <span class="review-status-badge ${badgeClass}">${badgeIcon}</span>
+          </div>
+
+          <div class="quiz-review-question">${ans.question}</div>
+
+          <div class="quiz-review-choices">
+            ${ans.options.map((opt, i) => {
+              let pillClass = '';
+              let marker = letters[i];
+              if (i === ans.correct) {
+                pillClass = 'correct-choice';
+                marker = '✓ ' + letters[i];
+              } else if (i === ans.selected && !ans.isCorrect) {
+                pillClass = 'user-selected';
+                marker = '✕ ' + letters[i];
+              }
+              return `
+                <div class="review-choice-pill ${pillClass}">
+                  <strong style="min-width: 22px;">${marker}:</strong>
+                  <span>${opt}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="quiz-review-note">
+            <strong>Context &amp; Evidence:</strong> ${ans.explanation || 'Seerah historical context.'}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  renderScoreboard(filterQuery = '', filterCategory = null) {
     const tableBody = document.getElementById('scoreboard-table-body');
     if (!tableBody) return;
 
+    if (filterCategory === null) {
+      filterCategory = this.currentScoreboardCategory || 'all';
+    }
+
     let entries = window.dataStore.getLeaderboard();
+
+    if (filterCategory && filterCategory !== 'all') {
+      entries = entries.filter(e => e.category === filterCategory);
+    }
 
     if (filterQuery) {
       entries = entries.filter(e => e.name.toLowerCase().includes(filterQuery));
@@ -515,7 +650,7 @@ class QuizEngine {
       tableBody.innerHTML = `
         <tr>
           <td colspan="6" style="text-align: center; padding: 2.5rem; color: var(--outline);">
-            No participants currently recorded. Complete the Seerah Challenge to establish your honor!
+            No participants currently recorded for this filter. Complete the challenge to establish your honor!
           </td>
         </tr>
       `;
