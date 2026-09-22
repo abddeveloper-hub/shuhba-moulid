@@ -573,20 +573,20 @@ button, input, select, textarea {
 
 .brand-title {
   font-family: var(--font-display);
-  font-size: clamp(0.92rem, 1.4vw, 1.15rem);
+  font-size: clamp(0.74rem, 1vw, 0.86rem);
   font-weight: 700;
   color: var(--parchment-ivory);
   letter-spacing: 0.02em;
-  line-height: 1.18;
+  line-height: 1.22;
 }
 
 .brand-subtitle {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
+  margin-top: 1px;
 }
 
 /* Desktop Navigation Links */
@@ -1384,8 +1384,8 @@ main {
 }
 
 .welcome-fest-logo {
-  max-width: 320px;
-  width: 75vw;
+  max-width: 220px;
+  width: 55vw;
   height: auto;
   display: block;
   filter: brightness(0) saturate(100%) invert(84%) sepia(28%) saturate(600%) hue-rotate(355deg) brightness(96%) contrast(92%);

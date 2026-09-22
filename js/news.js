@@ -105,7 +105,11 @@ class NewsManager {
     const imgEl = document.getElementById('news-modal-img');
     const bodyEl = document.getElementById('news-modal-body');
 
-    if (titleEl) titleEl.textContent = story.title;
+    if (titleEl) {
+      titleEl.textContent = story.title;
+      titleEl.style.fontFamily = "'Amiri', Georgia, serif";
+      titleEl.style.fontStyle = 'italic';
+    }
     if (dateEl) dateEl.textContent = `${story.date} • ${story.readTime || '4 min read'}`;
     if (catEl) catEl.textContent = story.category || 'Press Release';
     if (imgEl) {

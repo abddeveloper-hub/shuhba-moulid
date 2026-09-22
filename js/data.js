@@ -9,7 +9,8 @@ const STORAGE_KEYS = {
   MAGAZINE: 'noor_mahabba_magazine',
   QUIZ_QUESTIONS: 'noor_mahabba_quiz_questions',
   LEADERBOARD: 'noor_mahabba_leaderboard',
-  ADMIN_PIN: 'noor_mahabba_admin_pin'
+  ADMIN_PIN: 'noor_mahabba_admin_pin',
+  QUIZ_STATUS: 'noor_mahabba_quiz_status'
 };
 
 window.STORAGE_KEYS = STORAGE_KEYS;
@@ -459,6 +460,12 @@ class DataStore {
     if (!localStorage.getItem(STORAGE_KEYS.ADMIN_PIN)) {
       localStorage.setItem(STORAGE_KEYS.ADMIN_PIN, DEFAULT_ADMIN_PIN);
     }
+    if (!localStorage.getItem(STORAGE_KEYS.QUIZ_STATUS)) {
+      this.set(STORAGE_KEYS.QUIZ_STATUS, {
+        isOpen: false,
+        message: 'The Prophetic Seerah Challenge is currently closed. Please wait for the administrator to open the quiz session.'
+      });
+    }
   }
 
   // Generic Get / Set
@@ -483,7 +490,14 @@ class DataStore {
       }
       return true;
     } catch (e) {
-      console.error(`Error saving ${key} to storage:`, e);
+      if (e && (e.name === 'QuotaExceededError' || e.code === 22)) {
+        console.error(`Storage quota exceeded for ${key}. Try using a URL instead of uploading a file directly.`, e);
+        if (window.app && window.app.showToast) {
+          window.app.showToast('Storage full! Please use a URL (Google Drive link) instead of uploading a file directly.', 'error');
+        }
+      } else {
+        console.error(`Error saving ${key} to storage:`, e);
+      }
       return false;
     }
   }
@@ -514,8 +528,9 @@ class DataStore {
     let imageUrl = item.imageUrl || '';
     let videoUrl = item.videoUrl || '';
 
-    if (imageUrl) imageUrl = this.convertGoogleDriveUrl(imageUrl, false);
-    if (videoUrl) videoUrl = this.convertGoogleDriveUrl(videoUrl, true);
+    // Only transform Google Drive URLs — skip data: URLs (base64 local files)
+    if (imageUrl && !imageUrl.startsWith('data:')) imageUrl = this.convertGoogleDriveUrl(imageUrl, false);
+    if (videoUrl && !videoUrl.startsWith('data:')) videoUrl = this.convertGoogleDriveUrl(videoUrl, true);
 
     const newItem = {
       id: 'gal-' + Date.now(),
@@ -529,7 +544,14 @@ class DataStore {
       if (newItem[k] === undefined) delete newItem[k];
     });
     items.unshift(newItem);
-    this.set(STORAGE_KEYS.GALLERY, items);
+    const saved = this.set(STORAGE_KEYS.GALLERY, items);
+    if (!saved) {
+      // Storage failed — try saving without the image data as fallback
+      console.warn('Gallery save failed, retrying without image data...');
+      newItem.imageUrl = '';
+      items[0] = newItem;
+      this.set(STORAGE_KEYS.GALLERY, items);
+    }
     return newItem;
   }
 
@@ -543,8 +565,8 @@ class DataStore {
     const items = this.getGallery();
     const index = items.findIndex(i => i.id === id);
     if (index !== -1) {
-      if (updatedFields.imageUrl) updatedFields.imageUrl = this.convertGoogleDriveUrl(updatedFields.imageUrl, false);
-      if (updatedFields.videoUrl) updatedFields.videoUrl = this.convertGoogleDriveUrl(updatedFields.videoUrl, true);
+      if (updatedFields.imageUrl && !updatedFields.imageUrl.startsWith('data:')) updatedFields.imageUrl = this.convertGoogleDriveUrl(updatedFields.imageUrl, false);
+      if (updatedFields.videoUrl && !updatedFields.videoUrl.startsWith('data:')) updatedFields.videoUrl = this.convertGoogleDriveUrl(updatedFields.videoUrl, true);
       items[index] = { ...items[index], ...updatedFields };
       this.set(STORAGE_KEYS.GALLERY, items);
       return items[index];
@@ -661,7 +683,9 @@ class DataStore {
   // Leaderboard CRUD
   getLeaderboard() {
     const list = this.get(STORAGE_KEYS.LEADERBOARD);
-    return list.sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
+    return list
+      .filter(item => item && item.id !== '__quiz_status__' && !item.isQuizStatus)
+      .sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
   }
 
   addLeaderboardEntry(entry) {
@@ -677,7 +701,15 @@ class DataStore {
   }
 
   clearLeaderboard() {
-    this.set(STORAGE_KEYS.LEADERBOARD, []);
+    const current = this.getQuizStatus();
+    const statusEntry = {
+      id: '__quiz_status__',
+      isQuizStatus: true,
+      isOpen: current.isOpen,
+      message: current.message,
+      updatedAt: current.updatedAt
+    };
+    this.set(STORAGE_KEYS.LEADERBOARD, [statusEntry]);
   }
 
   // Admin PIN Authentication
@@ -687,6 +719,55 @@ class DataStore {
 
   setAdminPin(newPin) {
     localStorage.setItem(STORAGE_KEYS.ADMIN_PIN, newPin);
+  }
+
+  // Quiz Session Control (Open / Closed Status)
+  getQuizStatus() {
+    const defaultStatus = {
+      isOpen: false,
+      message: 'The Prophetic Seerah Challenge is currently closed. Please wait for the administrator to open the quiz session.'
+    };
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.QUIZ_STATUS);
+      if (!raw) return defaultStatus;
+      const parsed = JSON.parse(raw);
+      if (typeof parsed === 'boolean') {
+        return { isOpen: parsed, message: defaultStatus.message };
+      }
+      return {
+        isOpen: !!parsed.isOpen,
+        message: parsed.message || defaultStatus.message,
+        updatedAt: parsed.updatedAt || null
+      };
+    } catch (e) {
+      return defaultStatus;
+    }
+  }
+
+  setQuizStatus(status) {
+    const current = this.getQuizStatus();
+    const newStatus = {
+      isOpen: typeof status === 'boolean' ? status : !!status.isOpen,
+      message: (typeof status === 'object' && status.message) ? status.message : current.message,
+      updatedAt: new Date().toISOString()
+    };
+    this.set(STORAGE_KEYS.QUIZ_STATUS, newStatus);
+
+    // Fallback sync: embed in leaderboard channel so it syncs even if Firebase rules don't have /quiz_status yet
+    try {
+      const rawLb = this.get(STORAGE_KEYS.LEADERBOARD);
+      const filtered = rawLb.filter(item => item && item.id !== '__quiz_status__' && !item.isQuizStatus);
+      filtered.push({
+        id: '__quiz_status__',
+        isQuizStatus: true,
+        isOpen: newStatus.isOpen,
+        message: newStatus.message,
+        updatedAt: newStatus.updatedAt
+      });
+      this.set(STORAGE_KEYS.LEADERBOARD, filtered);
+    } catch (e) {}
+
+    return newStatus;
   }
 
   verifyPin(inputPin) {
@@ -700,6 +781,10 @@ class DataStore {
     this.set(STORAGE_KEYS.MAGAZINE, []);
     this.set(STORAGE_KEYS.QUIZ_QUESTIONS, []);
     this.set(STORAGE_KEYS.LEADERBOARD, []);
+    this.set(STORAGE_KEYS.QUIZ_STATUS, {
+      isOpen: false,
+      message: 'The Prophetic Seerah Challenge is currently closed. Please wait for the administrator to open the quiz session.'
+    });
     localStorage.setItem(STORAGE_KEYS.ADMIN_PIN, DEFAULT_ADMIN_PIN);
   }
 
@@ -713,7 +798,8 @@ class DataStore {
       news: this.getNews(),
       magazine: this.getMagazine(),
       quizQuestions: this.getQuizQuestions(),
-      leaderboard: this.getLeaderboard()
+      leaderboard: this.getLeaderboard(),
+      quizStatus: this.getQuizStatus()
     }, null, 2);
   }
 
@@ -726,6 +812,7 @@ class DataStore {
       if (data.magazine) this.set(STORAGE_KEYS.MAGAZINE, data.magazine);
       if (data.quizQuestions) this.set(STORAGE_KEYS.QUIZ_QUESTIONS, data.quizQuestions);
       if (data.leaderboard) this.set(STORAGE_KEYS.LEADERBOARD, data.leaderboard);
+      if (data.quizStatus) this.setQuizStatus(data.quizStatus);
       return true;
     } catch (e) {
       console.error('Failed to import JSON data:', e);

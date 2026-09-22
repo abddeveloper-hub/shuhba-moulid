@@ -96,6 +96,9 @@ class Router {
         }
         break;
       case 'quiz':
+        if (window.quiz && typeof window.quiz.checkQuizStatus === 'function') {
+          window.quiz.checkQuizStatus();
+        }
         if (window.quiz && typeof window.quiz.renderScoreboard === 'function') {
           window.quiz.renderScoreboard();
         }

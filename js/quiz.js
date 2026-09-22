@@ -39,6 +39,38 @@ class QuizEngine {
     this.hasAnswered = false;
     this.userAnswers = [];
     this.initEventListeners();
+    this.checkQuizStatus();
+  }
+
+  checkQuizStatus() {
+    if (!window.dataStore) return;
+    const status = window.dataStore.getQuizStatus();
+    const lockedScreen = document.getElementById('quiz-locked-screen');
+    const welcomeScreen = document.getElementById('quiz-welcome-screen');
+    const activeScreen = document.getElementById('quiz-active-screen');
+    const summaryScreen = document.getElementById('quiz-summary-screen');
+    const lockedMsgEl = document.getElementById('quiz-locked-message');
+
+    if (lockedMsgEl && status.message) {
+      lockedMsgEl.textContent = status.message;
+    }
+
+    // Only switch between locked and welcome if not actively answering a quiz or viewing completed summary
+    const isInQuiz = (activeScreen && activeScreen.style.display === 'block') || (summaryScreen && summaryScreen.style.display === 'block');
+
+    if (!status.isOpen) {
+      if (lockedScreen) lockedScreen.style.display = 'block';
+      if (welcomeScreen) welcomeScreen.style.display = 'none';
+      if (!isInQuiz) {
+        if (activeScreen) activeScreen.style.display = 'none';
+        if (summaryScreen) summaryScreen.style.display = 'none';
+      }
+    } else {
+      if (lockedScreen) lockedScreen.style.display = 'none';
+      if (!isInQuiz && welcomeScreen) {
+        welcomeScreen.style.display = 'block';
+      }
+    }
   }
 
   initEventListeners() {
@@ -102,6 +134,18 @@ class QuizEngine {
   }
 
   startQuiz() {
+    const status = window.dataStore ? window.dataStore.getQuizStatus() : { isOpen: false };
+    if (!status.isOpen) {
+      if (window.app) {
+        window.app.showToast(
+          status.message || 'The Seerah Quiz is currently closed. Please wait for the administrator to open the session.',
+          'warning'
+        );
+      }
+      this.checkQuizStatus();
+      return;
+    }
+
     const nameInput = document.getElementById('quiz-participant-name');
     const name = nameInput ? nameInput.value.trim() : '';
 
@@ -320,7 +364,18 @@ class QuizEngine {
     if (window.soundFx) window.soundFx.playClick();
     document.getElementById('quiz-summary-screen').style.display = 'none';
     document.getElementById('quiz-active-screen').style.display = 'none';
-    document.getElementById('quiz-welcome-screen').style.display = 'block';
+
+    const status = window.dataStore ? window.dataStore.getQuizStatus() : { isOpen: false };
+    const locked = document.getElementById('quiz-locked-screen');
+    const welcome = document.getElementById('quiz-welcome-screen');
+
+    if (!status.isOpen) {
+      if (locked) locked.style.display = 'block';
+      if (welcome) welcome.style.display = 'none';
+    } else {
+      if (welcome) welcome.style.display = 'block';
+      if (locked) locked.style.display = 'none';
+    }
 
     const reviewSec = document.getElementById('quiz-review-section');
     if (reviewSec) reviewSec.style.display = 'none';

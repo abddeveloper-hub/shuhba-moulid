@@ -3,13 +3,95 @@
    Global app state, toast alerts, mobile drawer, and audio controls
    ========================================================================== */
 
+// Curated Fallbacks for Live Showcase Reels when database is empty
+const REEL_FALLBACK_PHOTOS = [
+  {
+    id: 'fb-gal-1',
+    title: 'Sacred Invocations & Qasīda Recitations',
+    category: 'Stage Programs',
+    caption: 'Students rendering classical eulogies and verses of praise in the grand assembly hall.',
+    imageUrl: 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    id: 'fb-gal-2',
+    title: 'Prophetic Illumination & Calligraphy Exhibition',
+    category: 'Exhibitions',
+    caption: 'Intricate manuscript art and Diwani calligraphy honoring the Mercy unto the Worlds.',
+    imageUrl: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    id: 'fb-gal-3',
+    title: 'Noor-e-Mustafa Gathering & Assembly',
+    category: 'Stage Programs',
+    caption: 'Community gathering united in remembrance, salawat, and heartfelt reflection.',
+    imageUrl: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    id: 'fb-gal-4',
+    title: 'Excellence in Seerah Awards Ceremony',
+    category: 'Awards',
+    caption: 'Felicitation of young scholars, reciters, and Seerah essay winners.',
+    imageUrl: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80'
+  }
+];
+
+const REEL_FALLBACK_WRITINGS = [
+  {
+    id: 'fb-mag-1',
+    title: 'തൂലിക പടർത്തുന്ന പ്രവാചക പ്രകീർത്തനം',
+    category: 'Poem / Qasīda',
+    author: 'മുഹമ്മദ്‌ റഫീഖ്',
+    grade: 'B13 Department of Adab',
+    itemType: 'poem',
+    body: 'തിരുനബിയുടെ തിരുസാന്നിധ്യം ഹൃദയങ്ങളിൽ വിടർത്തിയ പുണ്യവസന്തം...\nസ്നേഹത്തിൻ സുഗന്ധം പരത്തിയ ദിവ്യജ്യോതിസ്സേ, അങ്ങയിലേക്കാണ് ഞങ്ങളുടെ പ്രണാമങ്ങൾ.\nമരുഭൂമിയിൽ കാരുണ്യത്തിന്റെ പെരുമഴ പെയ്യിച്ച തിരുദൂതരേ...'
+  },
+  {
+    id: 'fb-mag-2',
+    title: 'Echoes of Mahabbah: The Language of Devotion',
+    category: 'Spiritual Reflections',
+    author: 'Zayd Abdul Rahman',
+    grade: 'Senior Research Fellow',
+    itemType: 'article',
+    body: 'In every era, the praise of the Prophet ﷺ transcends spoken tongues, becoming the universal heartbeat of the believers. His mercy illuminated the darkened horizons of humanity, offering an enduring beacon of peace, justice, and sublime grace.'
+  },
+  {
+    id: 'fb-mag-3',
+    title: 'സ്നേഹദൂതർ: കാരുണ്യത്തിന്റെ മഹാസാഗരം',
+    category: 'Poem / Qasīda',
+    author: 'അബ്ദുല്ലത്വീഫ് ഹുദവി',
+    grade: 'B13 Literary Circle',
+    itemType: 'poem',
+    body: 'അകതാരിലെന്നും പൂത്തുലയും അങ്ങതൻ സ്നേഹസ്മരണകൾ,\nപാരിടത്തിന് കാരുണ്യമായി അവതരിച്ച പുണ്യപ്രകാശമേ...\nഇരുളടഞ്ഞ ലോകത്തിന് വഴികാട്ടിയായ പ്രവാചകരെ...'
+  },
+  {
+    id: 'fb-mag-4',
+    title: 'The Prophetic Ethos in the Modern Age',
+    category: 'Academic Essay',
+    author: 'Farhan Ahmad',
+    grade: 'B13 Research Guild',
+    itemType: 'article',
+    body: 'Revisiting the Sunnah reveals not merely rituals, but a transformative philosophy of living characterized by radical gentleness, uncompromising integrity, and heartfelt concern for the destitute and marginalized.'
+  }
+];
+
 class AppController {
   constructor() {
+    // Initialize reel state first before any view render calls
+    this.reelPhotoIdx = 0;
+    this.reelWritingIdx = 0;
+    this.reelProgress = 0;
+    this.isReelPaused = false;
+    this.reelDuration = 4500; // 4.5 seconds per cycle for a relaxed, readable pace
+    this.reelTickRate = 40; // 40ms timer tick
+    this.reelTimerId = null;
+
     this.initMobileDrawer();
     this.initAudioToggle();
     this.initScrollEffects();
     this.initQuickHomeActions();
     this.initBottomNav();
+    this.initLiveReels();
+    this.renderHome();
   }
 
   // Toast Notification System
@@ -173,43 +255,257 @@ class AppController {
       }
     }
 
-    // Featured Paper Spotlight
-    const papers = window.dataStore.getMagazine();
-    const homePaperContainer = document.getElementById('home-featured-paper');
-    if (homePaperContainer) {
-      if (papers.length > 0) {
-        const topPaper = papers[0];
-        const initials = topPaper.author.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        homePaperContainer.innerHTML = `
-          <div class="magazine-card" style="margin-bottom: 0;">
-            <span class="magazine-category-tag">${topPaper.category}</span>
-            <h3 class="magazine-title">${topPaper.title}</h3>
-            <div class="magazine-author-bar">
-              <div class="author-avatar">${initials}</div>
-              <div class="author-details">
-                <span class="author-name">${topPaper.author}</span>
-                <span class="author-grade">${topPaper.grade}</span>
-              </div>
-            </div>
-            <p class="magazine-abstract">${topPaper.abstract}</p>
-            <div class="magazine-footer">
-              <span style="font-size: 0.78rem; color: var(--primary); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">★ Editor's Choice</span>
-              <a href="#magazine" class="btn btn-sm btn-primary" onclick="setTimeout(() => window.magazine.openReaderModal('${topPaper.id}'), 100)">
-                Read Paper &rarr;
-              </a>
-            </div>
+    // Refresh Live Showcase if initialized
+    if (typeof this.renderLiveReels === 'function') {
+      this.renderLiveReels();
+    }
+  }
+
+  // Live Showcase Reels (2-second interval for Gallery Photos & Magazine Writings)
+  initLiveReels() {
+    // Attach card event listeners once
+    const photoCard = document.getElementById('home-photo-reel-card');
+    if (photoCard && !photoCard.dataset.reelBound) {
+      photoCard.dataset.reelBound = 'true';
+      photoCard.addEventListener('click', () => {
+        const photos = this.getReelPhotos();
+        const safeIdx = ((this.reelPhotoIdx % photos.length) + photos.length) % photos.length;
+        const cur = photos[safeIdx];
+        if (!cur) return;
+        if (window.soundFx) window.soundFx.playClick();
+        const galleryItems = (window.dataStore && typeof window.dataStore.getGallery === 'function') 
+          ? window.dataStore.getGallery() 
+          : [];
+        const foundIdx = galleryItems.findIndex(g => g.id === cur.id);
+        if (foundIdx !== -1 && window.gallery) {
+          window.gallery.activeItems = galleryItems;
+          window.gallery.openLightbox(foundIdx);
+        } else {
+          window.location.hash = 'gallery';
+        }
+      });
+
+      photoCard.addEventListener('mouseenter', () => { this.isReelPaused = true; });
+      photoCard.addEventListener('mouseleave', () => { this.isReelPaused = false; });
+      photoCard.addEventListener('touchstart', () => { this.isReelPaused = true; }, { passive: true });
+      photoCard.addEventListener('touchend', () => { this.isReelPaused = false; });
+    }
+
+    const writingCard = document.getElementById('home-writing-reel-card');
+    if (writingCard && !writingCard.dataset.reelBound) {
+      writingCard.dataset.reelBound = 'true';
+      writingCard.addEventListener('click', () => {
+        const writings = this.getReelWritings();
+        const safeIdx = ((this.reelWritingIdx % writings.length) + writings.length) % writings.length;
+        const cur = writings[safeIdx];
+        if (!cur) return;
+        if (window.soundFx) window.soundFx.playClick();
+        const magItems = (window.dataStore && typeof window.dataStore.getMagazine === 'function') 
+          ? window.dataStore.getMagazine() 
+          : [];
+        const foundItem = magItems.find(m => m.id === cur.id);
+        if (foundItem && window.magazine) {
+          window.magazine.openReaderModal(cur.id);
+        } else {
+          window.location.hash = 'magazine';
+        }
+      });
+
+      writingCard.addEventListener('mouseenter', () => { this.isReelPaused = true; });
+      writingCard.addEventListener('mouseleave', () => { this.isReelPaused = false; });
+      writingCard.addEventListener('touchstart', () => { this.isReelPaused = true; }, { passive: true });
+      writingCard.addEventListener('touchend', () => { this.isReelPaused = false; });
+    }
+
+    this.renderLiveReels();
+    this.startReelsTimer();
+  }
+
+  getReelPhotos() {
+    let list = [];
+    try {
+      if (window.dataStore && typeof window.dataStore.getGallery === 'function') {
+        const raw = window.dataStore.getGallery();
+        if (Array.isArray(raw)) {
+          list = raw.filter(item => item && (item.imageUrl || item.videoUrl || item.title));
+        }
+      }
+    } catch (e) {
+      console.warn('Could not read gallery store:', e);
+    }
+    return list.length > 0 ? list : REEL_FALLBACK_PHOTOS;
+  }
+
+  getReelWritings() {
+    let list = [];
+    try {
+      if (window.dataStore && typeof window.dataStore.getMagazine === 'function') {
+        const raw = window.dataStore.getMagazine();
+        if (Array.isArray(raw)) {
+          list = raw.filter(item => item && (item.title || item.body || item.abstract));
+        }
+      }
+    } catch (e) {
+      console.warn('Could not read magazine store:', e);
+    }
+    return list.length > 0 ? list : REEL_FALLBACK_WRITINGS;
+  }
+
+  renderLiveReels() {
+    this.renderPhotoReelItem();
+    this.renderWritingReelItem();
+  }
+
+  renderPhotoReelItem() {
+    const stage = document.getElementById('home-photo-stage');
+    const counter = document.getElementById('photo-reel-counter');
+    if (!stage) return;
+
+    const photos = this.getReelPhotos();
+    if (!photos || photos.length === 0) return;
+
+    if (!Number.isInteger(this.reelPhotoIdx)) this.reelPhotoIdx = 0;
+    const safeIdx = ((this.reelPhotoIdx % photos.length) + photos.length) % photos.length;
+    const item = photos[safeIdx];
+    if (!item) return;
+
+    if (counter) counter.textContent = `${safeIdx + 1} / ${photos.length}`;
+
+    const isVideo = item.mediaType === 'video' || !!item.videoUrl;
+    const displayImg = item.imageUrl || 'https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=800&q=80';
+
+    stage.innerHTML = `
+      <div class="reel-photo-item reel-content-anim">
+        <div class="reel-photo-wrap">
+          <span class="reel-photo-category">${item.category || 'Gallery'}</span>
+          <img src="${displayImg}" alt="${item.title || 'Photo'}" class="reel-photo-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=800&q=80'">
+        </div>
+        <div class="reel-photo-details">
+          <h4 class="reel-photo-title">${item.title || 'Exhibition Photograph'}</h4>
+          <p class="reel-photo-caption">${item.caption || item.date || 'Captured during the sacred Noor & Mahabba assembly.'}</p>
+          <div class="reel-click-prompt">
+            <span>${isVideo ? 'Watch Media' : 'Open in Gallery'}</span> <i class="fas fa-arrow-right"></i>
           </div>
-        `;
+        </div>
+      </div>
+    `;
+  }
+
+  renderWritingReelItem() {
+    const stage = document.getElementById('home-writing-stage');
+    const counter = document.getElementById('writing-reel-counter');
+    if (!stage) return;
+
+    const writings = this.getReelWritings();
+    if (!writings || writings.length === 0) return;
+
+    if (!Number.isInteger(this.reelWritingIdx)) this.reelWritingIdx = 0;
+    const safeIdx = ((this.reelWritingIdx % writings.length) + writings.length) % writings.length;
+    const item = writings[safeIdx];
+    if (!item) return;
+
+    if (counter) counter.textContent = `${safeIdx + 1} / ${writings.length}`;
+
+    const isPoem = (item.itemType === 'poem') ||
+                   (item.category && item.category.toLowerCase().includes('poem')) ||
+                   (item.category && item.category.toLowerCase().includes('qas'));
+    const author = item.author || 'Contributor';
+    const initials = author.split(' ').filter(Boolean).map(w => w[0]).join('').substring(0, 2).toUpperCase() || 'NM';
+
+    let rawExcerpt = item.abstract || '';
+    if (!rawExcerpt && item.body) {
+      if (isPoem) {
+        rawExcerpt = item.body.split('\n').filter(l => l && l.trim()).slice(0, 6).join('\n');
       } else {
-        homePaperContainer.innerHTML = `
-          <div style="padding: 2.5rem 1.5rem; text-align: center; background: var(--surface-container-lowest); border: 1px dashed var(--outline-variant); border-radius: var(--radius-default);">
-            <p style="font-size: 1.75rem; margin-bottom: 0.5rem;">📜</p>
-            <h4 style="color: var(--on-surface); margin-bottom: 0.35rem; font-size: 1.1rem; font-family: var(--font-display);">No Student Papers Published Yet</h4>
-            <p style="color: var(--outline); font-size: 0.875rem;">Essays and research articles will be spotlighted here once published by the administrators.</p>
-          </div>
-        `;
+        rawExcerpt = item.body.substring(0, 260) + '...';
       }
     }
+    if (!rawExcerpt) {
+      rawExcerpt = 'Dedicated writing from the Noor & Mahabba collection.';
+    }
+
+    stage.innerHTML = `
+      <div class="reel-writing-item reel-content-anim">
+        <div>
+          <div class="reel-writing-meta">
+            <span class="reel-writing-badge">${isPoem ? '📜 ' : '📖 '}${item.category || (isPoem ? 'Mawlid Poetry' : 'Sacred Essay')}</span>
+            <span style="font-size: 0.72rem; color: var(--gold-antique);">${item.grade || 'Special Publication'}</span>
+          </div>
+          <h4 class="reel-writing-title">${item.title || 'Sacred Composition'}</h4>
+          <div class="reel-writing-author-bar">
+            <div class="reel-author-circle">${initials}</div>
+            <div>
+              <div class="reel-author-name">${author}</div>
+              <div class="reel-author-role">${item.grade || 'Contributor'}</div>
+            </div>
+          </div>
+          <div class="reel-writing-excerpt">${rawExcerpt}</div>
+        </div>
+        <div class="reel-click-prompt">
+          <span>${isPoem ? 'Read Full Poem' : 'Read Full Paper'}</span> <i class="fas fa-arrow-right"></i>
+        </div>
+      </div>
+    `;
+  }
+
+  startReelsTimer() {
+    if (this.reelTimerId) {
+      clearInterval(this.reelTimerId);
+      this.reelTimerId = null;
+    }
+
+    const stepPct = (this.reelTickRate / this.reelDuration) * 100;
+
+    this.reelTimerId = setInterval(() => {
+      if (this.isReelPaused) return;
+
+      this.reelProgress += stepPct;
+
+      const photoBar = document.getElementById('photo-reel-progress');
+      const writingBar = document.getElementById('writing-reel-progress');
+      const pct = Math.min(100, this.reelProgress);
+
+      if (photoBar) photoBar.style.width = `${pct}%`;
+      if (writingBar) writingBar.style.width = `${pct}%`;
+
+      if (this.reelProgress >= 100) {
+        this.reelProgress = 0;
+        this.advanceReels();
+      }
+    }, this.reelTickRate);
+  }
+
+  // Smooth cross-fade advancement of both photo and writing reels
+  advanceReels() {
+    const photoStage = document.getElementById('home-photo-stage');
+    const writingStage = document.getElementById('home-writing-stage');
+    const photoBar = document.getElementById('photo-reel-progress');
+    const writingBar = document.getElementById('writing-reel-progress');
+
+    // Soft dissolve out old content
+    if (photoStage) photoStage.classList.add('reel-fade-out');
+    if (writingStage) writingStage.classList.add('reel-fade-out');
+
+    setTimeout(() => {
+      const photos = this.getReelPhotos();
+      const writings = this.getReelWritings();
+
+      if (photos.length > 0) {
+        this.reelPhotoIdx = (this.reelPhotoIdx + 1) % photos.length;
+        this.renderPhotoReelItem();
+      }
+
+      if (writings.length > 0) {
+        this.reelWritingIdx = (this.reelWritingIdx + 1) % writings.length;
+        this.renderWritingReelItem();
+      }
+
+      if (photoStage) photoStage.classList.remove('reel-fade-out');
+      if (writingStage) writingStage.classList.remove('reel-fade-out');
+
+      if (photoBar) photoBar.style.width = '0%';
+      if (writingBar) writingBar.style.width = '0%';
+    }, 350);
   }
 
   initQuickHomeActions() {

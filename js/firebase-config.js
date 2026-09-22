@@ -55,6 +55,7 @@ const NODE_MAP = {
   noor_mahabba_magazine: 'magazine',
   noor_mahabba_quiz_questions: 'quiz_questions',
   noor_mahabba_leaderboard: 'leaderboard',
+  noor_mahabba_quiz_status: 'quiz_status',
   // Legacy / fallback keys
   mawlid_portal_gallery: 'gallery',
   mawlid_portal_news: 'news',
@@ -83,7 +84,11 @@ window.firebaseService = {
       set(dbRef, cleanData).then(() => {
         console.log(`✅ Successfully synced ${nodeName} to Firebase Cloud`);
       }).catch((err) => {
-        console.warn(`Firebase write warning for ${nodeName}:`, err);
+        if (err && (err.code === 'PERMISSION_DENIED' || (err.message && err.message.includes('permission_denied')))) {
+          console.info(`ℹ️ Note: Write to /${nodeName} requires security rule permission in Firebase Console.`);
+        } else {
+          console.warn(`Firebase write warning for ${nodeName}:`, err);
+        }
       });
     } catch (err) {
       console.error(`Failed to push ${nodeName} to Firebase:`, err);
@@ -158,9 +163,61 @@ if (db) {
   ]);
 
   setupListener('leaderboard', 'noor_mahabba_leaderboard', 'mawlid_portal_leaderboard', [
+    () => {
+      // Real-time fallback sync: extract quiz_status if embedded in leaderboard
+      try {
+        const raw = window.dataStore ? window.dataStore.get('noor_mahabba_leaderboard') : [];
+        const statusItem = Array.isArray(raw) ? raw.find(i => i && (i.id === '__quiz_status__' || i.isQuizStatus)) : null;
+        if (statusItem) {
+          localStorage.setItem('noor_mahabba_quiz_status', JSON.stringify({
+            isOpen: !!statusItem.isOpen,
+            message: statusItem.message,
+            updatedAt: statusItem.updatedAt
+          }));
+          if (window.quiz && typeof window.quiz.checkQuizStatus === 'function') {
+            window.quiz.checkQuizStatus();
+          }
+          if (window.admin && typeof window.admin.renderQuizStatusControl === 'function') {
+            window.admin.renderQuizStatusControl();
+          }
+          if (window.admin && typeof window.admin.renderOverviewStats === 'function') {
+            window.admin.renderOverviewStats();
+          }
+        }
+      } catch (e) {}
+    },
     () => window.quiz && window.quiz.renderScoreboard(),
     () => window.admin && window.admin.renderOverviewStats()
   ]);
+
+  // Live listener for Quiz Session Status (Direct /quiz_status channel)
+  try {
+    const statusRef = ref(db, 'quiz_status');
+    onValue(statusRef, (snapshot) => {
+      const val = snapshot.val();
+      if (val !== null && window.dataStore) {
+        localStorage.setItem('noor_mahabba_quiz_status', JSON.stringify(val));
+        if (window.quiz && typeof window.quiz.checkQuizStatus === 'function') {
+          window.quiz.checkQuizStatus();
+        }
+        if (window.admin && typeof window.admin.renderQuizStatusControl === 'function') {
+          window.admin.renderQuizStatusControl();
+        }
+        if (window.admin && typeof window.admin.renderOverviewStats === 'function') {
+          window.admin.renderOverviewStats();
+        }
+      }
+    }, (error) => {
+      // If /quiz_status is not yet added in Firebase console rules, silently use the leaderboard fallback
+      if (error && (error.code === 'PERMISSION_DENIED' || (error.message && error.message.includes('permission_denied')))) {
+        console.info('ℹ️ Note: Direct /quiz_status node is not configured in Firebase rules; real-time sync is actively handled via leaderboard fallback channel.');
+      } else {
+        console.warn('Firebase read note for quiz_status:', error);
+      }
+    });
+  } catch (e) {
+    console.warn('Failed to listen to quiz_status:', e);
+  }
 }
 
 // Expose globally for convenience

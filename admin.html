@@ -180,6 +180,11 @@
             </div>
           </div>
 
+          <!-- Quick Quiz Status Banner in Overview -->
+          <div id="overview-quiz-status-banner" style="margin-bottom: 2.5rem;">
+            <!-- Populated by admin.js -->
+          </div>
+
           <!-- Portal Data Backup & Restore -->
           <div style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2.5rem;">
             <h4 style="margin-bottom: 0.5rem;">Data Persistence, Backup &amp; Synchronization</h4>
@@ -473,6 +478,11 @@
 
         <!-- TAB 5: QUIZ & SCORES -->
         <div class="admin-tab-content" id="admin-pane-quiz">
+          <!-- LIVE QUIZ SESSION MANAGER -->
+          <div id="admin-quiz-session-manager" style="margin-bottom: 2.5rem;">
+            <!-- Populated dynamically by admin.renderQuizStatusControl() -->
+          </div>
+
           <h3 style="margin-bottom: 1.5rem;">Add Question to Seerah Quiz Bank</h3>
 
           <form id="admin-add-quiz-form" style="background: var(--bg-secondary); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin-bottom: 2.5rem;">

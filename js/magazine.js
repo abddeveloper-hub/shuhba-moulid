@@ -72,10 +72,15 @@ class MagazineManager {
   }
 
   adjustFontSize(delta) {
-    this.fontSize = Math.min(24, Math.max(14, this.fontSize + delta));
+    this.fontSize = Math.min(28, Math.max(14, this.fontSize + delta));
     const bodyEl = document.getElementById('magazine-modal-body');
     if (bodyEl) {
-      bodyEl.style.fontSize = `${this.fontSize}px`;
+      const poemEl = bodyEl.querySelector('.poem-body-container, .article-body-container');
+      if (poemEl) {
+        poemEl.style.fontSize = `${this.fontSize + 3}px`;
+      } else {
+        bodyEl.style.fontSize = `${this.fontSize}px`;
+      }
     }
   }
 
@@ -174,7 +179,11 @@ class MagazineManager {
 
     if (catEl) catEl.textContent = paper.category || (isPoem ? 'Mawlid Poetry & Qasīda' : 'Mawlid Meg Special Edition');
     if (typeBadge) typeBadge.textContent = isPoem ? '📜 Sacred Poetry' : '📖 Mawlid Article';
-    if (titleEl) titleEl.textContent = paper.title;
+    if (titleEl) {
+      titleEl.textContent = paper.title;
+      titleEl.style.fontFamily = "'Amiri', Georgia, serif";
+      titleEl.style.fontStyle = 'italic';
+    }
     if (authorEl) authorEl.textContent = paper.author;
     if (gradeEl) gradeEl.textContent = paper.grade || 'B13 Contributor';
 
@@ -190,15 +199,15 @@ class MagazineManager {
 
     if (bodyEl) {
       if (isPoem) {
-        // Render poem exactly as entered with full line breaks and spacing preserved
+        // Render poem with the exact beautiful slanted calligraphic font and golden border-left
         bodyEl.innerHTML = `
-          <div class="poem-body-container" style="margin: 0.5rem auto 2rem; text-align: center; white-space: pre-wrap; word-break: break-word; font-family: 'Amiri', var(--font-display), Georgia, serif; font-size: ${this.fontSize + 3}px; line-height: 2.4; color: var(--gold-light); background: rgba(7, 37, 32, 0.75); padding: 2.5rem 2rem; border-radius: var(--radius-md); border: 1px solid var(--border-gold); max-width: 680px; letter-spacing: 0.02em; box-shadow: inset 0 0 30px rgba(0,0,0,0.5);">
+          <div class="poem-body-container" style="margin: 0.5rem auto 2rem; text-align: left; white-space: pre-wrap; word-break: break-word; font-family: 'Amiri', Georgia, serif; font-style: italic; font-size: ${this.fontSize + 3}px; line-height: 2.3; color: var(--gold-light); background: rgba(7, 37, 32, 0.75); padding: 2.25rem 2rem; border-radius: var(--radius-md); border: 1px solid var(--border-gold); border-left: 4px solid var(--gold-primary); max-width: 680px; letter-spacing: 0.02em; box-shadow: inset 0 0 30px rgba(0,0,0,0.5);">
 ${paper.body}
           </div>
         `;
       } else {
         bodyEl.innerHTML = `
-          <div style="white-space: pre-wrap; word-break: break-word; line-height: 1.85; font-size: ${this.fontSize}px;">
+          <div class="article-body-container" style="margin: 0.5rem auto 2rem; text-align: left; white-space: pre-wrap; word-break: break-word; font-family: 'Amiri', Georgia, serif; font-style: italic; font-size: ${this.fontSize + 1}px; line-height: 2.0; color: var(--gold-light); background: rgba(7, 37, 32, 0.6); padding: 2rem 1.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-gold); border-left: 4px solid var(--gold-primary); max-width: 680px; box-shadow: inset 0 0 25px rgba(0,0,0,0.4);">
 ${paper.body}
           </div>
         `;

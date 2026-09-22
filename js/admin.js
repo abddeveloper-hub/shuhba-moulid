@@ -83,7 +83,7 @@ class AdminManager {
     this.initCrudForms();
   }
 
-  compressImageFile(file, maxDimension = 1200, quality = 0.82) {
+  compressImageFile(file, maxDimension = 800, quality = 0.65) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -176,7 +176,7 @@ class AdminManager {
       galUrlInput.addEventListener('input', (e) => {
         let val = e.target.value.trim();
         if (val) {
-          if (window.dataStore && window.dataStore.convertGoogleDriveUrl) {
+          if (!val.startsWith('data:') && window.dataStore && window.dataStore.convertGoogleDriveUrl) {
             val = window.dataStore.convertGoogleDriveUrl(val, false);
           }
           showGalPreview(val);
@@ -589,7 +589,10 @@ class AdminManager {
     if (tabKey === 'gallery') this.renderGalleryList();
     if (tabKey === 'news') this.renderNewsList();
     if (tabKey === 'magazine') this.renderMagazineList();
-    if (tabKey === 'quiz') this.renderQuizList();
+    if (tabKey === 'quiz') {
+      this.renderQuizStatusControl();
+      this.renderQuizList();
+    }
   }
 
   render() {
@@ -626,6 +629,141 @@ class AdminManager {
     if (elMag) elMag.textContent = magCount;
     if (elQuiz) elQuiz.textContent = quizCount;
     if (elLb) elLb.textContent = lbCount;
+
+    this.renderOverviewQuizBanner();
+  }
+
+  renderOverviewQuizBanner() {
+    const banner = document.getElementById('overview-quiz-status-banner');
+    if (!banner) return;
+
+    const status = window.dataStore.getQuizStatus();
+    const isOpen = !!status.isOpen;
+
+    banner.innerHTML = `
+      <div style="background: rgba(7, 37, 32, 0.7); border: 1px solid ${isOpen ? 'var(--emerald-primary, #10b981)' : 'var(--gold-antique, #c5a059)'}; border-radius: var(--radius-lg, 12px); padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <span style="font-size: 1.75rem;">${isOpen ? '🟢' : '🔒'}</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <strong style="font-size: 1rem; color: var(--parchment-ivory, #fff);">Seerah Quiz Session:</strong>
+              <span class="badge" style="background: ${isOpen ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.25)'}; color: ${isOpen ? '#34d399' : '#f87171'}; border: 1px solid ${isOpen ? '#059669' : '#dc2626'}; padding: 0.15rem 0.6rem; font-size: 0.72rem; border-radius: 999px; font-weight: 700;">
+                ${isOpen ? '● LIVE & OPEN FOR EVERYONE' : '● CLOSED (LOCKED)'}
+              </span>
+            </div>
+            <p style="margin: 0.2rem 0 0; font-size: 0.825rem; color: var(--text-muted, #9ca3af);">
+              ${isOpen ? 'Participants can currently take the quiz and submit scores.' : 'Quiz is locked. Nobody can answer questions until you start the session.'}
+            </p>
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          ${!isOpen ? `
+            <button type="button" class="btn btn-sm btn-primary" onclick="window.admin.setQuizOpenState(true)" style="background: linear-gradient(135deg, #059669, #10b981); border: 1px solid #34d399; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Start / Open Quiz for Everyone
+            </button>
+          ` : `
+            <button type="button" class="btn btn-sm btn-danger" onclick="window.admin.setQuizOpenState(false)" style="background: linear-gradient(135deg, #b91c1c, #dc2626); border: 1px solid #f87171; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              Stop / Close Quiz
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  renderQuizStatusControl() {
+    const container = document.getElementById('admin-quiz-session-manager');
+    if (!container) return;
+
+    const status = window.dataStore.getQuizStatus();
+    const isOpen = !!status.isOpen;
+
+    container.innerHTML = `
+      <div style="background: rgba(7, 37, 32, 0.75); border: 1px solid ${isOpen ? 'var(--emerald-primary, #10b981)' : 'var(--gold-antique, #c5a059)'}; border-radius: var(--radius-lg, 12px); padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.35);">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <div style="width: 46px; height: 46px; border-radius: 50%; background: ${isOpen ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}; border: 2px solid ${isOpen ? '#10b981' : '#ef4444'}; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">
+              ${isOpen ? '🟢' : '🔒'}
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <h4 style="margin: 0; font-size: 1.15rem; color: var(--parchment-ivory, #fff);">Prophetic Seerah Challenge Session Control</h4>
+                <span class="badge" style="background: ${isOpen ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.25)'}; color: ${isOpen ? '#34d399' : '#f87171'}; border: 1px solid ${isOpen ? '#059669' : '#dc2626'}; padding: 0.2rem 0.65rem; font-size: 0.75rem; border-radius: 999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+                  ${isOpen ? '● LIVE & OPEN FOR EVERYONE' : '● CLOSED (LOCKED)'}
+                </span>
+              </div>
+              <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--text-muted, #9ca3af);">
+                ${isOpen 
+                  ? 'All participants can currently enter their name, answer questions, and submit scores to the Leaderboard.' 
+                  : 'The quiz is locked. Participants cannot start or answer questions until you click "Open / Start Quiz".'}
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            ${!isOpen ? `
+              <button type="button" class="btn btn-primary" onclick="window.admin.setQuizOpenState(true)" style="background: linear-gradient(135deg, #059669, #10b981); border: 1px solid #34d399; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); padding: 0.65rem 1.25rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Open / Start Quiz for Everyone
+              </button>
+            ` : `
+              <button type="button" class="btn btn-danger" onclick="window.admin.setQuizOpenState(false)" style="background: linear-gradient(135deg, #b91c1c, #dc2626); border: 1px solid #f87171; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); padding: 0.65rem 1.25rem;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                Close / Lock Quiz
+              </button>
+            `}
+          </div>
+        </div>
+
+        <!-- Custom Announcement / Wait Message -->
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(212, 175, 55, 0.2); display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="admin-quiz-message-input" style="font-size: 0.8rem; font-weight: 600; color: var(--gold-amber, #e5c07b);">
+            Announcement Message (Shown to participants on portal while Quiz is closed):
+          </label>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <input type="text" id="admin-quiz-message-input" class="form-input" style="flex: 1; min-width: 260px;" value="${status.message || 'The Prophetic Seerah Challenge is currently closed. Please wait for the administrator to open the quiz session.'}">
+            <button type="button" class="btn btn-sm btn-secondary" onclick="window.admin.saveQuizMessage()">Save Message</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  setQuizOpenState(isOpen) {
+    const msgInput = document.getElementById('admin-quiz-message-input');
+    const customMessage = msgInput ? msgInput.value.trim() : undefined;
+    window.dataStore.setQuizStatus({
+      isOpen,
+      message: customMessage
+    });
+    if (window.soundFx) window.soundFx.playSuccess();
+    window.app.showToast(
+      isOpen ? '✨ Seerah Quiz is now OPEN for all participants!' : '🔒 Seerah Quiz has been CLOSED and locked.',
+      isOpen ? 'success' : 'info'
+    );
+    this.renderQuizStatusControl();
+    this.renderOverviewStats();
+    if (window.quiz && typeof window.quiz.checkQuizStatus === 'function') {
+      window.quiz.checkQuizStatus();
+    }
+  }
+
+  saveQuizMessage() {
+    const msgInput = document.getElementById('admin-quiz-message-input');
+    if (!msgInput) return;
+    const msg = msgInput.value.trim();
+    if (!msg) {
+      window.app.showToast('Please enter a message.', 'warning');
+      return;
+    }
+    const current = window.dataStore.getQuizStatus();
+    window.dataStore.setQuizStatus({
+      isOpen: current.isOpen,
+      message: msg
+    });
+    window.app.showToast('Announcement message saved & synced!', 'success');
   }
 
   renderGalleryList() {
